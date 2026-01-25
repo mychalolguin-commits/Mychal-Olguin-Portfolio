@@ -1,0 +1,11 @@
+# robots.txt for mychalolguin.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://mychalolguin.com/sitemap.xml
+
+# Disallow admin/private paths (if any)
+Disallow: /api/
+Disallow: /_*
