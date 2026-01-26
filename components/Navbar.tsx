@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-nav-bg)] backdrop-blur-md border-b border-[var(--color-border-subtle)]">
-      <div className="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div className="max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16 h-16 flex items-center justify-between">
         <NavLink to="/" className="text-[var(--color-text-primary)] font-semibold tracking-tight text-lg hover:text-[var(--color-accent)] transition-colors">
           Mychal Olguin
         </NavLink>

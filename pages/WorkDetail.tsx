@@ -83,7 +83,7 @@ const WorkDetail: React.FC = () => {
       />
       <ScrollProgress />
       <article className="pt-32 pb-20" itemScope itemType="https://schema.org/Article">
-        <div className="max-w-3xl mx-auto px-6">
+        <div className="max-w-3xl lg:max-w-5xl mx-auto px-6 lg:px-10 xl:px-16">
           <Reveal>
             <Link to="/work" className="inline-flex items-center text-sm text-[var(--color-text-muted)] hover:text-[var(--color-accent)] mb-8 transition-colors group">
               <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" />
@@ -170,7 +170,7 @@ const WorkDetail: React.FC = () => {
           </div>
         </Reveal>
 
-        <div className="max-w-3xl mx-auto px-6">
+        <div className="max-w-3xl lg:max-w-5xl mx-auto px-6 lg:px-10 xl:px-16">
           {/* Key Metrics */}
           <Reveal>
             <section className="mb-24">
@@ -218,14 +218,14 @@ const WorkDetail: React.FC = () => {
                 <Reveal>
                   <div className="group">
                     <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">Problem</h2>
-                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line">{project.problem}</p>
+                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line max-w-prose">{project.problem}</p>
                   </div>
                 </Reveal>
 
                 <Reveal>
                   <div className="group">
                     <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">Approach</h2>
-                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line">{project.approach}</p>
+                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line max-w-prose">{project.approach}</p>
                   </div>
                 </Reveal>
 
@@ -242,7 +242,7 @@ const WorkDetail: React.FC = () => {
                   <Reveal>
                     <div className="group">
                       <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">Execution</h2>
-                      <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line">{project.execution}</p>
+                      <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line max-w-prose">{project.execution}</p>
                     </div>
                   </Reveal>
                 )}
@@ -251,7 +251,7 @@ const WorkDetail: React.FC = () => {
                   <Reveal>
                     <div className="group">
                       <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">Reporting</h2>
-                      <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light">{project.reporting}</p>
+                      <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light max-w-prose">{project.reporting}</p>
                     </div>
                   </Reveal>
                 )}
@@ -268,7 +268,7 @@ const WorkDetail: React.FC = () => {
                 <Reveal>
                   <div className="group">
                     <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">Results</h2>
-                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line">{project.results}</p>
+                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line max-w-prose">{project.results}</p>
                   </div>
                 </Reveal>
 
@@ -276,7 +276,7 @@ const WorkDetail: React.FC = () => {
                   <Reveal>
                     <div className="group">
                       <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">Next Steps</h2>
-                      <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line">{project.nextSteps}</p>
+                      <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line max-w-prose">{project.nextSteps}</p>
                     </div>
                   </Reveal>
                 )}
@@ -287,21 +287,21 @@ const WorkDetail: React.FC = () => {
                 <Reveal>
                   <div className="group">
                     <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">The Challenge</h2>
-                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light">{project.challenge}</p>
+                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light max-w-prose">{project.challenge}</p>
                   </div>
                 </Reveal>
 
                 <Reveal>
                   <div className="group">
                     <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">The Solution</h2>
-                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light">{project.solution}</p>
+                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light max-w-prose">{project.solution}</p>
                   </div>
                 </Reveal>
 
                 <Reveal>
                   <div className="group">
                     <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">The Result</h2>
-                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light">{project.result}</p>
+                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light max-w-prose">{project.result}</p>
                   </div>
                 </Reveal>
               </>
@@ -310,7 +310,7 @@ const WorkDetail: React.FC = () => {
         </div>
 
         {/* Next Project Navigation */}
-        <div className="max-w-3xl mx-auto px-6 mt-32">
+        <div className="max-w-3xl lg:max-w-5xl mx-auto px-6 lg:px-10 xl:px-16 mt-32">
           <Reveal>
             <div className="border-t border-[var(--color-border-default)] pt-12">
               <p className="text-[var(--color-text-muted)] text-sm mb-4">Next Project</p>

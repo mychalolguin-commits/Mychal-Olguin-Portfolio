@@ -55,7 +55,7 @@ const Resume: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="pt-32 pb-20 max-w-3xl mx-auto px-6">
+      <div className="pt-32 pb-20 max-w-3xl lg:max-w-5xl mx-auto px-6 lg:px-10 xl:px-16">
         <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6 mb-12">
           <Reveal>
             <div>

@@ -33,7 +33,7 @@ const Contact: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="pt-32 pb-20 max-w-4xl mx-auto px-6 wash-cta min-h-screen">
+      <div className="pt-32 pb-20 max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16 wash-cta min-h-screen">
         <div className="grid md:grid-cols-2 gap-16">
 
           <div>
@@ -56,7 +56,7 @@ const Contact: React.FC = () => {
               <h1 className="text-4xl font-semibold text-[var(--color-text-primary)] mb-6">Let's Connect</h1>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="text-[var(--color-text-tertiary)] text-lg leading-relaxed mb-12">
+              <p className="text-[var(--color-text-tertiary)] text-lg leading-relaxed mb-12 max-w-prose">
                 Currently exploring full-time roles in growth marketing. Whether you have a question about my experience or want to see if I'm a good fit for your team, I'd love to hear from you.
               </p>
             </Reveal>

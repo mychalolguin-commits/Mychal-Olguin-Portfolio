@@ -238,7 +238,7 @@ const Home: React.FC = () => {
           <div className="hero-noise" />
         </div>
 
-        <div className="max-w-4xl mx-auto px-6 relative z-10">
+        <div className="max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16 relative z-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -284,7 +284,7 @@ const Home: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-xl md:text-2xl text-[var(--color-text-tertiary)] max-w-2xl leading-relaxed font-light mb-12"
+            className="text-xl md:text-2xl text-[var(--color-text-tertiary)] max-w-prose leading-relaxed font-light mb-12"
           >
             I specialize in paid social acquisition and full-funnel analytics. Currently seeking my next role where I can drive efficient growth and build reporting systems that actually get used.
           </motion.p>
@@ -340,7 +340,7 @@ const Home: React.FC = () => {
 
       {/* Selected Work Preview */}
       <section className="py-24 border-t border-[var(--color-border-subtle)] bg-[var(--color-bg-muted)] wash-section relative">
-        <div className="max-w-4xl mx-auto px-6">
+        <div className="max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16">
           <Reveal>
             <div className="flex justify-between items-end mb-16">
               <div>
@@ -412,7 +412,7 @@ const Home: React.FC = () => {
 
       {/* Capabilities */}
       <section className="py-24 wash-section relative">
-        <div className="max-w-4xl mx-auto px-6">
+        <div className="max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16">
           <Reveal>
             <div className="mb-12">
               <h2 className="text-3xl font-semibold text-[var(--color-text-primary)] mb-4">Capabilities</h2>

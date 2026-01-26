@@ -16,7 +16,7 @@ const Work: React.FC = () => {
 
   return (
     <PageTransition>
-      <div className="pt-32 pb-20 max-w-4xl mx-auto px-6 wash-section">
+      <div className="pt-32 pb-20 max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16 wash-section">
         <Reveal>
           <h1 className="text-4xl font-semibold text-[var(--color-text-primary)] mb-6">Work</h1>
         </Reveal>
