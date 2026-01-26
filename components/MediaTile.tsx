@@ -111,7 +111,7 @@ const GA4Variant: React.FC<{ data: GA4MediaData }> = ({ data }) => {
       </div>
 
       {/* Channel Mix Section */}
-      <div className="mt-6 sm:mt-8 md:mt-10 lg:mt-12 space-y-1.5 sm:space-y-2 md:space-y-3">
+      <div className="mt-10 sm:mt-10 md:mt-10 lg:mt-12 space-y-1.5 sm:space-y-2 md:space-y-3">
         <StackedBar segments={data.channelMix.map(c => ({ value: c.value, color: c.color, name: c.name }))} />
         <div className="flex flex-wrap gap-x-2 sm:gap-x-3 md:gap-x-4 gap-y-1">
           {data.channelMix.slice(0, 4).map((channel, i) => (
