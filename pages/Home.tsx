@@ -365,7 +365,7 @@ const Home: React.FC = () => {
                     transition={{ duration: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
                   >
                     <div className="grid md:grid-cols-2 gap-0">
-                      <div className="aspect-video md:aspect-auto md:h-full relative">
+                      <div className="h-52 sm:h-56 md:h-auto md:min-h-[320px] relative overflow-hidden">
                         <MediaTile
                           type={project.mediaType}
                           media={project.media}
