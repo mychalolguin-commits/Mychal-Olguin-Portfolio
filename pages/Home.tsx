@@ -250,7 +250,7 @@ const Home: React.FC = () => {
                 <img
                   src="/images/mychalheadshot.png"
                   alt="Mychal Olguin headshot"
-                  className="w-full h-full object-cover scale-[1.3] object-[center_20%]"
+                  className="w-full h-full object-cover object-[center_15%]"
                 />
               </div>
               {/* Subtle glow ring */}
@@ -459,7 +459,7 @@ const Home: React.FC = () => {
                   <img
                     src="/images/mychalheadshot.png"
                     alt="Mychal Olguin headshot"
-                    className="w-full h-full object-cover scale-[1.3] object-[center_20%]"
+                    className="w-full h-full object-cover object-[center_15%]"
                   />
                 </div>
                 {/* Subtle glow ring */}
