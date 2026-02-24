@@ -277,7 +277,7 @@ const Home: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight text-[var(--color-text-primary)] mb-8 leading-[1.05] drop-shadow-2xl"
           >
-            Growth marketer with a <span className="font-serif italic font-light text-[var(--color-text-secondary)]">measurement obsession</span>.
+            Growth marketer. <span className="font-serif italic font-light text-[var(--color-text-secondary)]">Every metric matters</span>.
           </motion.h1>
 
           <motion.p
