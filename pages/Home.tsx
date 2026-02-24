@@ -248,7 +248,7 @@ const Home: React.FC = () => {
             <div className="relative inline-block">
               <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-[72px] md:h-[72px] rounded-full overflow-hidden border-2 border-[var(--color-border-default)] shadow-lg">
                 <img
-                  src="/images/mychal-headshot.png"
+                  src="/images/mychalheadshot.png"
                   alt="Mychal Olguin headshot"
                   className="w-full h-full object-cover scale-[1.3] object-[center_20%]"
                 />
@@ -457,7 +457,7 @@ const Home: React.FC = () => {
               <div className="relative">
                 <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-[var(--color-border-default)] shadow-lg">
                   <img
-                    src="/images/mychal-headshot.png"
+                    src="/images/mychalheadshot.png"
                     alt="Mychal Olguin headshot"
                     className="w-full h-full object-cover scale-[1.3] object-[center_20%]"
                   />
