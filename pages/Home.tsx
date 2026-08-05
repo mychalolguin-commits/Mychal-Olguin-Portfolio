@@ -425,9 +425,12 @@ const Home: React.FC = () => {
 
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {capabilities.map((cap, idx) => (
-              <StaggerItem key={idx}>
+              <StaggerItem key={idx} className="h-full">
+                {/* h-full + flex-col makes every card fill its grid row, and
+                    mt-auto pins the chips to the bottom, so cards with shorter
+                    copy or fewer chips still line up with their neighbours. */}
                 <motion.div
-                  className="group relative p-6 rounded-2xl bg-[var(--color-bg-elevated)] border border-[var(--card-border)] shadow-[var(--shadow-card)] hover:border-[var(--card-border-hover)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 overflow-hidden"
+                  className="group relative h-full flex flex-col p-6 rounded-2xl bg-[var(--color-bg-elevated)] border border-[var(--card-border)] shadow-[var(--shadow-card)] hover:border-[var(--card-border-hover)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 overflow-hidden"
                   whileHover={{ y: -3 }}
                   transition={{ duration: 0.25 }}
                 >
@@ -436,7 +439,7 @@ const Home: React.FC = () => {
                   <p className="text-sm text-[var(--color-text-tertiary)] leading-relaxed mb-4">
                     {cap.description}
                   </p>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-1.5 mt-auto">
                     {cap.chips.map(chip => (
                       <span key={chip} className="px-2 py-1 text-[10px] rounded-md bg-[var(--color-bg-muted)] border border-[var(--card-border)] text-[var(--color-text-muted)]">
                         {chip}
