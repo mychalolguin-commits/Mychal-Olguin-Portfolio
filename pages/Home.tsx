@@ -244,7 +244,7 @@ const Home: React.FC = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.05 }}
-            className="mb-6"
+            className="mb-8"
           >
             <div className="relative inline-block">
               <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-[72px] md:h-[72px] rounded-full overflow-hidden border-2 border-[var(--color-border-default)] shadow-lg">
@@ -257,19 +257,6 @@ const Home: React.FC = () => {
               {/* Subtle glow ring */}
               <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-mint-500/20 to-mint-400/10 blur-sm -z-10" />
             </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-3 py-1 mb-8 rounded-full border border-mint-500/20 bg-mint-500/5 backdrop-blur-sm shadow-[0_0_15px_rgba(34,197,94,0.1)]"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-mint-500"></span>
-            </span>
-            <span className="text-mint-400 text-xs tracking-wide uppercase font-medium">Open to Roles</span>
           </motion.div>
 
           <motion.h1
