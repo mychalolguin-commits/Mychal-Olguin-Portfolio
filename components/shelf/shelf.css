@@ -19,7 +19,11 @@
   max-height: 640px;
   border: 1px solid var(--card-border);
   border-radius: 1rem;
-  background-color: var(--color-bg-elevated);
+  /* Matches the 3D room color (set by the component from the same palette the
+     scene uses) so any sub-pixel edge where the canvas does not quite reach the
+     rounded corners is invisible. Falls back to the card surface before the
+     engine mounts. */
+  background-color: var(--shelf-room, var(--color-bg-elevated));
   box-shadow: var(--shadow-card);
 }
 
@@ -54,39 +58,26 @@
 
 /* ── Browse caption ───────────────────────────────────────────────────── */
 
+/* The caption floats over the rendered scene, and the shelf plank behind it is
+   dark walnut in both themes, so the text needs its own backdrop.
+   A wide gradient scrim was tried first and rejected: keyed to
+   --color-bg-elevated it is invisible against the dark scene but paints a white
+   wash across the canvas in light mode, washing out the front book. A panel
+   sized to the text can never reach the books, and reads the same in both
+   themes. */
 .cert-shelf__caption {
   position: absolute;
   z-index: 10;
   bottom: 4.25rem;
   left: 1.5rem;
-  max-width: min(22rem, 60%);
+  max-width: min(20rem, 52%);
+  padding: 0.9rem 1.1rem 1rem;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 0.9rem;
+  background-color: color-mix(in srgb, var(--color-bg-elevated) 78%, transparent);
+  backdrop-filter: blur(12px);
   pointer-events: none;
   transition: opacity 400ms ease, transform 400ms ease;
-}
-
-/* The caption sits over the rendered scene, and the shelf plank behind it is
-   dark walnut in both themes — without a scrim the title loses contrast as
-   books slide past. */
-.cert-shelf__scrim {
-  position: absolute;
-  z-index: 5;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 60%;
-  pointer-events: none;
-  background: linear-gradient(
-    to top,
-    var(--color-bg-elevated) 0%,
-    color-mix(in srgb, var(--color-bg-elevated) 72%, transparent) 28%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(to right, #000 0%, #000 42%, transparent 72%);
-  transition: opacity 400ms ease;
-}
-
-.cert-shelf.is-focused .cert-shelf__scrim {
-  opacity: 0;
 }
 
 .cert-shelf.is-focused .cert-shelf__caption {

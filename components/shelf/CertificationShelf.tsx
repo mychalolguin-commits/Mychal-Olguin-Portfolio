@@ -89,6 +89,7 @@ const CertificationShelf: React.FC = () => {
   const [failed, setFailed] = useState(false);
   const { theme } = useTheme();
 
+  const environment = SHELF_ENVIRONMENTS[theme === 'light' ? 'light' : 'dark'];
   const activeCert = catalog[activeIndex];
   const selectedCert = useMemo(
     () => (selectedIndex === null ? null : catalog[selectedIndex]),
@@ -153,6 +154,7 @@ const CertificationShelf: React.FC = () => {
       className={`cert-shelf ${ready ? 'is-ready' : ''} ${
         isFocused ? 'is-focused' : ''
       }`}
+      style={{ '--shelf-room': environment.background } as React.CSSProperties}
     >
       <canvas
         ref={canvasRef}
@@ -161,8 +163,6 @@ const CertificationShelf: React.FC = () => {
         tabIndex={0}
         aria-label={`Interactive 3D shelf of ${catalog.length} certifications. Drag or use the arrow keys to browse. Press Enter to inspect the selected credential.`}
       />
-
-      <div className="cert-shelf__scrim" aria-hidden="true" />
 
       <div className="cert-shelf__caption">
         <p className="cert-shelf__eyebrow">
