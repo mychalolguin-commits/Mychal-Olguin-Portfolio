@@ -41,10 +41,11 @@ A Three.js shelf of procedurally generated hardcovers on the homepage, one book 
 
 **Only `catalog.ts` is content.** Adding, removing, or editing a certification means editing that one file — nothing else. It has no imports, so importing it is free; `pages/Resume.tsx` reads the same array for its Certifications section, making it the single source of truth. Each entry's `cover`/`accent`/`ink` colors and `motif` (one of 19 named procedural patterns) generate the artwork at runtime — there are no cover images. `format`, `availability`, `quote`, and `quoteBy` are repurposed from the upstream book schema to hold issue dates, credential IDs, and a capability line; the 3D engine never reads them, so they are safe to reshape. Entries are in deliberate reverse-chronological order — the upstream height sort was removed.
 
-**`ShelfEngine.ts` is vendored upstream code** (~1,500 lines) and should be treated as a black box apart from three deliberate local changes, each marked with a comment explaining why:
+**`ShelfEngine.ts` is vendored upstream code** (~1,500 lines) and should be treated as a black box apart from four deliberate local changes, each marked with a comment explaining why:
 - A `ShelfEnvironment` constructor option plus `setEnvironment()` drives the room's colors from the site's theme instead of a hardcoded cream, and recolors live on theme toggle.
 - `handleWheel` only claims horizontal intent. The upstream version called `preventDefault()` on every wheel event, which trapped the page when embedded in a scrolling layout. Do not revert this.
 - Wall, ground, and hemisphere light are retained as fields so `setEnvironment` can mutate them.
+- Mobile focus framing: `mobileFocusDistance`/`mobileFocusLift` replace upstream's `5.8`/`0.28` so the focused cover fits the strip above the bottom sheet on phones, and `frameFocusedBook` raises `controls.maxDistance` to match (upstream's 7.2 cap silently pulled the camera back in). Tuned together with the sheet's `max-height` in `shelf.css` — retune both if either changes.
 
 `siteConfig.enableOptionalStripeArchive` must stay `false` — it gates an upstream loader for separately licensed Stripe Press assets that are neither shipped nor licensed to this project.
 

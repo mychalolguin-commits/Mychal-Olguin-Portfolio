@@ -104,6 +104,13 @@ const desktopFocusZ = 1.66;
 const desktopFocusScale = 1.08;
 const mobileFocusZ = 1.4;
 const mobileFocusScale = 0.92;
+// Local change (mobile focus framing): upstream framed the focused book for a
+// wide canvas (distance 5.8, lift 0.28). On phones the details bottom sheet
+// covers ~60% of the tile, so the cover has to fit — and be centered in — the
+// strip above the sheet. Distance is how far the camera backs off; lift is how
+// many world units the composition shifts up via the asymmetric frustum.
+const mobileFocusDistance = 8.8;
+const mobileFocusLift = 0.85;
 const inspectionIdleLift = 0.014;
 const inspectionIdlePitch = THREE.MathUtils.degToRad(0.28);
 const inspectionIdleYaw = THREE.MathUtils.degToRad(0.48);
@@ -1178,7 +1185,12 @@ export class ShelfEngine {
       width <= 1020
         ? Math.min(compactDetailMaxWidth, width * compactDetailWidthRatio)
         : Math.min(desktopDetailMaxWidth, width * desktopDetailWidthRatio);
-    const focusDistance = isMobile ? 5.8 : 5.4;
+    // Local change (mobile focus framing): upstream used 5.8/0.28 here, which
+    // was tuned for a wide canvas. On a phone the bottom sheet covers ~60% of
+    // the tile, so the focused cover must fit the strip above it: back the
+    // camera off further and lift the composition by enough world units to
+    // center the cover in that strip instead of behind the sheet.
+    const focusDistance = isMobile ? mobileFocusDistance : 5.4;
     const verticalHalfSpan =
       Math.tan(THREE.MathUtils.degToRad(this.camera.fov * 0.5)) * focusDistance;
     const clampedProgress = clamp(progress, 0, 1);
@@ -1186,7 +1198,7 @@ export class ShelfEngine {
       ? 0
       : detailWidth * 0.5 * clampedProgress;
     const verticalOffset = isMobile
-      ? (0.28 / verticalHalfSpan) * height * 0.5 * clampedProgress
+      ? (mobileFocusLift / verticalHalfSpan) * height * 0.5 * clampedProgress
       : 0;
 
     if (clampedProgress <= 0.001) {
@@ -1211,7 +1223,12 @@ export class ShelfEngine {
     compositionProgress = 1,
   ) {
     const isMobile = this.canvas.clientWidth < 760;
-    const focusDistance = isMobile ? 5.8 : 5.4;
+    // Local change (mobile focus framing): keep in sync with applyFocusViewOffset.
+    // OrbitControls' maxDistance (7.2 upstream) silently pulls the camera back
+    // in once controls re-enable after the focus move, so it must accommodate
+    // the mobile framing distance or the zoom-out has no effect.
+    const focusDistance = isMobile ? mobileFocusDistance : 5.4;
+    this.controls.maxDistance = Math.max(7.2, focusDistance + 0.4);
     this.applyFocusViewOffset(compositionProgress);
 
     this.focusCameraTarget.copy(worldPosition);

@@ -508,11 +508,13 @@
     left: 1.25rem;
   }
 
-  /* Bottom sheet reads better than a side panel on a narrow screen. */
+  /* Bottom sheet reads better than a side panel on a narrow screen. Kept
+     under half the tile so the focused book cover stays fully visible above
+     it — the sheet body scrolls (overflow-y on the base rule) for the rest. */
   .cert-shelf__details {
     top: auto;
     width: 100%;
-    max-height: 62%;
+    max-height: 48%;
     padding: 1.25rem;
     border-top: 1px solid var(--card-border);
     border-left: 0;
