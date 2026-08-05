@@ -442,21 +442,6 @@ const Home: React.FC = () => {
       {/* Footer CTA */}
       <section className="py-24 border-t border-[var(--color-border-subtle)] wash-cta relative">
         <div className="max-w-2xl mx-auto px-6 text-center">
-          <Reveal>
-            <div className="flex justify-center mb-6">
-              <div className="relative">
-                <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-[var(--color-border-default)] shadow-lg">
-                  <img
-                    src="/images/mychalheadshot.png"
-                    alt="Mychal Olguin headshot"
-                    className="w-full h-full object-cover object-[center_15%]"
-                  />
-                </div>
-                {/* Subtle glow ring */}
-                <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-mint-500/20 to-mint-400/10 blur-sm -z-10" />
-              </div>
-            </div>
-          </Reveal>
           <Reveal delay={0.05}>
             <h2 className="text-4xl md:text-5xl font-semibold text-[var(--color-text-primary)] mb-6">Let's connect.</h2>
           </Reveal>
