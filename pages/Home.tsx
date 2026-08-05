@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import PageTransition from '../components/PageTransition';
 import { Reveal, StaggerContainer, StaggerItem } from '../components/Reveal';
 import MediaTile from '../components/MediaTile';
+import LazyCertificationShelf from '../components/shelf/LazyCertificationShelf';
 import { PROJECTS } from '../constants';
 
 const Home: React.FC = () => {
@@ -446,6 +447,24 @@ const Home: React.FC = () => {
               </StaggerItem>
             ))}
           </StaggerContainer>
+        </div>
+      </section>
+
+      {/* Certification shelf */}
+      <section className="py-24 wash-section relative">
+        <div className="max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16">
+          <Reveal>
+            <div className="mb-12">
+              <h2 className="text-3xl font-semibold text-[var(--color-text-primary)] mb-4">Credentials</h2>
+              <p className="text-[var(--color-text-tertiary)] max-w-2xl text-lg leading-relaxed">
+                Ten certifications across paid social, search, measurement, and AI tooling. Pull one off the shelf to inspect it.
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <LazyCertificationShelf />
+          </Reveal>
         </div>
       </section>
 

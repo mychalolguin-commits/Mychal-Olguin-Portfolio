@@ -1,0 +1,557 @@
+/*
+ * Styles for the certification shelf section.
+ *
+ * Everything is scoped under .cert-shelf so it cannot leak into the rest of
+ * the site. Colors come from the theme tokens in index.html, so the overlay
+ * follows light/dark mode along with the 3D scene.
+ *
+ * Written for this site rather than ported from the upstream demo, whose CSS
+ * assumed a full-viewport page with its own typography.
+ */
+
+.cert-shelf {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  min-height: 420px;
+  max-height: 640px;
+  border: 1px solid var(--card-border);
+  border-radius: 1rem;
+  background-color: var(--color-bg-elevated);
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Canvas ───────────────────────────────────────────────────────────── */
+
+.cert-shelf__canvas {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  /* Required: lets the engine own drag gestures instead of the page scrolling. */
+  touch-action: none;
+  opacity: 0;
+  transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cert-shelf__canvas.is-dragging {
+  cursor: grabbing !important;
+}
+
+.cert-shelf.is-ready .cert-shelf__canvas {
+  opacity: 1;
+}
+
+.cert-shelf__canvas:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -4px;
+}
+
+/* ── Browse caption ───────────────────────────────────────────────────── */
+
+.cert-shelf__caption {
+  position: absolute;
+  z-index: 10;
+  bottom: 4.25rem;
+  left: 1.5rem;
+  max-width: min(22rem, 60%);
+  pointer-events: none;
+  transition: opacity 400ms ease, transform 400ms ease;
+}
+
+/* The caption sits over the rendered scene, and the shelf plank behind it is
+   dark walnut in both themes — without a scrim the title loses contrast as
+   books slide past. */
+.cert-shelf__scrim {
+  position: absolute;
+  z-index: 5;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 60%;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    var(--color-bg-elevated) 0%,
+    color-mix(in srgb, var(--color-bg-elevated) 72%, transparent) 28%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to right, #000 0%, #000 42%, transparent 72%);
+  transition: opacity 400ms ease;
+}
+
+.cert-shelf.is-focused .cert-shelf__scrim {
+  opacity: 0;
+}
+
+.cert-shelf.is-focused .cert-shelf__caption {
+  opacity: 0;
+  transform: translateY(0.5rem);
+}
+
+.cert-shelf__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.625rem;
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cert-shelf__eyebrow-line {
+  width: 1.5rem;
+  height: 1px;
+  background-color: var(--color-border-default);
+}
+
+.cert-shelf__caption h3 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: "Newsreader", serif;
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.cert-shelf__issuer {
+  margin: 0.375rem 0 0;
+  color: var(--color-text-tertiary);
+  font-size: 0.8125rem;
+}
+
+.cert-shelf__inspect {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: border-color 250ms ease, background-color 250ms ease,
+    transform 250ms ease;
+}
+
+.cert-shelf__inspect:hover:not(:disabled) {
+  border-color: var(--card-border-hover);
+  background-color: var(--color-accent-subtle);
+  transform: translateY(-1px);
+}
+
+.cert-shelf__inspect:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Browse arrows ────────────────────────────────────────────────────── */
+
+.cert-shelf__arrow {
+  position: absolute;
+  z-index: 12;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  transform: translateY(-50%);
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  background-color: var(--color-nav-bg);
+  backdrop-filter: blur(8px);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: opacity 300ms ease, border-color 250ms ease,
+    background-color 250ms ease;
+}
+
+.cert-shelf__arrow:hover:not(:disabled) {
+  border-color: var(--card-border-hover);
+  background-color: var(--color-accent-subtle);
+}
+
+.cert-shelf__arrow:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.cert-shelf.is-focused .cert-shelf__arrow {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cert-shelf__arrow--left {
+  left: 1rem;
+}
+
+.cert-shelf__arrow--right {
+  right: 1rem;
+}
+
+/* ── Position ticks ───────────────────────────────────────────────────── */
+
+.cert-shelf__index {
+  position: absolute;
+  z-index: 10;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: opacity 400ms ease;
+}
+
+.cert-shelf.is-focused .cert-shelf__index {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cert-shelf__ticks {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.cert-shelf__ticks button {
+  display: grid;
+  place-items: center;
+  width: 1rem;
+  height: 1.25rem;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.cert-shelf__ticks button span {
+  width: 100%;
+  height: 2px;
+  border-radius: 1px;
+  background-color: var(--color-border-default);
+  transition: background-color 250ms ease, height 250ms ease;
+}
+
+.cert-shelf__ticks button:hover span {
+  background-color: var(--color-text-muted);
+}
+
+.cert-shelf__ticks button.is-active span {
+  height: 3px;
+  background-color: var(--color-accent);
+}
+
+.cert-shelf__hint {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.cert-shelf__hint i {
+  width: 2px;
+  height: 2px;
+  border-radius: 999px;
+  background-color: currentColor;
+}
+
+/* ── Detail panel ─────────────────────────────────────────────────────── */
+
+.cert-shelf__details {
+  position: absolute;
+  z-index: 16;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(24rem, 46%);
+  padding: 1.75rem;
+  overflow-y: auto;
+  border-left: 1px solid var(--card-border);
+  /* Nearly opaque: at lower alpha the blurred book cover behind the panel
+     smears colored light across the text and hurts legibility. */
+  background-color: color-mix(in srgb, var(--color-bg-elevated) 97%, transparent);
+  backdrop-filter: blur(20px);
+  opacity: 0;
+  transform: translateX(1.5rem);
+  pointer-events: none;
+  transition: opacity 450ms ease, transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cert-shelf.is-focused .cert-shelf__details {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.cert-shelf__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-tertiary);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 250ms ease;
+}
+
+.cert-shelf__back:hover {
+  color: var(--color-accent);
+}
+
+.cert-shelf__details-eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--color-accent);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+}
+
+.cert-shelf__details h3 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: "Newsreader", serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.cert-shelf__details-issuer {
+  margin: 0.5rem 0 1rem;
+  color: var(--color-text-tertiary);
+  font-size: 0.8125rem;
+}
+
+.cert-shelf__details-description {
+  margin: 0 0 1.25rem;
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.cert-shelf__details blockquote {
+  margin: 0 0 1.25rem;
+  padding-left: 0.875rem;
+  border-left: 2px solid var(--color-accent);
+}
+
+.cert-shelf__details blockquote p {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: "Newsreader", serif;
+  font-size: 0.9375rem;
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.cert-shelf__details blockquote cite {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+  font-style: normal;
+  letter-spacing: 0.06em;
+}
+
+.cert-shelf__meta {
+  margin: 0 0 1.5rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.cert-shelf__meta dt {
+  color: var(--color-text-muted);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cert-shelf__meta dd {
+  margin: 0.25rem 0 0;
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.cert-shelf__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-accent);
+  font-size: 0.8125rem;
+  text-decoration: none;
+  transition: gap 250ms ease;
+}
+
+.cert-shelf__link:hover {
+  gap: 0.75rem;
+}
+
+.cert-shelf__focus-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border-subtle);
+  color: var(--color-text-muted);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+}
+
+.cert-shelf__focus-controls button {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  background: none;
+  color: var(--color-text-tertiary);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: border-color 250ms ease, color 250ms ease;
+}
+
+.cert-shelf__focus-controls button:hover {
+  border-color: var(--card-border-hover);
+  color: var(--color-accent);
+}
+
+/* ── Loading state ────────────────────────────────────────────────────── */
+
+.cert-shelf__loading {
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+  justify-items: center;
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  transition: opacity 600ms ease, visibility 600ms ease;
+}
+
+.cert-shelf.is-ready .cert-shelf__loading {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.cert-shelf__loading-mark {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.cert-shelf__loading-mark span {
+  width: 3px;
+  height: 1.5rem;
+  border-radius: 1px;
+  background-color: var(--color-accent);
+  animation: cert-shelf-pulse 1.2s ease-in-out infinite;
+}
+
+.cert-shelf__loading-mark span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.cert-shelf__loading-mark span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes cert-shelf-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scaleY(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+/* ── Screen-reader only ───────────────────────────────────────────────── */
+
+.cert-shelf__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .cert-shelf {
+    aspect-ratio: 4 / 5;
+    max-height: none;
+  }
+
+  .cert-shelf__caption {
+    max-width: none;
+    right: 1.25rem;
+    bottom: 3.75rem;
+    left: 1.25rem;
+  }
+
+  /* Bottom sheet reads better than a side panel on a narrow screen. */
+  .cert-shelf__details {
+    top: auto;
+    width: 100%;
+    max-height: 62%;
+    padding: 1.25rem;
+    border-top: 1px solid var(--card-border);
+    border-left: 0;
+    border-radius: 1rem 1rem 0 0;
+    transform: translateY(1.5rem);
+  }
+
+  .cert-shelf.is-focused .cert-shelf__details {
+    transform: translateY(0);
+  }
+
+  .cert-shelf__hint {
+    display: none;
+  }
+
+  .cert-shelf__arrow {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cert-shelf__canvas,
+  .cert-shelf__caption,
+  .cert-shelf__details,
+  .cert-shelf__loading {
+    transition-duration: 1ms;
+  }
+
+  .cert-shelf__loading-mark span {
+    animation: none;
+  }
+}
