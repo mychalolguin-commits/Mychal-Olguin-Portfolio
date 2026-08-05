@@ -240,25 +240,6 @@ const Home: React.FC = () => {
         </div>
 
         <div className="max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.05 }}
-            className="mb-8"
-          >
-            <div className="relative inline-block">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-[72px] md:h-[72px] rounded-full overflow-hidden border-2 border-[var(--color-border-default)] shadow-lg">
-                <img
-                  src="/images/mychalheadshot.png"
-                  alt="Mychal Olguin headshot"
-                  className="w-full h-full object-cover object-[center_15%]"
-                />
-              </div>
-              {/* Subtle glow ring */}
-              <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-mint-500/20 to-mint-400/10 blur-sm -z-10" />
-            </div>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
