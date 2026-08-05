@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import PageTransition from '../components/PageTransition';
 import { Reveal, StaggerContainer, StaggerItem } from '../components/Reveal';
 import { EXPERIENCE } from '../constants';
+import { catalog as CERTIFICATIONS } from '../components/shelf/catalog';
 import { Download, Linkedin, Mail, FileText } from 'lucide-react';
 import { useSEO } from '../hooks/useSEO';
 
@@ -21,14 +22,6 @@ const EDUCATION = [
     school: 'The University of Texas San Antonio',
     period: ''
   }
-];
-
-const CERTIFICATIONS = [
-  'Meta Certified Media Buying Professional',
-  'Google Search/Shopping Certified',
-  'HubSpot Social Media Certified',
-  'Adobe Premiere Pro',
-  'Adobe Photoshop'
 ];
 
 const SKILLS = {
@@ -212,19 +205,32 @@ const Resume: React.FC = () => {
           {/* Certifications */}
           <Reveal>
             <section>
-              <h2 className="text-sm font-medium text-[var(--color-accent)] uppercase tracking-wider mb-8">Certifications</h2>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap items-baseline justify-between gap-2 mb-8">
+                <h2 className="text-sm font-medium text-[var(--color-accent)] uppercase tracking-wider">Certifications</h2>
+                <span className="text-xs text-[var(--color-text-muted)]">{CERTIFICATIONS.length} credentials</span>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
                 {CERTIFICATIONS.map((cert, idx) => (
                   <motion.div
-                    key={cert}
-                    className="px-4 py-2 rounded-full bg-[var(--color-bg-elevated)]/50 border border-[var(--color-border-subtle)] text-[var(--color-text-secondary)] text-sm"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
+                    key={cert.id}
+                    className="flex gap-3 p-4 rounded-xl bg-[var(--color-bg-elevated)]/50 border border-[var(--color-border-subtle)]"
+                    initial={{ opacity: 0, y: 8 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: idx * 0.05 }}
-                    whileHover={{ scale: 1.05, borderColor: 'rgba(74, 222, 128, 0.3)' }}
+                    transition={{ duration: 0.3, delay: idx * 0.04 }}
+                    whileHover={{ y: -2, borderColor: 'rgba(74, 222, 128, 0.3)' }}
                   >
-                    {cert}
+                    {/* Echoes the spine color of this credential on the homepage shelf. */}
+                    <span
+                      aria-hidden="true"
+                      className="w-1 shrink-0 rounded-full"
+                      style={{ backgroundColor: cert.cover }}
+                    />
+                    <div className="min-w-0">
+                      <h3 className="text-[var(--color-text-primary)] text-sm font-medium leading-snug">{cert.title}</h3>
+                      <p className="text-[var(--color-text-tertiary)] text-xs mt-1">{cert.author}</p>
+                      <p className="text-[var(--color-text-muted)] text-xs mt-1 font-mono">{cert.format}</p>
+                    </div>
                   </motion.div>
                 ))}
               </div>

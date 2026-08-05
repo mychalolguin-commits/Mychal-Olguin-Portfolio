@@ -35,6 +35,23 @@ Tailwind is loaded from the CDN (`cdn.tailwindcss.com`) with its config inlined 
 
 **Layout convention** — Page and chrome containers repeat `max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16`. Match it in new sections so the page gutters stay aligned with the navbar and footer.
 
+## The certification shelf (`components/shelf/`)
+
+A Three.js shelf of procedurally generated hardcovers on the homepage, one book per certification. Ported from the MIT-licensed `complete-shelf` experience in `mintdotgg/mint-playground`; upstream `LICENSE` and `THIRD_PARTY_NOTICES.md` live in the directory and must stay.
+
+**Only `catalog.ts` is content.** Adding, removing, or editing a certification means editing that one file — nothing else. It has no imports, so importing it is free; `pages/Resume.tsx` reads the same array for its Certifications section, making it the single source of truth. Each entry's `cover`/`accent`/`ink` colors and `motif` (one of 19 named procedural patterns) generate the artwork at runtime — there are no cover images. `format`, `availability`, `quote`, and `quoteBy` are repurposed from the upstream book schema to hold issue dates, credential IDs, and a capability line; the 3D engine never reads them, so they are safe to reshape. Entries are in deliberate reverse-chronological order — the upstream height sort was removed.
+
+**`ShelfEngine.ts` is vendored upstream code** (~1,500 lines) and should be treated as a black box apart from three deliberate local changes, each marked with a comment explaining why:
+- A `ShelfEnvironment` constructor option plus `setEnvironment()` drives the room's colors from the site's theme instead of a hardcoded cream, and recolors live on theme toggle.
+- `handleWheel` only claims horizontal intent. The upstream version called `preventDefault()` on every wheel event, which trapped the page when embedded in a scrolling layout. Do not revert this.
+- Wall, ground, and hemisphere light are retained as fields so `setEnvironment` can mutate them.
+
+`siteConfig.enableOptionalStripeArchive` must stay `false` — it gates an upstream loader for separately licensed Stripe Press assets that are neither shipped nor licensed to this project.
+
+**Loading** — `LazyCertificationShelf.tsx` is what pages import. It gates `React.lazy` behind an IntersectionObserver so three.js (~611 kB, its own chunk) stays out of the initial bundle and only loads when the section nears the viewport. Import the shelf through it, never `CertificationShelf` directly. `CertificationShelf` falls back to a plain list if WebGL fails.
+
+`shelf.css` is scoped entirely under `.cert-shelf` and built on the site's theme tokens; it is not the upstream stylesheet, which assumed a full-viewport page.
+
 ## Notes
 
 - `.env.local` holds `GEMINI_API_KEY`, wired into `process.env.API_KEY` by `vite.config.ts`. Nothing in the current source reads it — it's scaffolding from AI Studio.
