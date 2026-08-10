@@ -11,7 +11,7 @@ interface MediaTileProps {
 // Sparkline component - SVG line chart with gradient fill and glowing end dot
 const Sparkline: React.FC<{ data: SparklinePoint[]; color?: string }> = ({
   data,
-  color = 'rgb(74, 222, 128)'
+  color = 'var(--data-1)'
 }) => {
   if (!data.length) return null;
 
@@ -104,8 +104,8 @@ const GA4Variant: React.FC<{ data: GA4MediaData }> = ({ data }) => {
   return (
     <div className="relative z-10 w-full h-full p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col">
       {/* Date Label Badge */}
-      <div className="absolute top-2 left-2 sm:top-3 sm:left-3 md:top-4 md:left-4 z-20 bg-[var(--color-nav-bg)] backdrop-blur-md border border-mint-500/30 px-2 py-1 md:px-3 md:py-1.5 rounded-md shadow-lg">
-        <span className="text-[9px] md:text-[10px] lg:text-xs font-medium text-mint-400 uppercase tracking-wide">
+      <div className="absolute top-2 left-2 sm:top-3 sm:left-3 md:top-4 md:left-4 z-20 bg-[var(--color-nav-bg)] backdrop-blur-md border border-[var(--rule)] px-2 py-1 md:px-3 md:py-1.5 rounded-md shadow-lg">
+        <span className="text-[9px] md:text-[10px] lg:text-xs font-medium text-[var(--graphite)] uppercase tracking-wide">
           {data.dateLabel}
         </span>
       </div>
@@ -135,7 +135,7 @@ const GA4Variant: React.FC<{ data: GA4MediaData }> = ({ data }) => {
           <div className="text-[7px] sm:text-[8px] md:text-[10px] lg:text-xs text-[var(--color-text-muted)] uppercase tracking-wide">Sessions</div>
         </div>
         <div className="bg-[var(--color-bg-base)]/50 rounded-lg p-1.5 sm:p-2 md:p-3 border border-[var(--color-border-subtle)]">
-          <div className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-mint-400">
+          <div className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-[var(--data-1)]">
             {data.stats.paidSocialShare}%
           </div>
           <div className="text-[7px] sm:text-[8px] md:text-[10px] lg:text-xs text-[var(--color-text-muted)] uppercase tracking-wide">Paid Social</div>
@@ -156,7 +156,7 @@ const GA4Variant: React.FC<{ data: GA4MediaData }> = ({ data }) => {
 
       {/* Sparkline */}
       <div className="mt-2 sm:mt-3 md:mt-4">
-        <Sparkline data={data.sparkline} color="rgb(74, 222, 128)" />
+        <Sparkline data={data.sparkline} color="var(--data-1)" />
       </div>
     </div>
   );
@@ -170,26 +170,29 @@ const SEOVariant: React.FC<{ data: SEOMediaData }> = ({ data }) => {
       ? TrendingDown
       : Minus;
 
+  // A trend is a real change in a real number, so it earns a signal colour.
   const trendColor = data.performanceSignal.trend === 'up'
-    ? 'text-mint-400'
+    ? 'text-[var(--signal-up)]'
     : data.performanceSignal.trend === 'down'
-      ? 'text-red-400'
+      ? 'text-[var(--signal-down)]'
       : 'text-[var(--color-text-muted)]';
 
+  // Core Web Vitals thresholds are data too. Hairline border + coloured figure
+  // rather than a tinted fill, to stay in the ruled register.
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'good': return 'bg-mint-500/20 border-mint-500/40 text-mint-400';
-      case 'needs-improvement': return 'bg-yellow-500/20 border-yellow-500/40 text-yellow-400';
-      case 'poor': return 'bg-red-500/20 border-red-500/40 text-red-400';
-      default: return 'bg-[var(--color-bg-base)] border-[var(--color-border-subtle)] text-[var(--color-text-muted)]';
+      case 'good': return 'bg-transparent border-[var(--signal-up)] text-[var(--signal-up)]';
+      case 'needs-improvement': return 'bg-transparent border-[var(--data-3)] text-[var(--data-3)]';
+      case 'poor': return 'bg-transparent border-[var(--signal-down)] text-[var(--signal-down)]';
+      default: return 'bg-transparent border-[var(--rule)] text-[var(--color-text-muted)]';
     }
   };
 
   return (
     <div className="relative z-10 w-full h-full p-4 flex flex-col justify-between">
       {/* Date Label Badge */}
-      <div className="absolute top-3 left-3 z-20 bg-[var(--color-nav-bg)] backdrop-blur-md border border-mint-500/30 px-2 py-1 rounded-md shadow-lg">
-        <span className="text-[9px] font-medium text-mint-400 uppercase tracking-wide">
+      <div className="absolute top-3 left-3 z-20 bg-[var(--color-nav-bg)] backdrop-blur-md border border-[var(--rule)] px-2 py-1 rounded-md shadow-lg">
+        <span className="text-[9px] font-medium text-[var(--graphite)] uppercase tracking-wide">
           {data.dateLabel}
         </span>
       </div>
@@ -240,7 +243,7 @@ const SEOVariant: React.FC<{ data: SEOMediaData }> = ({ data }) => {
                 cy="18"
                 r="15.5"
                 fill="none"
-                stroke="rgb(74, 222, 128)"
+                stroke="var(--data-1)"
                 strokeWidth="3"
                 strokeDasharray={`${data.speedScore} 100`}
                 strokeLinecap="round"
@@ -259,7 +262,7 @@ const SEOVariant: React.FC<{ data: SEOMediaData }> = ({ data }) => {
 
       {/* Sparkline */}
       <div className="mt-auto pt-2">
-        <Sparkline data={data.sparkline} color="rgb(74, 222, 128)" />
+        <Sparkline data={data.sparkline} color="var(--data-1)" />
       </div>
     </div>
   );
@@ -272,8 +275,8 @@ const PaidSocialVariant: React.FC<{ data: PaidSocialMediaData }> = ({ data }) =>
   return (
     <div className="relative z-10 w-full h-full p-4 flex flex-col justify-between">
       {/* Date Label Badge */}
-      <div className="absolute top-3 left-3 z-20 bg-[var(--color-nav-bg)] backdrop-blur-md border border-mint-500/30 px-2 py-1 rounded-md shadow-lg">
-        <span className="text-[9px] font-medium text-mint-400 uppercase tracking-wide">
+      <div className="absolute top-3 left-3 z-20 bg-[var(--color-nav-bg)] backdrop-blur-md border border-[var(--rule)] px-2 py-1 rounded-md shadow-lg">
+        <span className="text-[9px] font-medium text-[var(--graphite)] uppercase tracking-wide">
           {data.dateLabel}
         </span>
       </div>
@@ -287,7 +290,7 @@ const PaidSocialVariant: React.FC<{ data: PaidSocialMediaData }> = ({ data }) =>
             </div>
             <div className="flex-1 h-4 bg-[var(--color-bg-base)] rounded overflow-hidden">
               <div
-                className="h-full bg-mint-500/60 rounded transition-all duration-500"
+                className="h-full bg-[var(--data-1)] rounded transition-all duration-500"
                 style={{ width: `${(stage.value / maxFunnelValue) * 100}%` }}
               />
             </div>
@@ -301,7 +304,7 @@ const PaidSocialVariant: React.FC<{ data: PaidSocialMediaData }> = ({ data }) =>
       {/* Stats Row */}
       <div className="flex gap-3 mt-4 pt-3 border-t border-[var(--color-border-subtle)]">
         <div>
-          <div className="text-sm font-semibold text-mint-400">{data.stats.spend}</div>
+          <div className="text-sm font-semibold text-[var(--data-1)]">{data.stats.spend}</div>
           <div className="text-[8px] text-[var(--color-text-muted)] uppercase">Spend</div>
         </div>
         {data.stats.ctr && (
@@ -320,7 +323,7 @@ const PaidSocialVariant: React.FC<{ data: PaidSocialMediaData }> = ({ data }) =>
 
       {/* Sparkline */}
       <div className="mt-auto pt-2">
-        <Sparkline data={data.sparkline} color="rgb(74, 222, 128)" />
+        <Sparkline data={data.sparkline} color="var(--data-1)" />
       </div>
     </div>
   );
@@ -393,17 +396,6 @@ const LegacyMediaTile: React.FC<{ type: 'meta' | 'seo' | 'reporting' }> = ({ typ
 };
 
 const MediaTile: React.FC<MediaTileProps> = ({ type, media, className = '' }) => {
-  const [mousePos, setMousePos] = React.useState({ x: 50, y: 50 });
-  const containerRef = React.useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = React.useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setMousePos({ x, y });
-  }, []);
-
   const renderVariant = () => {
     if (media) {
       switch (media.variant) {
@@ -425,40 +417,14 @@ const MediaTile: React.FC<MediaTileProps> = ({ type, media, className = '' }) =>
   };
 
   return (
+    // Deliberately bare. This panel used to carry a dot grid, a
+    // mouse-following green glow, a centre glow, a sweeping shine and an
+    // inset edge glow — five decorative layers over the top of the data.
+    // The charts are the only saturated thing on the page now, so they
+    // read better with nothing behind them.
     <div
-      ref={containerRef}
       className={`relative overflow-hidden bg-[var(--color-bg-muted)] ${media ? '' : 'flex items-center justify-center'} ${className}`}
-      onMouseMove={handleMouseMove}
-      style={{
-        '--mx': `${mousePos.x}%`,
-        '--my': `${mousePos.y}%`,
-      } as React.CSSProperties}
     >
-      {/* Background Grid Pattern */}
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{ backgroundImage: 'radial-gradient(var(--color-text-muted) 1px, transparent 1px)', backgroundSize: '24px 24px' }}
-      />
-
-      {/* Mouse-following glow */}
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-        style={{
-          background: `radial-gradient(circle 150px at var(--mx) var(--my), rgba(74, 222, 128, 0.15), transparent 70%)`
-        }}
-      />
-
-      {/* Glow Center */}
-      <div className="absolute inset-0 bg-gradient-radial from-mint-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
-      {/* Shine Animation */}
-      <div className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12 group-hover:animate-[shine_1.5s_ease-in-out_infinite]" />
-
-      {/* Edge glow on hover */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{ boxShadow: 'inset 0 0 30px rgba(74, 222, 128, 0.1)' }}
-      />
-
       {renderVariant()}
     </div>
   );

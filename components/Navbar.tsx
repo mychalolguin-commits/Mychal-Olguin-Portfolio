@@ -16,10 +16,13 @@ const Navbar: React.FC = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-nav-bg)] backdrop-blur-md border-b border-[var(--color-border-subtle)]">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-nav-bg)] backdrop-blur-md border-b border-[var(--rule)]">
       <div className="max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16 h-16 flex items-center justify-between">
-        <NavLink to="/" className="text-[var(--color-text-primary)] font-semibold tracking-tight text-lg hover:text-[var(--color-accent)] transition-colors">
-          Mychal Olguin
+        <NavLink to="/" className="flex items-baseline gap-3 transition-opacity hover:opacity-70">
+          <span className="display-wide text-[var(--ink)] text-lg">Mychal Olguin</span>
+          {/* The masthead's utility line — the standing context a report header
+              carries. Hidden below sm so the bar doesn't crowd. */}
+          <span className="label hidden sm:block">Growth marketing · Texas</span>
         </NavLink>
 
         {/* Desktop Nav */}
@@ -32,13 +35,13 @@ const Navbar: React.FC = () => {
             >
               {({ isActive }) => (
                 <>
-                  <span className={isActive ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-tertiary)] group-hover:text-[var(--color-text-primary)]'}>
+                  <span className={isActive ? 'text-[var(--ink)]' : 'text-[var(--color-text-tertiary)] group-hover:text-[var(--ink)]'}>
                     {item.name}
                   </span>
                   {isActive && (
                     <motion.div
                       layoutId="nav-underline"
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-mint-500 rounded-full"
+                      className="absolute -bottom-1.5 left-0 right-0 h-px bg-[var(--ink)]"
                       transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                     />
                   )}
@@ -92,7 +95,7 @@ const Navbar: React.FC = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: [0.25, 0.4, 0.25, 1] }}
-            className="md:hidden absolute top-16 left-0 right-0 bg-[var(--color-bg-elevated)] border-b border-[var(--color-border-default)] overflow-hidden"
+            className="md:hidden absolute top-16 left-0 right-0 bg-[var(--color-bg-elevated)] border-b border-[var(--rule)] overflow-hidden"
           >
             <motion.div
               initial={{ opacity: 0 }}
@@ -112,7 +115,7 @@ const Navbar: React.FC = () => {
                     to={item.path}
                     onClick={() => setIsOpen(false)}
                     className={({ isActive }) =>
-                      `text-lg ${isActive ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-tertiary)]'}`
+                      `text-lg ${isActive ? 'text-[var(--ink)]' : 'text-[var(--color-text-tertiary)]'}`
                     }
                   >
                     {item.name}

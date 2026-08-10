@@ -68,12 +68,14 @@ export const PROJECTS: Project[] = [
     media: {
       variant: 'ga4',
       dateLabel: 'GA4 Snapshot (Oct 20 – Jan 20)',
+      // Categorical series colours come from the --data-* tokens in index.html
+      // so the chart follows the active theme.
       channelMix: [
-        { name: 'Paid Social', value: 38.4, color: 'rgb(74, 222, 128)' },
-        { name: 'Direct', value: 27.9, color: 'rgb(96, 165, 250)' },
-        { name: 'Organic', value: 25.1, color: 'rgb(251, 191, 36)' },
-        { name: 'Referral', value: 6.0, color: 'rgb(167, 139, 250)' },
-        { name: 'Social', value: 2.6, color: 'rgb(244, 114, 182)' },
+        { name: 'Paid Social', value: 38.4, color: 'var(--data-1)' },
+        { name: 'Direct', value: 27.9, color: 'var(--data-2)' },
+        { name: 'Organic', value: 25.1, color: 'var(--data-3)' },
+        { name: 'Referral', value: 6.0, color: 'var(--data-4)' },
+        { name: 'Social', value: 2.6, color: 'var(--data-5)' },
       ],
       stats: { sessions: 7857, paidSocialShare: 38.4, engagementRate: 47.0, avgEngagedTime: '53s' },
       sparkline: [{ value: 1800 }, { value: 2100 }, { value: 1950 }, { value: 2400 }, { value: 2650 }, { value: 2500 }, { value: 2900 }],
@@ -145,14 +147,24 @@ export const PROJECTS: Project[] = [
 
 export const EXPERIENCE: Experience[] = [
   {
+    role: 'Freelance Digital Marketing Consultant',
+    company: 'Self-Employed',
+    period: 'Mar 2026 — Present',
+    description: [
+      'Built and delivered websites for 4 clients across Shopify, Squarespace, and custom code in the e-commerce, food and beverage, and home services industries.',
+      'Developed social media strategies from the ground up for boutique retail and coffee catering clients, covering content pillars, platform selection, and posting cadence.',
+      'Managed end-to-end project delivery from discovery to client relationships and final handoff across web design and digital strategy engagements.'
+    ]
+  },
+  {
     role: 'Marketing Director',
     company: 'Cornerstone Capital Consulting Property Management',
-    period: 'Oct 2024 — Present',
+    period: 'Oct 2024 — Mar 2026',
     description: [
-      'Supported paid media performance across Meta (Facebook & Instagram) for a multi-family portfolio by monitoring pacing, spend, and conversion trends against lead and leasing KPIs.',
-      'Analyzed campaign performance data daily using Excel dashboards to identify optimization opportunities, improve lead quality, and reduce cost per lead.',
-      'Partnered closely with internal teams to share performance insights, explain trends, and recommend data-informed adjustments to targeting, budget allocation, and messaging.',
-      'Consolidated reporting across paid social, paid search, and web analytics to support leadership decision-making and quarterly planning.'
+      'Led digital marketing strategy for a 14-property multifamily portfolio, managing ~$5K/month in Google and Meta ad spend across 4 properties at an average CPL of ~$35.',
+      'Monitored Meta Ads, Google Ads, and web analytics to track leads, CPL, engagement, and conversions across the full portfolio.',
+      'Delivered actionable performance insights to internal teams, driving improvements to copy, landing pages, ad budgets, and messaging.',
+      'Consolidated paid social, paid search, and web analytics reporting into unified dashboards to support leadership planning and budget decisions.'
     ]
   },
   {
@@ -160,10 +172,10 @@ export const EXPERIENCE: Experience[] = [
     company: 'Cornerstone Capital Consulting Property Management',
     period: 'May 2023 — Oct 2024',
     description: [
-      'Executed mixed always-on digital campaigns across paid social and search, increasing engagement and inbound leads across multiple locations.',
-      'Monitored campaign metrics including impressions, CTR, CPL, and conversions, adjusting strategy based on performance trends.',
-      'Built SEO-optimized web pages and tracked traffic and lead performance using analytics tools to improve discovery and conversion.',
-      'Supported local search performance through Google Business Profile optimization and review strategy, improving high intent visibility.'
+      'Redesigned website copy, layouts, CTAs, and mobile experience across 7 properties to improve clarity, usability, and conversion.',
+      'Built and executed SEO and AEO strategy from the ground up — optimizing content, FAQs, metadata, and social profiles — driving approximately 20% growth in organic traffic.',
+      'Launched Google and Meta paid ad campaigns across 4 properties, establishing the paid media foundation that scaled into the Director role.',
+      'Managed Google Business Profiles, organic social posting, and review support to strengthen local search visibility across the portfolio.'
     ]
   },
   {

@@ -36,8 +36,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#070A08" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#F6F8FA" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#12110F" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#FAF9F5" media="(prefers-color-scheme: light)" />
 
     <!-- Structured Data - Person -->
     <script type="application/ld+json">
@@ -97,40 +97,42 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+    <!-- Display: Archivo (expanded widths for the masthead). Body: Inter Tight.
+         Figures: JetBrains Mono, which is the only face allowed to set a number. -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
+              paper: 'var(--paper)',
+              ink: 'var(--ink)',
+              graphite: 'var(--graphite)',
+              rule: 'var(--rule)',
+              'signal-up': 'var(--signal-up)',
+              'signal-down': 'var(--signal-down)',
+              // Legacy alias. Work / WorkDetail / Resume / Contact still carry
+              // ~40 `mint-*` classes and are awaiting their own design pass;
+              // without this they'd render as invisible or default-bordered
+              // elements. Re-pointed at the data green so they stay coherent.
+              // Remove once those pages are rebuilt.
               mint: {
-                50: '#f0fdf4',
-                100: '#dcfce7',
-                200: '#bbf7d0',
-                300: '#86efac',
-                400: '#4ade80',
-                500: '#22c55e', // Base green
-                600: '#16a34a',
-                glow: '#6EE7B7', // Accent glow
+                300: '#4EAE7C',
+                400: '#2E9160',
+                500: '#1F7A4D',
+                600: '#17603C',
+                900: '#0C3121',
               },
-              zinc: {
-                850: '#1f1f22',
-                900: '#18181b',
-                950: '#09090b',
-              },
-              dark: {
-                bg: '#050505',
-              }
             },
             fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              serif: ['Newsreader', 'serif'],
+              // `display` is Archivo stretched wide — see .display-wide below.
+              display: ['Archivo', 'sans-serif'],
+              sans: ['Inter Tight', 'sans-serif'],
+              mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
             },
             animation: {
               'fade-in': 'fadeIn 0.7s ease-out forwards',
               'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'blob': 'blob 7s infinite',
             },
             keyframes: {
               fadeIn: {
@@ -141,255 +143,230 @@
                 '0%': { opacity: '0', transform: 'translateY(20px)' },
                 '100%': { opacity: '1', transform: 'translateY(0)' },
               },
-              blob: {
-                "0%": {
-                  transform: "translate(0px, 0px) scale(1)",
-                },
-                "33%": {
-                  transform: "translate(30px, -50px) scale(1.1)",
-                },
-                "66%": {
-                  transform: "translate(-20px, 20px) scale(0.9)",
-                },
-                "100%": {
-                  transform: "translate(0px, 0px) scale(1)",
-                },
-              },
             },
-            backgroundImage: {
-              'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-              'subtle-glow': 'radial-gradient(circle at center, rgba(34, 197, 94, 0.15) 0%, transparent 70%)',
-            }
           }
         }
       }
     </script>
     <style>
       /* ═══════════════════════════════════════════════════════════
-         DARK THEME (Default) - Rich near-black with mint tints
+         INSTRUMENT PANEL
+
+         Six tokens are the source of truth. Everything else on this
+         page derives from them.
+
+         The rule that holds the design together: COLOUR ENCODES DATA,
+         NEVER DECORATION. --signal-up / --signal-down appear only on a
+         real change in a real number, and --data-* only inside charts.
+         Nothing else is coloured — links, hovers, active states and
+         focus rings are all ink. Adding a decorative accent colour
+         anywhere breaks the design.
+
+         LIGHT IS THE DEFAULT (:root). Dark is a designed second theme.
+         The pre-paint script above always writes data-theme, so :root
+         serves light and [data-theme="dark"] overrides it.
          ═══════════════════════════════════════════════════════════ */
       :root {
+        --paper:       #FAF9F5;
+        --ink:         #141413;
+        --graphite:    #6B6A65;
+        --rule:        #E3E1DA;
+        --signal-up:   #1F7A4D;
+        --signal-down: #B4472E;
+
+        /* ── Legacy token names, re-pointed at the palette above ──
+           ~430 usages across pages/ and components/ still reference
+           these. Keeping them mapped means every page that hasn't been
+           rebuilt yet adopts the new palette without being touched. */
+
         /* Core surfaces */
-        --color-bg-base: #070A08;
-        --color-bg-elevated: #0D1110;
-        --color-bg-muted: #0A0D0B;
-        --color-surface2: #111614;
+        --color-bg-base: var(--paper);
+        --color-bg-elevated: #FFFFFF;
+        --color-bg-muted: #F2F0EA;
+        --color-surface2: #EAE7DE;
 
         /* Text hierarchy */
-        --color-text-primary: #E9F2EE;
-        --color-text-secondary: #C8D5CF;
-        --color-text-tertiary: #A7B5AE;
-        --color-text-muted: #6B7A73;
+        --color-text-primary: var(--ink);
+        --color-text-secondary: #3A3934;
+        --color-text-tertiary: #57564F;
+        --color-text-muted: var(--graphite);
 
         /* Borders */
-        --color-border-subtle: rgba(255,255,255,0.04);
-        --color-border-default: #1B2320;
-        --color-border-hover: rgba(51, 209, 122, 0.25);
+        --color-border-subtle: rgba(20, 20, 19, 0.07);
+        --color-border-default: var(--rule);
+        --color-border-hover: var(--ink);
 
         /* Navigation */
-        --color-nav-bg: rgba(7, 10, 8, 0.85);
+        --color-nav-bg: rgba(250, 249, 245, 0.88);
 
-        /* Accent - Mint */
-        --color-accent: #33D17A;
-        --color-accent-dark: #22c55e;
-        --color-accent-subtle: rgba(51, 209, 122, 0.12);
+        /* "Accent" is ink now — colour is reserved for data. */
+        --color-accent: var(--ink);
+        --color-accent-dark: var(--graphite);
+        --color-accent-subtle: rgba(20, 20, 19, 0.05);
 
         /* Scrollbar */
-        --color-scrollbar-track: #070A08;
-        --color-scrollbar-thumb: #1B2320;
-        --color-scrollbar-hover: #2A3530;
+        --color-scrollbar-track: var(--paper);
+        --color-scrollbar-thumb: #D5D2C9;
+        --color-scrollbar-hover: var(--graphite);
 
-        /* Orb/glow intensity */
-        --color-orb-opacity: 1;
+        /* Atmosphere effects are switched off, not deleted, so any
+           markup still referencing them renders flat instead of broken. */
+        --color-orb-opacity: 0;
+        --gridOpacity: 0;
+        --noiseOpacity: 0;
+        --glow: transparent;
+        --glowStrong: transparent;
 
-        /* Shadows & elevation */
-        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
-        --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
-        --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 1px rgba(255,255,255,0.05) inset;
-        --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 1px rgba(51, 209, 122, 0.15) inset;
+        /* Elevation: this design uses rules, not shadows. */
+        --shadow-sm: none;
+        --shadow-md: none;
+        --shadow-lg: none;
+        --shadow-card: none;
+        --shadow-card-hover: none;
+        --shadowElev: none;
+        --cardLift: none;
 
         /* Card styling */
-        --card-border: #1B2320;
-        --card-border-hover: rgba(51, 209, 122, 0.3);
-        --card-highlight: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 50%);
+        --card-border: var(--rule);
+        --card-border-hover: var(--ink);
+        --card-highlight: none;
+        --borderGlow: var(--ink);
+        --surfaceHover: rgba(20, 20, 19, 0.03);
+        --textHover: var(--ink);
 
-        /* Motion/highlight effect vars */
-        --glow: rgba(51, 209, 122, 0.12);
-        --glowStrong: rgba(51, 209, 122, 0.2);
-        --surfaceHover: rgba(255, 255, 255, 0.02);
-        --shadowElev: var(--shadow-md);
-        --gridOpacity: 0.025;
-        --noiseOpacity: 0.035;
-        --textHover: #E9F2EE;
-        --borderGlow: rgba(51, 209, 122, 0.3);
-        --cardLift: var(--shadow-card-hover);
+        /* Section washes — neutralised. */
+        --wash-hero: none;
+        --wash-section: none;
+        --wash-cta: none;
 
-        /* Section washes */
-        --wash-hero: radial-gradient(ellipse 80% 50% at 20% 20%, rgba(51, 209, 122, 0.08) 0%, transparent 60%),
-                     radial-gradient(ellipse 60% 40% at 80% 80%, rgba(90, 169, 255, 0.04) 0%, transparent 50%);
-        --wash-section: radial-gradient(ellipse 100% 60% at 50% 0%, rgba(51, 209, 122, 0.05) 0%, transparent 50%);
-        --wash-cta: radial-gradient(ellipse 80% 80% at 50% 100%, rgba(51, 209, 122, 0.06) 0%, transparent 60%);
-
-        /* Data palette for charts */
-        --data-1: #33D17A;
-        --data-2: #5AA9FF;
-        --data-3: #F6C453;
-        --data-4: #B48EFB;
-        --data-5: #FF6B9A;
+        /* Data palette. Muted and editorial so it sits on warm paper
+           without shouting; still five distinguishable hues. */
+        --data-1: #1F7A4D;
+        --data-2: #2F5D8C;
+        --data-3: #A67C1A;
+        --data-4: #6A5192;
+        --data-5: #B4472E;
       }
 
-      /* ═══════════════════════════════════════════════════════════
-         LIGHT THEME - Soft off-white with better hierarchy
-         ═══════════════════════════════════════════════════════════ */
-      [data-theme="light"] {
-        /* Core surfaces */
-        --color-bg-base: #F6F8FA;
-        --color-bg-elevated: #FFFFFF;
-        --color-bg-muted: #EEF1F4;
-        --color-surface2: #E8ECF0;
+      [data-theme="dark"] {
+        --paper:       #12110F;
+        --ink:         #F2F0EA;
+        --graphite:    #8F8D86;
+        --rule:        #2A2823;
+        --signal-up:   #4EAE7C;
+        --signal-down: #D4735A;
 
-        /* Text hierarchy */
-        --color-text-primary: #0B0F14;
-        --color-text-secondary: #2D3748;
-        --color-text-tertiary: #4A5568;
-        --color-text-muted: #718096;
+        --color-bg-elevated: #1A1815;
+        --color-bg-muted: #171512;
+        --color-surface2: #211E1A;
 
-        /* Borders */
-        --color-border-subtle: rgba(0,0,0,0.04);
-        --color-border-default: #E2E8F0;
-        --color-border-hover: rgba(22, 163, 74, 0.35);
+        --color-text-secondary: #D8D5CC;
+        --color-text-tertiary: #B3B0A8;
 
-        /* Navigation */
-        --color-nav-bg: rgba(246, 248, 250, 0.92);
+        --color-border-subtle: rgba(242, 240, 234, 0.08);
+        --color-nav-bg: rgba(18, 17, 15, 0.88);
+        --color-accent-subtle: rgba(242, 240, 234, 0.06);
 
-        /* Accent - Mint (slightly darker for light bg) */
-        --color-accent: #16a34a;
-        --color-accent-dark: #15803d;
-        --color-accent-subtle: rgba(22, 163, 74, 0.08);
+        --color-scrollbar-thumb: #33302A;
 
-        /* Scrollbar */
-        --color-scrollbar-track: #F6F8FA;
-        --color-scrollbar-thumb: #CBD5E0;
-        --color-scrollbar-hover: #A0AEC0;
+        --surfaceHover: rgba(242, 240, 234, 0.04);
 
-        /* Orb/glow intensity */
-        --color-orb-opacity: 0.35;
-
-        /* Shadows & elevation */
-        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-        --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-        --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-        --shadow-card-hover: 0 10px 40px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
-
-        /* Card styling */
-        --card-border: #E2E8F0;
-        --card-border-hover: rgba(22, 163, 74, 0.4);
-        --card-highlight: none;
-
-        /* Motion/highlight effect vars */
-        --glow: rgba(22, 163, 74, 0.1);
-        --glowStrong: rgba(22, 163, 74, 0.18);
-        --surfaceHover: rgba(0, 0, 0, 0.015);
-        --shadowElev: var(--shadow-md);
-        --gridOpacity: 0.04;
-        --noiseOpacity: 0.03;
-        --textHover: #0B0F14;
-        --borderGlow: rgba(22, 163, 74, 0.35);
-        --cardLift: var(--shadow-card-hover);
-
-        /* Section washes */
-        --wash-hero: radial-gradient(ellipse 80% 50% at 20% 20%, rgba(22, 163, 74, 0.06) 0%, transparent 60%),
-                     radial-gradient(ellipse 60% 40% at 80% 80%, rgba(90, 169, 255, 0.03) 0%, transparent 50%);
-        --wash-section: radial-gradient(ellipse 100% 60% at 50% 0%, rgba(22, 163, 74, 0.04) 0%, transparent 50%);
-        --wash-cta: radial-gradient(ellipse 80% 80% at 50% 100%, rgba(22, 163, 74, 0.05) 0%, transparent 60%);
-
-        /* Data palette for charts */
-        --data-1: #16a34a;
-        --data-2: #3B82F6;
-        --data-3: #D97706;
-        --data-4: #8B5CF6;
-        --data-5: #EC4899;
+        --data-1: #4EAE7C;
+        --data-2: #7BA3D0;
+        --data-3: #D4A845;
+        --data-4: #A08FC7;
+        --data-5: #D4735A;
       }
 
       body {
-        background-color: var(--color-bg-base);
+        background-color: var(--paper);
         color: var(--color-text-secondary);
-        font-family: 'Inter', sans-serif;
+        font-family: 'Inter Tight', sans-serif;
         -webkit-font-smoothing: antialiased;
         transition: background-color 0.3s ease, color 0.3s ease;
       }
-      /* Custom Scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
+
+      /* ── Type roles ───────────────────────────────────────────── */
+
+      /* Archivo at its widest. The masthead register: expanded
+         grotesques are what report and statement covers are set in. */
+      .display-wide {
+        font-family: 'Archivo', sans-serif;
+        font-stretch: 125%;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.02;
       }
-      ::-webkit-scrollbar-track {
-        background: var(--color-scrollbar-track);
+
+      /* Every number on the site goes through this. Tabular figures are
+         what let a column of metrics line up and be scanned. */
+      .figure {
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: 'tnum' 1;
       }
+
+      /* Small caps-style label for column heads and row keys. */
+      .label {
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        font-size: 0.6875rem;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--graphite);
+      }
+
+      /* ── Ruled table primitives ───────────────────────────────── */
+      .ruled-row {
+        border-top: 1px solid var(--rule);
+        transition: background-color 0.15s ease;
+      }
+      .ruled-row:hover {
+        background-color: var(--surfaceHover);
+      }
+
+      /* ── Accessibility floor ──────────────────────────────────── */
+      :focus-visible {
+        outline: 2px solid var(--ink);
+        outline-offset: 3px;
+        border-radius: 1px;
+      }
+
+      /* Scrollbar */
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: var(--color-scrollbar-track); }
       ::-webkit-scrollbar-thumb {
         background: var(--color-scrollbar-thumb);
-        border-radius: 4px;
+        border-radius: 0;
       }
-      ::-webkit-scrollbar-thumb:hover {
-        background: var(--color-scrollbar-hover);
-      }
+      ::-webkit-scrollbar-thumb:hover { background: var(--color-scrollbar-hover); }
+
       ::selection {
-        background: rgba(34, 197, 94, 0.2);
-        color: #86efac;
-      }
-      .bg-noise {
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1' /%3E%3C/svg%3E");
+        background: var(--ink);
+        color: var(--paper);
       }
 
-      /* ═══════════════════════════════════════════════════════════
-         SECTION WASH BACKGROUNDS
-         ═══════════════════════════════════════════════════════════ */
-      .wash-hero {
-        background-image: var(--wash-hero);
-      }
-      .wash-section {
-        background-image: var(--wash-section);
-      }
-      .wash-cta {
-        background-image: var(--wash-cta);
-      }
+      /* ── Neutralised legacy utilities ─────────────────────────────
+         Still referenced by pages awaiting their own pass. Defined as
+         no-ops so those pages render flat rather than broken. */
+      .bg-noise { background-image: none; }
+      .wash-hero, .wash-section, .wash-cta { background-image: none; }
 
-      /* ═══════════════════════════════════════════════════════════
-         IMPROVED CARD STYLES
-         ═══════════════════════════════════════════════════════════ */
       .card-elevated {
         background-color: var(--color-bg-elevated);
-        border: 1px solid var(--card-border);
-        box-shadow: var(--shadow-card);
-        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        border: 1px solid var(--rule);
+        transition: border-color 0.2s ease;
       }
-      .card-elevated::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        background: var(--card-highlight);
-        pointer-events: none;
-      }
-      .card-elevated:hover {
-        transform: translateY(-2px);
-        border-color: var(--card-border-hover);
-        box-shadow: var(--shadow-card-hover);
-      }
+      .card-elevated:hover { border-color: var(--ink); }
 
       /* Surface variants */
-      .surface-base { background-color: var(--color-bg-base); }
+      .surface-base { background-color: var(--paper); }
       .surface-elevated { background-color: var(--color-bg-elevated); }
       .surface-muted { background-color: var(--color-bg-muted); }
       .surface-2 { background-color: var(--color-surface2); }
 
-      /* Accent backgrounds */
       .bg-accent-subtle { background-color: var(--color-accent-subtle); }
-
-      /* Border utilities */
-      .border-theme { border-color: var(--card-border); }
-      .border-theme-hover:hover { border-color: var(--card-border-hover); }
+      .border-theme { border-color: var(--rule); }
+      .border-theme-hover:hover { border-color: var(--ink); }
     </style>
   <script type="importmap">
 {

@@ -14,18 +14,21 @@ import './shelf.css';
  * only the wall, floor, and ambient light follow light/dark mode.
  */
 const SHELF_ENVIRONMENTS: Record<'dark' | 'light', ShelfEnvironment> = {
+  // Tuned to the warm neutral palette in index.html (--paper / --rule) so the
+  // room reads as an alcove in the same paper stock as the page, not a
+  // separately-lit box. Previously green-tinted to match the old mint theme.
   dark: {
-    background: '#0C100E',
-    wall: '#0C100E',
-    ground: '#141210',
-    hemisphereSky: '#93A79B',
+    background: '#1A1815',
+    wall: '#1A1815',
+    ground: '#211E1A',
+    hemisphereSky: '#A39F94',
     hemisphereGround: '#2A211A',
   },
   light: {
-    background: '#EDEAE4',
-    wall: '#EDEAE4',
+    background: '#EFECE4',
+    wall: '#EFECE4',
     ground: '#E4DFD6',
-    hemisphereSky: '#FFF8EA',
+    hemisphereSky: '#FFFBF2',
     hemisphereGround: '#6E5848',
   },
 };

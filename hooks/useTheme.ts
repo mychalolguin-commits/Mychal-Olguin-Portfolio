@@ -7,9 +7,9 @@ export const useTheme = () => {
     // Get initial theme from DOM (set by flash prevention script)
     if (typeof window !== 'undefined') {
       const stored = document.documentElement.getAttribute('data-theme') as Theme;
-      return stored || 'dark';
+      return stored || 'light';
     }
-    return 'dark';
+    return 'light';
   });
 
   const setThemeValue = useCallback((newTheme: Theme) => {

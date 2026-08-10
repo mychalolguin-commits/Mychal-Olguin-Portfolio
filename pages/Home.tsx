@@ -1,475 +1,360 @@
 import React from 'react';
-import { ArrowRight, ArrowUpRight, Linkedin, Download, Mail } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import PageTransition from '../components/PageTransition';
-import { Reveal, StaggerContainer, StaggerItem } from '../components/Reveal';
+import { Reveal } from '../components/Reveal';
 import MediaTile from '../components/MediaTile';
 import LazyCertificationShelf from '../components/shelf/LazyCertificationShelf';
 import { PROJECTS } from '../constants';
 
+/** Page gutters. Must match Navbar and Footer or the rules stop lining up. */
+const CONTAINER = 'max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16';
+
+const BTN_PRIMARY =
+  'inline-flex items-center gap-2 rounded-[3px] bg-[var(--ink)] text-[var(--paper)] px-6 py-3 text-[15px] font-medium transition-opacity duration-200 hover:opacity-85';
+const BTN_SECONDARY =
+  'inline-flex items-center gap-2 rounded-[3px] border border-[var(--rule)] text-[var(--ink)] px-6 py-3 text-[15px] font-medium transition-colors duration-200 hover:border-[var(--ink)]';
+
+/**
+ * The hero summary. Every figure here traces to a platform Mychal actually
+ * pulled it from, and the source is printed next to it — that sourcing is the
+ * point of the section, not decoration.
+ *
+ * Deliberately excludes the Borders case-study metrics: those carry
+ * `placeholder: true` in constants.ts, so they must not be presented as
+ * career results. Everything below comes from EXPERIENCE or from Towne Oaks'
+ * real dashboardData.
+ */
+const SUMMARY_ROWS: {
+  metric: string;
+  figure: string;
+  source: string;
+  trend?: 'up';
+}[] = [
+  { metric: 'Ad spend managed', figure: '$5K/mo', source: 'Meta + Google Ads' },
+  { metric: 'Average cost per lead', figure: '$35', source: 'Meta + Google Ads' },
+  { metric: 'Cost per landing page view', figure: '$0.52', source: 'Meta Ads Manager' },
+  { metric: 'Landing page views delivered', figure: '2,475', source: 'GA4' },
+  { metric: 'Organic traffic growth', figure: '+20%', source: 'Search Console', trend: 'up' },
+];
+
+const CAPABILITIES = [
+  {
+    title: 'Paid social & growth',
+    description: 'Plan, launch, and optimize campaigns with disciplined testing and budget control.',
+    tools: ['Meta Ads Manager', 'Creative testing', 'Budget pacing'],
+  },
+  {
+    title: 'Measurement & attribution',
+    description: 'Build clean tracking so performance ties back to real behavior.',
+    tools: ['GA4', 'UTMs', 'Event tracking', 'CAPI'],
+  },
+  {
+    title: 'SEO & web',
+    description: 'Design and optimize pages that rank locally and guide users to conversion.',
+    tools: ['SEO', 'HTML', 'On-page', 'CRO'],
+  },
+  {
+    title: 'Dashboards & insights',
+    description: 'Reporting that turns channel metrics into decisions and next steps.',
+    tools: ['Excel', 'Tableau', 'Data viz', 'KPIs'],
+  },
+  {
+    title: 'Creative strategy',
+    description: 'Use performance learnings to iterate creative, hooks, and messaging fast.',
+    tools: ['A/B testing', 'Ad creative', 'Hooks', 'Iteration'],
+  },
+  {
+    title: 'Local search & reputation',
+    description: 'Improve high-intent visibility through profile optimization and review strategy.',
+    tools: ['Google Business', 'Reviews', 'Local SEO', 'Maps'],
+  },
+];
+
+const FEATURED_SLUGS = ['towne-oaks-paid-social', 'borders-seo-conversion'];
+
+/**
+ * A rule that draws itself in left-to-right. This is the page's entire motion
+ * budget — everything else is still. MotionProvider forces
+ * reducedMotion: 'always', which drops the scaleX transform, so the rule
+ * simply appears for anyone who asked for reduced motion.
+ */
+const DrawnRule: React.FC<{ delay: number }> = ({ delay }) => (
+  <motion.div
+    aria-hidden="true"
+    className="h-px bg-[var(--rule)] origin-left"
+    initial={{ scaleX: 0 }}
+    animate={{ scaleX: 1 }}
+    transition={{ duration: 0.55, delay, ease: [0.25, 0.4, 0.25, 1] }}
+  />
+);
+
 const Home: React.FC = () => {
-  const [mousePos, setMousePos] = React.useState({ x: 50, y: 50 });
-  const heroRef = React.useRef<HTMLElement>(null);
-  const prefersReducedMotion = React.useRef(
-    typeof window !== 'undefined'
-      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      : false
-  );
-
-  const handleMouseMove = React.useCallback((e: React.MouseEvent<HTMLElement>) => {
-    if (prefersReducedMotion.current) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setMousePos({ x, y });
-  }, []);
-
-  const capabilities = [
-    {
-      title: 'Paid Social & Growth',
-      description: 'Plan, launch, and optimize campaigns with disciplined testing and budget control.',
-      chips: ['Meta Ads Manager', 'Creative Testing', 'Budget Pacing']
-    },
-    {
-      title: 'Measurement & Attribution',
-      description: 'Build clean tracking so performance ties to real behaviors.',
-      chips: ['GA4', 'UTMs', 'Event Tracking', 'CAPI']
-    },
-    {
-      title: 'SEO & Web',
-      description: 'Design + optimize pages that rank locally and guide users to conversion.',
-      chips: ['SEO', 'HTML', 'On-Page', 'CRO']
-    },
-    {
-      title: 'Dashboards & Insights',
-      description: 'Reporting that turns channel metrics into decisions and next steps.',
-      chips: ['Excel', 'Tableau', 'Data Viz', 'KPIs']
-    },
-    {
-      title: 'Creative Strategy',
-      description: 'Use performance learnings to iterate creative, hooks, and messaging fast.',
-      chips: ['A/B Testing', 'Ad Creative', 'Hooks', 'Iteration']
-    },
-    {
-      title: 'Local Search & Reputation',
-      description: 'Improve high-intent visibility through profile optimization + review strategy.',
-      chips: ['Google Business', 'Reviews', 'Local SEO', 'Maps']
-    }
-  ];
+  const featured = PROJECTS.filter((p) => FEATURED_SLUGS.includes(p.slug));
 
   return (
     <PageTransition>
-      <style>{`
-        .hero-section { position: relative; overflow: hidden; background-color: var(--color-bg-base); }
-        .hero-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-
-        /* Work card theme-aware hover */
-        .work-card {
-          transition: transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
-        }
-        .work-card:hover {
-          border-color: var(--borderGlow);
-          box-shadow: var(--cardLift);
-          transform: translateY(-2px);
-        }
-        .work-card-title {
-          transition: color 0.3s ease;
-        }
-        .work-card:hover .work-card-title {
-          color: var(--textHover);
-        }
-
-        /* Premium subtle orbs */
-        .hero-orb {
-          position: absolute;
-          width: 600px;
-          height: 600px;
-          border-radius: 50%;
-          filter: blur(80px);
-          opacity: calc(0.35 * var(--color-orb-opacity));
-          animation: orbFloat1 20s ease-in-out infinite;
-        }
-        .hero-orb-1 {
-          top: -10%;
-          left: 10%;
-          background: radial-gradient(circle, rgba(74,222,128,0.5) 0%, rgba(74,222,128,0.15) 40%, transparent 70%);
-        }
-        .hero-orb-2 {
-          top: 20%;
-          right: -5%;
-          width: 500px;
-          height: 500px;
-          background: radial-gradient(circle, rgba(52,211,153,0.4) 0%, rgba(52,211,153,0.1) 45%, transparent 70%);
-          animation: orbFloat2 25s ease-in-out infinite;
-          opacity: calc(0.25 * var(--color-orb-opacity));
-        }
-        .hero-orb-3 {
-          bottom: -20%;
-          left: 30%;
-          width: 450px;
-          height: 450px;
-          background: radial-gradient(circle, rgba(16,185,129,0.35) 0%, rgba(16,185,129,0.08) 50%, transparent 70%);
-          animation: orbFloat3 18s ease-in-out infinite;
-          opacity: calc(0.3 * var(--color-orb-opacity));
-        }
-
-        /* Dark vignette on edges */
-        .hero-vignette {
-          position: absolute;
-          inset: 0;
-          background: radial-gradient(ellipse 80% 60% at 50% 40%, transparent 0%, var(--color-bg-base) 100%);
-          pointer-events: none;
-          opacity: 0.6;
-        }
-
-        /* Subtle noise overlay */
-        .hero-noise {
-          position: absolute;
-          inset: 0;
-          opacity: var(--noiseOpacity);
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-          background-repeat: repeat;
-          background-size: 150px 150px;
-          mix-blend-mode: overlay;
-          pointer-events: none;
-        }
-
-        @keyframes orbFloat1 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          33% { transform: translate(15px, -10px) scale(1.02); }
-          66% { transform: translate(-10px, 8px) scale(0.98); }
-        }
-        @keyframes orbFloat2 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(-20px, 15px) scale(1.03); }
-        }
-        @keyframes orbFloat3 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          40% { transform: translate(12px, -8px) scale(1.01); }
-          80% { transform: translate(-8px, 12px) scale(0.99); }
-        }
-
-        /* Cursor-following spotlight glow */
-        .hero-spotlight {
-          position: absolute;
-          inset: 0;
-          background: radial-gradient(
-            circle 600px at var(--mx, 50%) var(--my, 50%),
-            var(--glow) 0%,
-            transparent 60%
-          );
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          pointer-events: none;
-          z-index: 1;
-        }
-
-        .hero-section:hover .hero-spotlight {
-          opacity: 1;
-        }
-
-        /* Subtle grid texture */
-        .hero-grid {
-          position: absolute;
-          inset: 0;
-          background-image:
-            linear-gradient(var(--color-text-muted) 1px, transparent 1px),
-            linear-gradient(90deg, var(--color-text-muted) 1px, transparent 1px);
-          background-size: 60px 60px;
-          opacity: var(--gridOpacity);
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        /* Signal strip fade-slide animation */
-        .signal-strip {
-          animation: signalFadeIn 0.3s ease-out 0.1s both;
-        }
-
-        @keyframes signalFadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(8px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .hero-orb { animation: none; }
-          .hero-spotlight {
-            background: radial-gradient(
-              circle 600px at 50% 40%,
-              var(--glow) 0%,
-              transparent 60%
-            );
-            opacity: 0.5;
-          }
-          .hero-section:hover .hero-spotlight {
-            opacity: 0.5;
-          }
-          .signal-strip {
-            animation: none;
-            opacity: 1;
-          }
-        }
-      `}</style>
-
-      {/* Hero Section */}
-      <section
-        ref={heroRef}
-        className="hero-section pt-32 pb-20 md:pt-48 md:pb-32"
-        onMouseMove={handleMouseMove}
-        style={{
-          '--mx': `${mousePos.x}%`,
-          '--my': `${mousePos.y}%`,
-        } as React.CSSProperties}
-      >
-        {/* Background Layer */}
-        <div aria-hidden="true" className="hero-bg">
-          <div className="hero-grid" />
-          <div className="hero-orb hero-orb-1" />
-          <div className="hero-orb hero-orb-2" />
-          <div className="hero-orb hero-orb-3" />
-          <div className="hero-spotlight" />
-          <div className="hero-vignette" />
-          <div className="hero-noise" />
-        </div>
-
-        <div className="max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16 relative z-10">
+      {/* ── Hero: the masthead and the sourced performance summary ────── */}
+      <section className="pt-28 md:pt-36 pb-16 md:pb-24">
+        <div className={CONTAINER}>
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight text-[var(--color-text-primary)] mb-8 leading-[1.05] drop-shadow-2xl"
+            transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
+            className="display-wide text-[2.5rem] sm:text-6xl lg:text-7xl text-[var(--ink)] max-w-[15ch]"
           >
-            Growth marketer. <span className="font-serif italic font-light text-[var(--color-text-secondary)]">Every metric matters</span>.
+            I run paid social and prove what it did.
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-xl md:text-2xl text-[var(--color-text-tertiary)] max-w-prose leading-relaxed font-light mb-12"
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+            className="mt-7 max-w-[54ch] text-lg leading-relaxed text-[var(--color-text-tertiary)]"
           >
-            I specialize in paid social acquisition and full-funnel analytics. Currently seeking my next role where I can drive efficient growth and build reporting systems that actually get used.
+            Paid social acquisition and full-funnel measurement. I build the tracking first, then
+            spend against it. Currently looking for my next growth role.
           </motion.p>
 
+          <div className="mt-14 md:mt-20 max-w-3xl">
+            <div className="flex items-baseline justify-between gap-4">
+              <h2 className="label">Performance summary</h2>
+              <span className="label">2023 — 2026</span>
+            </div>
+
+            <div className="mt-4">
+              {SUMMARY_ROWS.map((row, i) => (
+                <div key={row.metric}>
+                  <DrawnRule delay={0.3 + i * 0.07} />
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.42 + i * 0.07 }}
+                    className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_auto_13rem] items-baseline gap-x-5 sm:gap-x-8 py-3.5 transition-colors duration-150 hover:bg-[var(--surfaceHover)]"
+                  >
+                    <div>
+                      <span className="text-[15px] text-[var(--color-text-secondary)]">
+                        {row.metric}
+                      </span>
+                      <span className="label block sm:hidden mt-1">{row.source}</span>
+                    </div>
+                    <span
+                      className={`figure text-lg sm:text-xl text-right ${
+                        row.trend === 'up' ? 'text-[var(--signal-up)]' : 'text-[var(--ink)]'
+                      }`}
+                    >
+                      {row.figure}
+                    </span>
+                    {/* Left-aligned so the source column has a clean left edge
+                        to scan down, the way a report footnote column does. */}
+                    <span className="label hidden sm:block">{row.source}</span>
+                  </motion.div>
+                </div>
+              ))}
+              <DrawnRule delay={0.3 + SUMMARY_ROWS.length * 0.07} />
+            </div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.85 }}
+              className="mt-4 text-[13px] leading-relaxed text-[var(--graphite)] max-w-[58ch]"
+            >
+              Figures from campaigns run 2023—2026 across a 14-property multifamily portfolio.
+              Each row traces to the platform named beside it.
+            </motion.p>
+          </div>
+
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-start sm:items-center gap-6"
+            transition={{ duration: 0.5, delay: 0.95 }}
+            className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4"
           >
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Link
-                to="/work"
-                className="group inline-flex items-center gap-2 bg-[var(--color-text-primary)] text-[var(--color-bg-base)] px-8 py-4 rounded-full font-medium hover:bg-mint-400 transition-colors duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(74,222,128,0.4)]"
-              >
-                View Selected Work
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </motion.div>
-
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Link
-                to="/resume"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-medium text-[var(--color-text-primary)] border border-[var(--color-border-default)] hover:border-mint-400/50 hover:bg-[var(--color-border-subtle)] transition-all duration-300"
-              >
-                <Download size={18} />
-                Download Resume
-              </Link>
-            </motion.div>
-
-            <motion.a
+            <Link to="/work" className={BTN_PRIMARY}>
+              Read the case studies
+            </Link>
+            <Link to="/resume" className={BTN_SECONDARY}>
+              View resume
+            </Link>
+            <a
               href="https://www.linkedin.com/in/mychalolguin/"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 text-[var(--color-text-tertiary)] hover:text-[var(--color-accent)] transition-colors px-4 py-2"
-              whileHover={{ x: 2 }}
+              className="px-2 py-3 text-[15px] text-[var(--color-text-tertiary)] underline underline-offset-4 decoration-[var(--rule)] transition-colors hover:text-[var(--ink)] hover:decoration-[var(--ink)]"
             >
-              <Linkedin size={18} />
-              <span className="underline underline-offset-4 decoration-[var(--color-text-muted)] hover:decoration-mint-400">LinkedIn</span>
-            </motion.a>
+              LinkedIn
+            </a>
           </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.6 }}
-            className="mt-8 text-xs text-[var(--color-text-muted)] tracking-wide"
-          >
-            Paid Social · GA4 · SEO · Web Design
-          </motion.p>
         </div>
       </section>
 
-      {/* Selected Work Preview */}
-      <section className="py-24 border-t border-[var(--color-border-subtle)] bg-[var(--color-bg-muted)] wash-section relative">
-        <div className="max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16">
+      {/* ── Selected work: ruled report entries ───────────────────────── */}
+      <section className="py-20 md:py-28 border-t border-[var(--rule)]">
+        <div className={CONTAINER}>
           <Reveal>
-            <div className="flex justify-between items-end mb-16">
-              <div>
-                <h2 className="text-3xl font-semibold text-[var(--color-text-primary)] mb-2">Selected Work</h2>
-                <p className="text-[var(--color-text-muted)]">Recent campaigns and system architecture.</p>
-              </div>
-              <motion.div whileHover={{ x: 4 }} transition={{ duration: 0.2 }}>
-                <Link to="/work" className="hidden md:flex items-center gap-2 text-sm text-[var(--color-text-tertiary)] hover:text-[var(--color-accent)] transition-colors">
-                  View all projects <ArrowRight size={16} />
-                </Link>
-              </motion.div>
-            </div>
-          </Reveal>
-
-          <StaggerContainer className="grid gap-12">
-            {PROJECTS.filter(p => ['towne-oaks-paid-social', 'borders-seo-conversion'].includes(p.slug)).map((project) => (
-              <StaggerItem key={project.slug}>
-                <Link to={`/work/${project.slug}`} className="group block">
-                  <motion.div
-                    className="work-card relative overflow-hidden rounded-3xl bg-[var(--color-bg-elevated)] border border-[var(--card-border)] shadow-[var(--shadow-card)]"
-                    whileHover={{ y: -4 }}
-                    transition={{ duration: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
-                  >
-                    <div className="grid md:grid-cols-2 gap-0">
-                      <div className="h-72 sm:h-80 md:h-auto md:min-h-[320px] relative overflow-hidden">
-                        <MediaTile
-                          type={project.mediaType}
-                          media={project.media}
-                          className="w-full h-full opacity-80 group-hover:opacity-100 transition-all duration-700"
-                        />
-                      </div>
-                      <div className="p-8 md:p-12 flex flex-col justify-center relative bg-gradient-to-b from-[var(--color-bg-elevated)] to-[var(--color-bg-base)]">
-                        <motion.div
-                          className="absolute top-8 right-8 opacity-0 group-hover:opacity-100"
-                          initial={{ y: -8, opacity: 0 }}
-                          whileHover={{ y: 0, opacity: 1 }}
-                        >
-                          <ArrowUpRight className="text-[var(--color-accent)]" />
-                        </motion.div>
-                        <span className="text-[var(--color-accent-dark)] text-xs font-medium tracking-widest uppercase mb-4">{project.subtitle}</span>
-                        <h3 className="work-card-title text-2xl md:text-3xl font-semibold text-[var(--color-text-primary)] mb-4">{project.title}</h3>
-                        <p className="text-[var(--color-text-tertiary)] leading-relaxed mb-8">{project.description}</p>
-
-                        <div className="flex flex-wrap gap-8 border-t border-[var(--color-border-subtle)] pt-6 mt-auto">
-                          {project.metrics.slice(0, 3).map((metric, i) => (
-                            <div key={i}>
-                              <div className="text-xl font-semibold text-[var(--color-text-primary)]">{metric.value}</div>
-                              <div className="text-xs text-[var(--color-text-muted)] uppercase tracking-wide mt-1">{metric.label}</div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </Link>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-
-          <Reveal delay={0.2}>
-            <div className="mt-12 md:hidden">
-              <Link to="/work" className="flex items-center gap-2 text-sm text-[var(--color-text-tertiary)] hover:text-[var(--color-accent)] transition-colors">
-                View all projects <ArrowRight size={16} />
+            <div className="flex items-baseline justify-between gap-4">
+              <h2 className="display-wide text-2xl md:text-3xl text-[var(--ink)]">
+                Selected work
+              </h2>
+              <Link
+                to="/work"
+                className="label underline underline-offset-4 decoration-[var(--rule)] transition-colors hover:text-[var(--ink)] hover:decoration-[var(--ink)]"
+              >
+                All projects
               </Link>
             </div>
           </Reveal>
+
+          <div className="mt-10 md:mt-14 space-y-16 md:space-y-20">
+            {featured.map((project) => {
+              const isDirectional = project.metrics.some((m) => m.placeholder);
+              // The Borders timeframe literally reads "(placeholder)" in the
+              // data; the disclosure below states it properly instead.
+              const timeframe = project.timeframe?.replace(/\s*\(placeholder\)/i, '');
+
+              return (
+                <Reveal key={project.slug}>
+                  <article className="border-t border-[var(--rule)] pt-7">
+                    <div className="grid lg:grid-cols-[1.05fr_1fr] gap-8 lg:gap-14 items-start">
+                      <Link
+                        to={`/work/${project.slug}`}
+                        aria-label={`Read the ${project.title} case study`}
+                        className="block h-72 sm:h-96 lg:h-full lg:min-h-[340px] overflow-hidden border border-[var(--rule)] bg-[var(--color-bg-elevated)] transition-colors duration-200 hover:border-[var(--ink)]"
+                      >
+                        <MediaTile
+                          type={project.mediaType}
+                          media={project.media}
+                          className="w-full h-full"
+                        />
+                      </Link>
+
+                      <div>
+                        <div className="flex items-baseline justify-between gap-4">
+                          <span className="label">{project.subtitle}</span>
+                          {timeframe && <span className="label">{timeframe}</span>}
+                        </div>
+
+                        <h3 className="display-wide text-2xl md:text-[1.75rem] mt-4">
+                          <Link
+                            to={`/work/${project.slug}`}
+                            className="text-[var(--ink)] transition-opacity hover:opacity-70"
+                          >
+                            {project.title}
+                          </Link>
+                        </h3>
+
+                        <p className="mt-4 max-w-[46ch] text-[15px] leading-relaxed text-[var(--color-text-tertiary)]">
+                          {project.description}
+                        </p>
+
+                        {/* Same label/figure grammar as the hero summary, so
+                            the eye scans one column of figures down the page. */}
+                        <dl className="mt-8">
+                          {project.metrics.slice(0, 3).map((metric) => (
+                            <div
+                              key={metric.label}
+                              className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-t border-[var(--rule)] py-2.5"
+                            >
+                              <dt className="label">{metric.label}</dt>
+                              <dd className="figure text-[15px] text-[var(--ink)]">
+                                {metric.value}
+                              </dd>
+                            </div>
+                          ))}
+                          <div className="border-t border-[var(--rule)]" />
+                        </dl>
+
+                        {isDirectional && (
+                          <p className="mt-3 text-[13px] leading-relaxed text-[var(--graphite)]">
+                            Directional — a 30-day snapshot. Full attribution lands at 60–90 days
+                            as indexing propagates.
+                          </p>
+                        )}
+
+                        <Link
+                          to={`/work/${project.slug}`}
+                          className="mt-7 inline-flex items-center gap-1.5 text-[15px] font-medium text-[var(--ink)] underline underline-offset-4 decoration-[var(--rule)] transition-colors hover:decoration-[var(--ink)]"
+                        >
+                          Read the case study
+                          <ArrowUpRight size={16} />
+                        </Link>
+                      </div>
+                    </div>
+                  </article>
+                </Reveal>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      {/* Capabilities */}
-      <section className="py-24 wash-section relative">
-        <div className="max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16">
+      {/* ── Capabilities: a spec sheet, not a card grid ───────────────── */}
+      <section className="py-20 md:py-28 border-t border-[var(--rule)]">
+        <div className={CONTAINER}>
           <Reveal>
-            <div className="mb-12">
-              <h2 className="text-3xl font-semibold text-[var(--color-text-primary)] mb-4">Capabilities</h2>
-              <p className="text-[var(--color-text-tertiary)] max-w-2xl text-lg leading-relaxed">
-                Full-stack growth marketing—from campaign strategy to measurement infrastructure to the reporting that makes it actionable.
-              </p>
-            </div>
-          </Reveal>
-
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {capabilities.map((cap, idx) => (
-              <StaggerItem key={idx} className="h-full">
-                {/* h-full + flex-col makes every card fill its grid row, and
-                    mt-auto pins the chips to the bottom, so cards with shorter
-                    copy or fewer chips still line up with their neighbours. */}
-                <motion.div
-                  className="group relative h-full flex flex-col p-6 rounded-2xl bg-[var(--color-bg-elevated)] border border-[var(--card-border)] shadow-[var(--shadow-card)] hover:border-[var(--card-border-hover)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 overflow-hidden"
-                  whileHover={{ y: -3 }}
-                  transition={{ duration: 0.25 }}
-                >
-                  <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent)]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">{cap.title}</h3>
-                  <p className="text-sm text-[var(--color-text-tertiary)] leading-relaxed mb-4">
-                    {cap.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5 mt-auto">
-                    {cap.chips.map(chip => (
-                      <span key={chip} className="px-2 py-1 text-[10px] rounded-md bg-[var(--color-bg-muted)] border border-[var(--card-border)] text-[var(--color-text-muted)]">
-                        {chip}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </div>
-      </section>
-
-      {/* Certification shelf */}
-      <section className="py-24 wash-section relative">
-        <div className="max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16">
-          <Reveal>
-            <div className="mb-12">
-              <h2 className="text-3xl font-semibold text-[var(--color-text-primary)] mb-4">Credentials</h2>
-              <p className="text-[var(--color-text-tertiary)] max-w-2xl text-lg leading-relaxed">
-                Ten certifications across paid social, search, measurement, and AI tooling. Pull one off the shelf to inspect it.
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <LazyCertificationShelf />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Footer CTA */}
-      <section className="py-24 border-t border-[var(--color-border-subtle)] wash-cta relative">
-        <div className="max-w-2xl mx-auto px-6 text-center">
-          <Reveal delay={0.05}>
-            <h2 className="text-4xl md:text-5xl font-semibold text-[var(--color-text-primary)] mb-6">Let's connect.</h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="text-[var(--color-text-tertiary)] text-lg mb-10">
-              I'm exploring Paid Social / Growth Marketing roles. If you're hiring, I'd love to talk.
+            <h2 className="display-wide text-2xl md:text-3xl text-[var(--ink)]">Capabilities</h2>
+            <p className="mt-4 max-w-[56ch] text-[17px] leading-relaxed text-[var(--color-text-tertiary)]">
+              Campaign strategy, the measurement layer underneath it, and the reporting that makes
+              both actionable.
             </p>
           </Reveal>
-          <Reveal delay={0.2}>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <motion.a
-                href="mailto:mychalolguin@gmail.com"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[var(--color-text-primary)] text-[var(--color-bg-base)] px-8 py-4 rounded-full font-medium hover:bg-mint-400 transition-colors duration-300"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Mail size={18} />
-                Email Me
-              </motion.a>
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Link
-                  to="/resume"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-medium text-[var(--color-text-primary)] border border-[var(--color-border-default)] hover:border-mint-400/50 hover:bg-[var(--color-border-subtle)] transition-all duration-300"
-                >
-                  <Download size={18} />
-                  Download Resume
+
+          <Reveal delay={0.1}>
+            <div className="mt-12 grid md:grid-cols-2 gap-x-14">
+              {CAPABILITIES.map((cap) => (
+                <div key={cap.title} className="border-t border-[var(--rule)] py-6 md:py-7">
+                  <h3 className="text-[17px] font-medium text-[var(--ink)]">{cap.title}</h3>
+                  <p className="mt-2 max-w-[44ch] text-[15px] leading-relaxed text-[var(--color-text-tertiary)]">
+                    {cap.description}
+                  </p>
+                  <p className="label mt-3">{cap.tools.join(' · ')}</p>
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-[var(--rule)]" />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Credentials: the shelf is the page's one moment of play ───── */}
+      <section className="py-20 md:py-28 border-t border-[var(--rule)]">
+        <div className={CONTAINER}>
+          <Reveal>
+            <h2 className="display-wide text-2xl md:text-3xl text-[var(--ink)]">Credentials</h2>
+            <p className="mt-4 max-w-[56ch] text-[17px] leading-relaxed text-[var(--color-text-tertiary)]">
+              Ten certifications across paid social, search, measurement, and AI tooling. Pull one
+              off the shelf to inspect it.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="mt-10">
+              <LazyCertificationShelf />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Close ─────────────────────────────────────────────────────── */}
+      <section className="py-20 md:py-28 border-t border-[var(--rule)]">
+        <div className={CONTAINER}>
+          <Reveal>
+            <div className="max-w-2xl">
+              <h2 className="display-wide text-3xl md:text-4xl text-[var(--ink)]">Let's talk.</h2>
+              <p className="mt-4 text-[17px] leading-relaxed text-[var(--color-text-tertiary)]">
+                I'm looking for my next paid social or growth role. Email me and I'll send over
+                whatever numbers you want to see.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3 sm:gap-4">
+                <a href="mailto:mychalolguin@gmail.com" className={BTN_PRIMARY}>
+                  Email me
+                </a>
+                <Link to="/resume" className={BTN_SECONDARY}>
+                  View resume
                 </Link>
-              </motion.div>
+              </div>
             </div>
           </Reveal>
         </div>

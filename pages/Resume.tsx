@@ -15,20 +15,20 @@ const EDUCATION = [
   {
     degree: 'Master of Science in Marketing',
     school: 'The University of Texas Rio Grande Valley',
-    period: 'Expected Aug 2026'
+    period: '2026'
   },
   {
     degree: 'Bachelor of Arts in Communication',
     school: 'The University of Texas San Antonio',
-    period: ''
+    period: '2023'
   }
 ];
 
 const SKILLS = {
-  'Strategy & Analytics': ['SEO/SEM/GEO', 'HTML', 'CPL/CPC', 'Meta Ads', 'UTM Tracking', 'Campaign Optimization'],
-  'Creative Tools': ['Adobe Photoshop', 'Adobe Premiere Pro', 'Canva', 'Gemini', 'ChatGPT'],
-  'Platforms': ['Meta Ads Manager', 'Google Ads Manager', 'Google Analytics (GA4)', 'Meta Business Suite', 'Tableau', 'Excel'],
-  'Execution': ['Social Media Campaigns', 'Content Development', 'Paid Social', 'Paid Search', 'Website Management']
+  'Strategy & Analytics': ['Local SEO', 'On-Page SEO', 'Google Business Profile', 'UTM Tracking', 'CTR/CPL Reporting'],
+  'Creative & Web': ['Website Copy Updates', 'Mobile UX', 'CTA Best Practices', 'Content Development', 'Basic HTML'],
+  'Platforms': ['Meta Ads Manager', 'Google Ads', 'Google Analytics', 'Meta Business Suite', 'Excel', 'Canva', 'Claude'],
+  'Media Production': ['Photography', 'Video', '360 Tours', 'Social Posting', 'Photoshop', 'Premiere Pro']
 };
 
 const Resume: React.FC = () => {
@@ -63,7 +63,7 @@ const Resume: React.FC = () => {
               <motion.a
                 href={RESUME_PDF_PATH}
                 download="Mychal_Olguin_Resume.pdf"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-mint-500 text-slate-900 text-sm font-medium hover:bg-mint-400 transition-colors"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-[3px] bg-[var(--ink)] text-[var(--paper)] text-sm font-medium transition-opacity hover:opacity-85"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
