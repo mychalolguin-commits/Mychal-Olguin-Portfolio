@@ -23,7 +23,11 @@ export const Reveal: React.FC<RevealProps> = ({
   duration = 0.5,
   y = 20,
   once = true,
-  amount = 0.3,
+  // Fires once a sliver of the block is in view. This used to be 0.3, which
+  // was fine when sections were dense — with the taller spacing a single
+  // Reveal can wrap more than a screenful, and waiting for 30% of it meant
+  // scrolling well past the heading before anything faded in.
+  amount = 0.15,
 }) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once, amount });

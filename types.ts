@@ -101,7 +101,8 @@ export type MediaVariant = 'ga4' | 'seo' | 'paidSocial';
 export interface ChannelMix {
   name: string;
   value: number;       // percentage 0-100
-  color: string;       // e.g., 'rgb(74, 222, 128)'
+  // No colour field on purpose. Segments are drawn in one hue stepped by
+  // rank, so the palette lives in the component and the content stays content.
 }
 
 export interface SparklinePoint {

@@ -8,374 +8,355 @@ interface CaseStudyDashboardProps {
   timeframe?: string;
 }
 
+const formatNumber = (n: number) => n.toLocaleString();
+const formatCurrency = (n: number) => `$${n.toLocaleString()}`;
+const formatDecimal = (n: number, decimals = 2) => n.toFixed(decimals);
+
+/** A ruled key/figure row — the same grammar as every other table on the site. */
+const Row: React.FC<{ label: string; value: string; hint?: string }> = ({
+  label,
+  value,
+  hint,
+}) => (
+  <div className="grid grid-cols-[1fr_auto] items-baseline gap-5 border-t border-[var(--rule)] py-3 transition-colors duration-150 hover:bg-[var(--surfaceHover)]">
+    <dt className="text-[14px] text-[var(--color-text-secondary)]">
+      {label}
+      {hint && <span className="label ml-2">{hint}</span>}
+    </dt>
+    <dd className="figure text-[15px] text-[var(--ink)]">{value}</dd>
+  </div>
+);
+
+const Panel: React.FC<{ title: string; meta?: string; children: React.ReactNode }> = ({
+  title,
+  meta,
+  children,
+}) => (
+  <section className="border border-[var(--rule)] p-5 sm:p-6">
+    <div className="flex items-baseline justify-between gap-4">
+      <h4 className="label">{title}</h4>
+      {meta && <span className="label">{meta}</span>}
+    </div>
+    <div className="mt-5">{children}</div>
+  </section>
+);
+
 const CaseStudyDashboard: React.FC<CaseStudyDashboardProps> = ({
   data,
   objective,
   destination,
-  timeframe
+  timeframe,
 }) => {
   const { totals, monthly, utm, ga4 } = data;
-  const [hoveredMonth, setHoveredMonth] = useState<number | null>(null);
+  const [hovered, setHovered] = useState<{ series: 'lpv' | 'spend'; i: number } | null>(null);
 
-  // Computed metrics
   const cpm = (totals.spend / totals.impressions) * 1000;
   const frequency = totals.impressions / totals.reach;
   const lpvRate = (totals.lpv / totals.impressions) * 100;
   const lpvPer1k = (totals.lpv / totals.impressions) * 1000;
   const costPerLpv = totals.spend / totals.lpv;
 
-  // Format helpers
-  const formatNumber = (n: number) => n.toLocaleString();
-  const formatCurrency = (n: number) => `$${n.toLocaleString()}`;
-  const formatDecimal = (n: number, decimals = 2) => n.toFixed(decimals);
+  const maxLpv = Math.max(...monthly.map((m) => m.lpv));
+  const maxSpend = Math.max(...monthly.map((m) => m.spend));
 
-  // Chart calculations
-  const maxLpv = Math.max(...monthly.map(m => m.lpv));
-  const maxSpend = Math.max(...monthly.map(m => m.spend));
-  const chartHeight = 120;
-  const chartWidth = 280;
-  const barWidth = 50;
-  const barGap = 30;
-  const tooltipSpace = 55; // Space at top for tooltips
+  /**
+   * Volume and spend are plotted as two separate charts sharing an x axis
+   * rather than one chart with two y scales. A dual-axis chart lets whoever
+   * draws it decide where the lines cross, which makes any "correlation" it
+   * appears to show an artifact of the scaling — not a finding.
+   */
+  const MiniBars: React.FC<{
+    series: 'lpv' | 'spend';
+    color: string;
+    max: number;
+    valueOf: (m: (typeof monthly)[number]) => number;
+    format: (n: number) => string;
+  }> = ({ series, color, max, valueOf, format }) => (
+    <div>
+      <div className="flex items-end gap-1.5 h-24" role="img">
+        {monthly.map((m, i) => {
+          const value = valueOf(m);
+          const isHovered = hovered?.series === series && hovered.i === i;
+          return (
+            <div
+              key={m.month}
+              className="flex-1 flex flex-col justify-end h-full relative"
+              onMouseEnter={() => setHovered({ series, i })}
+              onMouseLeave={() => setHovered(null)}
+            >
+              {isHovered && (
+                <div className="absolute -top-1 left-1/2 -translate-x-1/2 whitespace-nowrap figure text-[11px] text-[var(--ink)] bg-[var(--color-bg-elevated)] border border-[var(--rule)] px-1.5 py-0.5 z-10">
+                  {format(value)}
+                </div>
+              )}
+              <div
+                className="w-full rounded-t-[2px] transition-opacity duration-150"
+                style={{
+                  height: `${Math.max((value / max) * 100, 2)}%`,
+                  backgroundColor: color,
+                  opacity: hovered && !isHovered ? 0.45 : 1,
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
+      <div className="flex gap-1.5 mt-2">
+        {monthly.map((m) => (
+          <span key={m.month} className="flex-1 label text-center">
+            {m.month.replace('Month ', 'M')}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+
+  /**
+   * Not labelled a funnel, because it isn't one: impressions exceed reach
+   * whenever frequency is above 1, and here it's 3.5. Bars are drawn to a
+   * shared scale so the real proportions show — the previous version drew
+   * fixed decreasing widths, which made impressions look smaller than reach.
+   */
+  const delivery = [
+    { label: 'Reach', value: totals.reach, unit: 'people' },
+    { label: 'Impressions', value: totals.impressions, unit: 'events' },
+    { label: 'Landing page views', value: totals.lpv, unit: 'events' },
+  ];
+  const deliveryMax = Math.max(...delivery.map((f) => f.value));
 
   return (
-    <div className="my-16 space-y-6">
-      {/* Section Header */}
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-[var(--color-text-primary)]">Campaign Dashboard</h3>
-        <div className="flex items-center gap-4 text-xs text-[var(--color-text-muted)]">
-          {timeframe && <span>{timeframe}</span>}
-          {objective && <span className="px-2 py-0.5 rounded bg-[var(--color-bg-elevated)] border border-[var(--color-border-subtle)]">{objective}</span>}
+    <section className="py-20 md:py-28 border-t border-[var(--rule)]">
+      <div className="flex flex-wrap items-baseline justify-between gap-3">
+        <h3 className="display text-2xl md:text-3xl text-[var(--ink)]">Campaign dashboard</h3>
+        <div className="flex items-baseline gap-4">
+          {objective && <span className="label">{objective}</span>}
+          {timeframe && <span className="label">{timeframe}</span>}
         </div>
       </div>
 
-      {/* KPI Tiles */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-        {[
-          { label: 'Reach', value: formatNumber(totals.reach) },
-          { label: 'Impressions', value: formatNumber(totals.impressions) },
-          { label: 'LP Views', value: formatNumber(totals.lpv) },
-          { label: 'Spend', value: formatCurrency(totals.spend) },
-          { label: 'Cost/LPV', value: `$${formatDecimal(costPerLpv)}` },
-        ].map((kpi) => (
-          <div
-            key={kpi.label}
-            className="bg-[var(--color-bg-elevated)]/30 border border-[var(--color-border-subtle)] p-4 rounded-xl relative overflow-hidden group hover:border-mint-500/20 transition-colors"
-          >
-            <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-mint-500 to-mint-400 opacity-20 group-hover:opacity-60 transition-opacity" />
-            <p className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-1">{kpi.label}</p>
-            <p className="text-xl font-semibold text-[var(--color-text-primary)]">{kpi.value}</p>
-          </div>
-        ))}
+      {/* ── Totals and derived rates ──────────────────────────────────── */}
+      <div className="mt-10 grid md:grid-cols-2 gap-x-14">
+        <dl>
+          <p className="label pb-3">Delivered</p>
+          <Row label="Reach" value={formatNumber(totals.reach)} />
+          <Row label="Impressions" value={formatNumber(totals.impressions)} />
+          <Row label="Landing page views" value={formatNumber(totals.lpv)} />
+          <Row label="Spend" value={formatCurrency(totals.spend)} />
+          <div className="border-t border-[var(--rule)]" />
+        </dl>
+        <dl className="mt-8 md:mt-0">
+          <p className="label pb-3">Derived</p>
+          <Row label="CPM" hint="per 1,000 impr." value={`$${formatDecimal(cpm)}`} />
+          <Row label="Frequency" hint="impr. per person" value={formatDecimal(frequency, 1)} />
+          <Row label="LPV rate" hint="views / impr." value={`${formatDecimal(lpvRate)}%`} />
+          <Row label="LPV per 1k impr." value={formatDecimal(lpvPer1k, 1)} />
+          <Row label="Cost per LPV" value={`$${formatDecimal(costPerLpv)}`} />
+          <div className="border-t border-[var(--rule)]" />
+        </dl>
       </div>
+      <p className="mt-4 text-[13px] leading-relaxed text-[var(--graphite)]">
+        Only the four delivered totals are stored. Every derived rate is computed from them at
+        render time, so nothing here can drift out of step with the source numbers.
+      </p>
 
-      {/* Computed Metrics Chips */}
-      <div className="flex flex-wrap gap-2">
-        {[
-          { label: 'CPM', value: `$${formatDecimal(cpm)}`, tooltip: 'Cost per 1,000 impressions' },
-          { label: 'Frequency', value: formatDecimal(frequency, 1), tooltip: 'Avg impressions per user' },
-          { label: 'LPV Rate', value: `${formatDecimal(lpvRate)}%`, tooltip: 'LP views / impressions' },
-          { label: 'LPV/1k Imp', value: formatDecimal(lpvPer1k, 1), tooltip: 'LP views per 1,000 impressions' },
-        ].map((chip) => (
-          <div
-            key={chip.label}
-            title={chip.tooltip}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--color-bg-elevated)]/50 border border-[var(--color-border-subtle)] text-xs cursor-help hover:border-mint-500/30 transition-colors"
-          >
-            <span className="text-[var(--color-text-muted)]">{chip.label}</span>
-            <span className="text-[var(--color-text-primary)] font-medium">{chip.value}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* GA4 Snapshot Section */}
-      {ga4 && (
-        <div className="space-y-4 pt-6 border-t border-[var(--color-border-subtle)]">
-          <div className="flex items-center justify-between">
-            <h4 className="text-sm font-semibold text-[var(--color-text-primary)]">GA4 Snapshot</h4>
-            <span className="text-[10px] text-[var(--color-text-muted)]">{ga4.dateRange}</span>
-          </div>
-
-          {/* GA4 KPI Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
-            {[
-              { label: 'Sessions', value: formatNumber(ga4.totals.sessions) },
-              { label: 'Engagement Rate', value: `${formatDecimal(ga4.totals.engagementRate, 1)}%` },
-              { label: 'Avg Engagement', value: ga4.totals.avgEngagementTime },
-              { label: 'Events/Session', value: formatDecimal(ga4.totals.eventsPerSession, 1) },
-              { label: 'Paid Social Sessions', value: formatNumber(ga4.channels[0]?.sessions || 0) },
-              { label: 'Paid Social Share', value: `${formatDecimal(ga4.channels[0]?.sessionShare || 0, 1)}%` },
-            ].map((kpi) => (
-              <div
-                key={kpi.label}
-                className="bg-[var(--color-bg-elevated)]/30 border border-[var(--color-border-subtle)] p-3 rounded-xl"
-              >
-                <p className="text-[9px] uppercase tracking-wider text-[var(--color-text-muted)] mb-1">{kpi.label}</p>
-                <p className="text-lg font-semibold text-[var(--color-text-primary)]">{kpi.value}</p>
+      {/* ── Funnel and monthly ────────────────────────────────────────── */}
+      <div className="mt-10 grid lg:grid-cols-2 gap-5">
+        <Panel title="Delivery" meta={`${formatDecimal(lpvRate)}% impr. → LPV`}>
+          <div className="space-y-3">
+            {delivery.map((stage) => (
+              <div key={stage.label}>
+                <div className="flex items-baseline justify-between gap-4">
+                  <span className="text-[14px] text-[var(--color-text-secondary)]">
+                    {stage.label}
+                    <span className="label ml-2">{stage.unit}</span>
+                  </span>
+                  <span className="figure text-[14px] text-[var(--ink)]">
+                    {formatNumber(stage.value)}
+                  </span>
+                </div>
+                <div className="mt-1.5 h-2.5 w-full bg-[var(--color-bg-muted)]">
+                  <div
+                    className="h-full rounded-r-[2px]"
+                    style={{
+                      width: `${(stage.value / deliveryMax) * 100}%`,
+                      backgroundColor: 'var(--data-1)',
+                    }}
+                  />
+                </div>
               </div>
             ))}
           </div>
+          <p className="mt-4 text-[13px] leading-relaxed text-[var(--graphite)]">
+            Impressions run ahead of reach because the average person saw the ads{' '}
+            {formatDecimal(frequency, 1)} times. Reach counts people; the other two count events.
+          </p>
+        </Panel>
 
-          {/* Channel Mix Visualization */}
-          <div className="bg-[var(--color-bg-elevated)]/30 border border-[var(--color-border-subtle)] rounded-2xl p-5">
-            <p className="text-xs uppercase tracking-wider text-[var(--color-text-muted)] mb-4">Channel Mix by Sessions</p>
-
-            {/* Stacked bar */}
-            <div className="h-6 rounded-full overflow-hidden flex mb-4">
-              {ga4.channels.map((channel, i) => {
-                const colors = [
-                  'bg-mint-500',      // Paid Social
-                  'bg-blue-500',      // Direct
-                  'bg-amber-500',     // Organic Search
-                  'bg-purple-500',    // Referral
-                  'bg-pink-500',      // Organic Social
-                  'bg-gray-500',      // Unassigned
-                ];
-                return (
-                  <div
-                    key={channel.name}
-                    className={`${colors[i]} transition-all hover:opacity-80`}
-                    style={{ width: `${channel.sessionShare}%` }}
-                    title={`${channel.name}: ${formatNumber(channel.sessions)} sessions (${formatDecimal(channel.sessionShare, 1)}%)`}
-                  />
-                );
-              })}
+        <Panel title="By month" meta="Volume and cost, separate scales">
+          <div className="space-y-6">
+            <div>
+              <div className="flex items-center gap-2">
+                <span
+                  aria-hidden="true"
+                  className="w-2.5 h-2.5"
+                  style={{ backgroundColor: 'var(--data-1)' }}
+                />
+                <span className="label">Landing page views</span>
+              </div>
+              <div className="mt-3">
+                <MiniBars
+                  series="lpv"
+                  color="var(--data-1)"
+                  max={maxLpv}
+                  valueOf={(m) => m.lpv}
+                  format={formatNumber}
+                />
+              </div>
             </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span
+                  aria-hidden="true"
+                  className="w-2.5 h-2.5"
+                  style={{ backgroundColor: 'var(--data-2)' }}
+                />
+                <span className="label">Spend</span>
+              </div>
+              <div className="mt-3">
+                <MiniBars
+                  series="spend"
+                  color="var(--data-2)"
+                  max={maxSpend}
+                  valueOf={(m) => m.spend}
+                  format={formatCurrency}
+                />
+              </div>
+            </div>
+          </div>
+        </Panel>
+      </div>
 
-            {/* Channel table */}
-            <table className="w-full text-xs" style={{ fontVariantNumeric: 'tabular-nums' }}>
-              <colgroup>
-                <col style={{ width: '24px' }} />
-                <col />
-                <col style={{ width: '70px' }} />
-                <col style={{ width: '60px' }} />
-                <col style={{ width: '60px' }} />
-                <col style={{ width: '50px' }} className="hidden md:table-column" />
-              </colgroup>
+      {/* ── GA4 ───────────────────────────────────────────────────────── */}
+      {ga4 && (
+        <div className="mt-5 grid gap-5">
+          <Panel title="GA4 snapshot" meta={ga4.dateRange}>
+            <div className="grid md:grid-cols-2 gap-x-14">
+              <dl>
+                <Row label="Sessions" value={formatNumber(ga4.totals.sessions)} />
+                <Row
+                  label="Engagement rate"
+                  value={`${formatDecimal(ga4.totals.engagementRate, 1)}%`}
+                />
+                <Row label="Avg engagement" value={ga4.totals.avgEngagementTime} />
+                <div className="border-t border-[var(--rule)]" />
+              </dl>
+              <dl>
+                <Row
+                  label="Events per session"
+                  value={formatDecimal(ga4.totals.eventsPerSession, 1)}
+                />
+                <Row
+                  label="Paid social sessions"
+                  value={formatNumber(ga4.channels[0]?.sessions || 0)}
+                />
+                <Row
+                  label="Paid social share"
+                  value={`${formatDecimal(ga4.channels[0]?.sessionShare || 0, 1)}%`}
+                />
+                <div className="border-t border-[var(--rule)]" />
+              </dl>
+            </div>
+          </Panel>
+
+          {/* Channel identity comes from the row label, so the bars need only
+              one hue. Six categorical colors would be unreadable to a
+              red-green colorblind visitor and would add nothing here. */}
+          <Panel title="Sessions by channel" meta={`${ga4.channels.length} channels`}>
+            <table className="w-full figure text-[13px]">
+              <caption className="sr-only">
+                GA4 sessions by acquisition channel, with share and engagement rate
+              </caption>
               <thead>
-                <tr className="text-[9px] text-[var(--color-text-muted)] uppercase tracking-wider border-b border-[var(--color-border-subtle)]">
-                  <th className="pb-2"></th>
-                  <th className="text-left font-normal pb-2">Channel</th>
-                  <th className="text-right font-normal pb-2">Sessions</th>
-                  <th className="text-right font-normal pb-2">Share</th>
-                  <th className="text-right font-normal pb-2">Eng %</th>
-                  <th className="text-right font-normal pb-2 hidden md:table-cell">Time</th>
+                <tr className="label">
+                  <th scope="col" className="text-left font-normal pb-2">
+                    Channel
+                  </th>
+                  <th scope="col" className="text-left font-normal pb-2 w-[38%]">
+                    Share
+                  </th>
+                  <th scope="col" className="text-right font-normal pb-2">
+                    Sessions
+                  </th>
+                  <th scope="col" className="text-right font-normal pb-2">
+                    Eng %
+                  </th>
+                  <th scope="col" className="text-right font-normal pb-2 hidden sm:table-cell">
+                    Avg time
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {ga4.channels.slice(0, 5).map((channel, i) => {
-                  const colors = [
-                    'bg-mint-500',
-                    'bg-blue-500',
-                    'bg-amber-500',
-                    'bg-purple-500',
-                    'bg-pink-500',
-                  ];
-                  return (
-                    <tr key={channel.name}>
-                      <td className="py-2 align-middle">
-                        <span className={`inline-block w-2 h-2 rounded-full ${colors[i]}`} />
-                      </td>
-                      <td className="py-2 text-[var(--color-text-secondary)] align-middle">{channel.name}</td>
-                      <td className="py-2 text-right text-[var(--color-text-primary)] font-medium align-middle">{formatNumber(channel.sessions)}</td>
-                      <td className="py-2 text-right text-[var(--color-text-muted)] align-middle">{formatDecimal(channel.sessionShare, 1)}%</td>
-                      <td className="py-2 text-right text-[var(--color-text-muted)] align-middle">{formatDecimal(channel.engagementRate, 1)}%</td>
-                      <td className="py-2 text-right text-[var(--color-text-muted)] align-middle hidden md:table-cell">{channel.avgEngagementTime}</td>
-                    </tr>
-                  );
-                })}
+                {ga4.channels.map((channel) => (
+                  <tr
+                    key={channel.name}
+                    className="border-t border-[var(--rule)] transition-colors duration-150 hover:bg-[var(--surfaceHover)]"
+                  >
+                    <th
+                      scope="row"
+                      className="py-2.5 pr-4 text-left font-normal text-[var(--color-text-secondary)] font-sans"
+                    >
+                      {channel.name}
+                    </th>
+                    <td className="py-2.5 pr-4">
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 h-2 bg-[var(--color-bg-muted)]">
+                          <div
+                            className="h-full rounded-r-[2px]"
+                            style={{
+                              width: `${channel.sessionShare}%`,
+                              backgroundColor: 'var(--data-1)',
+                            }}
+                          />
+                        </div>
+                        <span className="text-[var(--graphite)] w-11 text-right">
+                          {formatDecimal(channel.sessionShare, 1)}%
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-2.5 text-right text-[var(--ink)]">
+                      {formatNumber(channel.sessions)}
+                    </td>
+                    <td className="py-2.5 text-right text-[var(--graphite)]">
+                      {formatDecimal(channel.engagementRate, 1)}%
+                    </td>
+                    <td className="py-2.5 text-right text-[var(--graphite)] hidden sm:table-cell">
+                      {channel.avgEngagementTime}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
-          </div>
-
-          {/* GA4 Note */}
-          <p className="text-[10px] text-[var(--color-text-muted)] italic">
-            Meta LPV and GA4 Sessions won't match 1:1 due to attribution and sessionization. Totals are accurate.
-          </p>
+            <p className="mt-4 text-[13px] leading-relaxed text-[var(--graphite)]">
+              Meta landing page views and GA4 sessions won't match one-to-one — the two platforms
+              attribute and sessionize differently. Each total is correct on its own terms.
+            </p>
+          </Panel>
         </div>
       )}
 
-      {/* Cards Grid */}
-      <div className="grid md:grid-cols-2 gap-4">
-        {/* Funnel Card */}
-        <div className="bg-[var(--color-bg-elevated)]/30 border border-[var(--color-border-subtle)] rounded-2xl p-6">
-          <p className="text-xs uppercase tracking-wider text-[var(--color-text-muted)] mb-4">Funnel</p>
-          <svg viewBox="0 0 300 160" className="w-full h-auto">
-            {/* Funnel shapes */}
-            <defs>
-              <linearGradient id="funnelGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgb(74, 222, 128)" stopOpacity="0.3" />
-                <stop offset="100%" stopColor="rgb(74, 222, 128)" stopOpacity="0.1" />
-              </linearGradient>
-            </defs>
-
-            {/* Reach bar */}
-            <rect x="10" y="10" width="280" height="28" rx="4" fill="url(#funnelGrad)" stroke="rgb(74, 222, 128)" strokeOpacity="0.4" strokeWidth="1" />
-            <text x="20" y="28" className="text-[11px] fill-[var(--color-text-secondary)]" fontWeight="500">Reach</text>
-            <text x="270" y="28" textAnchor="end" className="text-[11px] fill-[var(--color-text-primary)]" fontWeight="600">{formatNumber(totals.reach)}</text>
-
-            {/* Arrow */}
-            <path d="M150 42 L150 48 L145 48 L150 56 L155 48 L150 48" fill="var(--color-text-muted)" opacity="0.5" />
-
-            {/* Impressions bar */}
-            <rect x="30" y="60" width="240" height="28" rx="4" fill="url(#funnelGrad)" stroke="rgb(74, 222, 128)" strokeOpacity="0.5" strokeWidth="1" />
-            <text x="40" y="78" className="text-[11px] fill-[var(--color-text-secondary)]" fontWeight="500">Impressions</text>
-            <text x="260" y="78" textAnchor="end" className="text-[11px] fill-[var(--color-text-primary)]" fontWeight="600">{formatNumber(totals.impressions)}</text>
-
-            {/* Arrow */}
-            <path d="M150 92 L150 98 L145 98 L150 106 L155 98 L150 98" fill="var(--color-text-muted)" opacity="0.5" />
-
-            {/* LP Views bar - narrowest */}
-            <rect x="80" y="110" width="140" height="28" rx="4" fill="rgb(74, 222, 128)" fillOpacity="0.25" stroke="rgb(74, 222, 128)" strokeOpacity="0.7" strokeWidth="1.5" />
-            <text x="90" y="128" className="text-[11px] fill-[var(--color-text-secondary)]" fontWeight="500">LP Views</text>
-            <text x="210" y="128" textAnchor="end" className="text-[11px] fill-[var(--color-text-primary)]" fontWeight="600">{formatNumber(totals.lpv)}</text>
-
-            {/* Conversion rate badge */}
-            <rect x="230" y="114" width="60" height="20" rx="10" fill="var(--color-bg-base)" stroke="rgb(74, 222, 128)" strokeOpacity="0.5" strokeWidth="1" />
-            <text x="260" y="128" textAnchor="middle" className="text-[10px] fill-mint-400" fontWeight="600">{formatDecimal(lpvRate)}%</text>
-          </svg>
-        </div>
-
-        {/* Monthly Performance Card */}
-        <div className="bg-[var(--color-bg-elevated)]/30 border border-[var(--color-border-subtle)] rounded-2xl p-6 relative">
-          <div className="flex items-center justify-between mb-4">
-            <p className="text-xs uppercase tracking-wider text-[var(--color-text-muted)]">Monthly Performance</p>
-            <div className="flex items-center gap-3 text-[10px]">
-              <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-sm bg-mint-500/60"></span>
-                <span className="text-[var(--color-text-muted)]">LP Views</span>
-              </span>
-              <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-[var(--color-accent)]"></span>
-                <span className="text-[var(--color-text-muted)]">Spend</span>
-              </span>
-            </div>
-          </div>
-
-          <svg viewBox={`0 0 ${chartWidth} ${chartHeight + tooltipSpace + 30}`} className="w-full h-auto" style={{ overflow: 'visible' }}>
-            {/* Grid lines */}
-            {[0, 0.25, 0.5, 0.75, 1].map((pct, i) => (
-              <line
-                key={i}
-                x1="0"
-                y1={tooltipSpace + chartHeight - pct * chartHeight}
-                x2={chartWidth}
-                y2={tooltipSpace + chartHeight - pct * chartHeight}
-                stroke="var(--color-border-subtle)"
-                strokeWidth="1"
-                strokeDasharray={i === 0 ? "0" : "2,2"}
-              />
-            ))}
-
-            {/* Bars and spend dots */}
-            {monthly.map((m, i) => {
-              const barHeight = (m.lpv / maxLpv) * (chartHeight - 10);
-              const x = i * (barWidth + barGap) + barGap;
-              const barY = tooltipSpace + chartHeight - barHeight;
-              const spendY = tooltipSpace + chartHeight - (m.spend / maxSpend) * (chartHeight - 20);
-              const isHovered = hoveredMonth === i;
-
-              return (
-                <g
-                  key={m.month}
-                  onMouseEnter={() => setHoveredMonth(i)}
-                  onMouseLeave={() => setHoveredMonth(null)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {/* Bar */}
-                  <rect
-                    x={x}
-                    y={barY}
-                    width={barWidth}
-                    height={barHeight}
-                    rx="4"
-                    fill={isHovered ? "rgb(74, 222, 128)" : "rgba(74, 222, 128, 0.5)"}
-                    className="transition-all duration-200"
-                  />
-
-                  {/* Spend dot */}
-                  <circle
-                    cx={x + barWidth / 2}
-                    cy={spendY}
-                    r={isHovered ? 6 : 4}
-                    fill="var(--color-accent)"
-                    className="transition-all duration-200"
-                  />
-
-                  {/* Month label */}
-                  <text
-                    x={x + barWidth / 2}
-                    y={tooltipSpace + chartHeight + 16}
-                    textAnchor="middle"
-                    className="text-[10px] fill-[var(--color-text-muted)]"
-                  >
-                    {m.month.replace('Month ', 'M')}
-                  </text>
-
-                  {/* Tooltip on hover */}
-                  {isHovered && (
-                    <g>
-                      <rect
-                        x={x - 10}
-                        y={barY - 48}
-                        width={70}
-                        height={40}
-                        rx="6"
-                        fill="var(--color-bg-base)"
-                        stroke="var(--color-border-default)"
-                        strokeWidth="1"
-                      />
-                      <text x={x + 25} y={barY - 32} textAnchor="middle" className="text-[10px] fill-[var(--color-text-primary)]" fontWeight="600">
-                        {formatNumber(m.lpv)} LPVs
-                      </text>
-                      <text x={x + 25} y={barY - 18} textAnchor="middle" className="text-[10px] fill-[var(--color-text-muted)]">
-                        {formatCurrency(m.spend)} spend
-                      </text>
-                    </g>
-                  )}
-                </g>
-              );
-            })}
-
-            {/* Spend line connecting dots */}
-            <polyline
-              points={monthly.map((m, i) => {
-                const x = i * (barWidth + barGap) + barGap + barWidth / 2;
-                const y = tooltipSpace + chartHeight - (m.spend / maxSpend) * (chartHeight - 20);
-                return `${x},${y}`;
-              }).join(' ')}
-              fill="none"
-              stroke="var(--color-accent)"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              opacity="0.6"
-            />
-          </svg>
-        </div>
-      </div>
-
-      {/* Tracking Card */}
-      <div className="bg-[var(--color-bg-elevated)]/30 border border-[var(--color-border-subtle)] rounded-2xl p-6">
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-xs uppercase tracking-wider text-[var(--color-text-muted)]">UTM Tracking Structure</p>
-          {destination && (
-            <span className="text-xs text-[var(--color-text-muted)]">
-              Destination: <code className="text-[var(--color-accent)] font-mono">{destination}</code>
-            </span>
-          )}
-        </div>
-        <div className="bg-[var(--color-bg-base)] rounded-lg p-3 border border-[var(--color-border-subtle)] overflow-x-auto">
-          <code className="text-xs text-[var(--color-text-secondary)] font-mono break-all">
+      {/* ── Tracking ──────────────────────────────────────────────────── */}
+      <div className="mt-5">
+        <Panel title="UTM tracking structure" meta={destination}>
+          <code className="block figure text-[13px] text-[var(--color-text-secondary)] break-all bg-[var(--color-bg-muted)] border border-[var(--rule)] p-3">
             ?{utm}
           </code>
-        </div>
-        <p className="text-[10px] text-[var(--color-text-muted)] mt-2">
-          Consistent UTM taxonomy enables clean attribution in GA4 and cross-platform reporting.
-        </p>
+          <p className="mt-4 text-[13px] leading-relaxed text-[var(--graphite)]">
+            One taxonomy across every campaign is what makes the GA4 numbers above reconcilable with
+            the platform numbers at the top.
+          </p>
+        </Panel>
       </div>
-
-    </div>
+    </section>
   );
 };
 

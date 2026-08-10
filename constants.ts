@@ -15,7 +15,10 @@ export const PROJECTS: Project[] = [
     tools: 'Meta Ads Manager, GA4, UTM Structure, Excel Reporting',
     description: 'A traffic-focused campaign driving qualified users to floorplan pages, optimizing for landing page views with precise measurement infrastructure.',
     tags: ['Paid Social', 'Measurement', 'GA4', 'Traffic Campaigns'],
-    heroImage: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2673&auto=format&fit=crop',
+    // A capture of the real account, not stock photography. Until the file
+    // exists the detail page falls back to the rendered data tile — see
+    // public/captures/README.md.
+    heroImage: '/captures/meta-ads-manager.png',
     challenge: 'The property lacked consistent top-of-funnel traffic to key conversion pages, and there was no measurement framework to attribute floorplan engagement back to paid efforts.',
     solution: 'Deployed a traffic-optimized campaign structure on Meta with UTM taxonomy feeding GA4 events for granular floorplan page tracking.',
     result: 'Achieved efficient cost per landing page view while building a measurement foundation for future conversion optimization.',
@@ -68,14 +71,14 @@ export const PROJECTS: Project[] = [
     media: {
       variant: 'ga4',
       dateLabel: 'GA4 Snapshot (Oct 20 – Jan 20)',
-      // Categorical series colours come from the --data-* tokens in index.html
-      // so the chart follows the active theme.
+      // Ordered largest to smallest — MediaTile steps one hue down that order,
+      // so the sequence here is what the chart encodes.
       channelMix: [
-        { name: 'Paid Social', value: 38.4, color: 'var(--data-1)' },
-        { name: 'Direct', value: 27.9, color: 'var(--data-2)' },
-        { name: 'Organic', value: 25.1, color: 'var(--data-3)' },
-        { name: 'Referral', value: 6.0, color: 'var(--data-4)' },
-        { name: 'Social', value: 2.6, color: 'var(--data-5)' },
+        { name: 'Paid Social', value: 38.4 },
+        { name: 'Direct', value: 27.9 },
+        { name: 'Organic', value: 25.1 },
+        { name: 'Referral', value: 6.0 },
+        { name: 'Social', value: 2.6 },
       ],
       stats: { sessions: 7857, paidSocialShare: 38.4, engagementRate: 47.0, avgEngagedTime: '53s' },
       sparkline: [{ value: 1800 }, { value: 2100 }, { value: 1950 }, { value: 2400 }, { value: 2650 }, { value: 2500 }, { value: 2900 }],
@@ -93,7 +96,7 @@ export const PROJECTS: Project[] = [
     tools: 'GA4, Google Search Console, On-page SEO, IA/UX, Content updates',
     description: 'A foundational SEO and conversion optimization initiative restructuring site architecture, on-page elements, and user flows to improve organic visibility and engagement.',
     tags: ['Technical SEO', 'CRO', 'UX Research', 'Content Strategy'],
-    heroImage: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2672&auto=format&fit=crop',
+    heroImage: '/captures/search-console.png',
     challenge: 'The site suffered from poor indexability and unclear user journeys, leading to stagnant organic traffic despite content investment.',
     solution: 'Implemented a comprehensive SEO and UX overhaul targeting technical foundations, content structure, and conversion pathways.',
     result: 'Early indicators show improved rankings and engagement, with full impact expected as changes index and mature.',
@@ -126,9 +129,10 @@ export const PROJECTS: Project[] = [
       { label: 'Top 10 Keywords', value: '+14', placeholder: true },
       { label: 'GSC Clicks', value: '+18%', placeholder: true }
     ],
+    // ArtifactImage renders nothing when a file is absent, so an unshot
+    // artifact leaves no gap. Add the file and it appears.
     artifacts: [
-      { src: '/case-studies/borders/before-after.png', alt: 'Before/after comparison', caption: 'SERP visibility improvement over 30 days' },
-      { src: '/case-studies/borders/search-console.png', alt: 'Google Search Console performance', caption: 'GSC clicks and impressions trend' }
+      { src: '/captures/search-console.png', alt: 'Google Search Console performance', caption: 'GSC clicks and impressions through the optimization window' }
     ],
     media: {
       variant: 'seo',

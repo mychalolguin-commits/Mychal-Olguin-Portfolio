@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-nav-bg)] backdrop-blur-md border-b border-[var(--rule)]">
       <div className="max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16 h-16 flex items-center justify-between">
         <NavLink to="/" className="flex items-baseline gap-3 transition-opacity hover:opacity-70">
-          <span className="display-wide text-[var(--ink)] text-lg">Mychal Olguin</span>
+          <span className="display text-[var(--ink)] text-lg">Mychal Olguin</span>
           {/* The masthead's utility line — the standing context a report header
               carries. Hidden below sm so the bar doesn't crowd. */}
           <span className="label hidden sm:block">Growth marketing · Texas</span>
@@ -41,7 +41,7 @@ const Navbar: React.FC = () => {
                   {isActive && (
                     <motion.div
                       layoutId="nav-underline"
-                      className="absolute -bottom-1.5 left-0 right-0 h-px bg-[var(--ink)]"
+                      className="absolute -bottom-1.5 left-0 right-0 h-[2px] bg-[var(--brand)]"
                       transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                     />
                   )}

@@ -2,19 +2,18 @@ import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import PageTransition from '../components/PageTransition';
 import { Reveal } from '../components/Reveal';
 import MediaTile from '../components/MediaTile';
+import Capture from '../components/Capture';
 import LazyCertificationShelf from '../components/shelf/LazyCertificationShelf';
 import { PROJECTS } from '../constants';
-
-/** Page gutters. Must match Navbar and Footer or the rules stop lining up. */
-const CONTAINER = 'max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16';
-
-const BTN_PRIMARY =
-  'inline-flex items-center gap-2 rounded-[3px] bg-[var(--ink)] text-[var(--paper)] px-6 py-3 text-[15px] font-medium transition-opacity duration-200 hover:opacity-85';
-const BTN_SECONDARY =
-  'inline-flex items-center gap-2 rounded-[3px] border border-[var(--rule)] text-[var(--ink)] px-6 py-3 text-[15px] font-medium transition-colors duration-200 hover:border-[var(--ink)]';
+import {
+  CONTAINER,
+  BTN_PRIMARY,
+  BTN_SECONDARY,
+  BTN_ON_BRAND,
+  LINK_UNDERLINE,
+} from '../components/layout';
 
 /**
  * The hero summary. Every figure here traces to a platform Mychal actually
@@ -90,87 +89,47 @@ const DrawnRule: React.FC<{ delay: number }> = ({ delay }) => (
   />
 );
 
+/** Frames a rendered tile so it can stand in for a screenshot that isn't in yet. */
+const TileFallback: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="h-[380px] sm:h-[440px] border border-[var(--rule)] bg-[var(--color-bg-elevated)]">
+    {children}
+  </div>
+);
+
 const Home: React.FC = () => {
   const featured = PROJECTS.filter((p) => FEATURED_SLUGS.includes(p.slug));
+  const towneOaks = PROJECTS.find((p) => p.slug === 'towne-oaks-paid-social');
+  const borders = PROJECTS.find((p) => p.slug === 'borders-seo-conversion');
 
   return (
-    <PageTransition>
-      {/* ── Hero: the masthead and the sourced performance summary ────── */}
-      <section className="pt-28 md:pt-36 pb-16 md:pb-24">
+    <>
+      {/* ── The statement. One sentence, and room around it. ──────────── */}
+      <section className="pt-36 md:pt-52 pb-24 md:pb-32">
         <div className={CONTAINER}>
           <motion.h1
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
-            className="display-wide text-[2.5rem] sm:text-6xl lg:text-7xl text-[var(--ink)] max-w-[15ch]"
+            transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
+            className="statement text-[2.75rem] sm:text-6xl lg:text-7xl text-[var(--ink)] text-center mx-auto max-w-[17ch]"
           >
             I run paid social and prove what it did.
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
-            className="mt-7 max-w-[54ch] text-lg leading-relaxed text-[var(--color-text-tertiary)]"
+            transition={{ duration: 0.7, delay: 0.12, ease: [0.25, 0.4, 0.25, 1] }}
+            className="mt-8 mx-auto max-w-[52ch] text-center text-lg md:text-xl leading-relaxed text-[var(--color-text-tertiary)]"
           >
             Paid social acquisition and full-funnel measurement. I build the tracking first, then
             spend against it. Currently looking for my next growth role.
           </motion.p>
 
-          <div className="mt-14 md:mt-20 max-w-3xl">
-            <div className="flex items-baseline justify-between gap-4">
-              <h2 className="label">Performance summary</h2>
-              <span className="label">2023 — 2026</span>
-            </div>
-
-            <div className="mt-4">
-              {SUMMARY_ROWS.map((row, i) => (
-                <div key={row.metric}>
-                  <DrawnRule delay={0.3 + i * 0.07} />
-                  <motion.div
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.42 + i * 0.07 }}
-                    className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_auto_13rem] items-baseline gap-x-5 sm:gap-x-8 py-3.5 transition-colors duration-150 hover:bg-[var(--surfaceHover)]"
-                  >
-                    <div>
-                      <span className="text-[15px] text-[var(--color-text-secondary)]">
-                        {row.metric}
-                      </span>
-                      <span className="label block sm:hidden mt-1">{row.source}</span>
-                    </div>
-                    <span
-                      className={`figure text-lg sm:text-xl text-right ${
-                        row.trend === 'up' ? 'text-[var(--signal-up)]' : 'text-[var(--ink)]'
-                      }`}
-                    >
-                      {row.figure}
-                    </span>
-                    {/* Left-aligned so the source column has a clean left edge
-                        to scan down, the way a report footnote column does. */}
-                    <span className="label hidden sm:block">{row.source}</span>
-                  </motion.div>
-                </div>
-              ))}
-              <DrawnRule delay={0.3 + SUMMARY_ROWS.length * 0.07} />
-            </div>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.85 }}
-              className="mt-4 text-[13px] leading-relaxed text-[var(--graphite)] max-w-[58ch]"
-            >
-              Figures from campaigns run 2023—2026 across a 14-property multifamily portfolio.
-              Each row traces to the platform named beside it.
-            </motion.p>
-          </div>
-
           <motion.div
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.95 }}
-            className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4"
+            transition={{ duration: 0.6, delay: 0.24 }}
+            className="mt-12 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
           >
             <Link to="/work" className={BTN_PRIMARY}>
               Read the case studies
@@ -178,36 +137,134 @@ const Home: React.FC = () => {
             <Link to="/resume" className={BTN_SECONDARY}>
               View resume
             </Link>
-            <a
-              href="https://www.linkedin.com/in/mychalolguin/"
-              target="_blank"
-              rel="noreferrer"
-              className="px-2 py-3 text-[15px] text-[var(--color-text-tertiary)] underline underline-offset-4 decoration-[var(--rule)] transition-colors hover:text-[var(--ink)] hover:decoration-[var(--ink)]"
-            >
-              LinkedIn
-            </a>
           </motion.div>
         </div>
       </section>
 
-      {/* ── Selected work: ruled report entries ───────────────────────── */}
-      <section className="py-20 md:py-28 border-t border-[var(--rule)]">
+      {/* ── The evidence. Full-bleed, uncropped, sourced. ─────────────── */}
+      <section className="pb-28 md:pb-40">
+        <Reveal>
+          <Capture
+            bleed
+            src="/captures/ga4-overview.png"
+            alt="GA4 acquisition overview for the Towne Oaks campaign window"
+            source="GA4"
+            caption="Acquisition across the campaign window — 7,857 sessions, 38.4% of them from paid social."
+            fallback={
+              towneOaks?.media ? (
+                <TileFallback>
+                  <MediaTile media={towneOaks.media} className="w-full h-full" />
+                </TileFallback>
+              ) : null
+            }
+          />
+        </Reveal>
+      </section>
+
+      {/* ── Performance summary: the credibility core, given air. ─────── */}
+      {/* Sunken band. The tint is barely perceptible on its own — its job is
+          to give the page a pulse of light and dark as you scroll, so the
+          sections read as separate without a rule between them. */}
+      <section className="py-28 md:py-40 bg-[var(--surface-sunken)]">
+        <div className={CONTAINER}>
+          <Reveal>
+            <h2 className="statement text-3xl md:text-5xl text-[var(--ink)] text-center mx-auto max-w-[22ch]">
+              Every number on this site names where it came from.
+            </h2>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            {/* Left-aligned on purpose. Centring a table destroys the column
+                edge that makes a set of figures scannable. */}
+            <div className="mt-16 md:mt-20 max-w-3xl mx-auto">
+              <div className="flex items-baseline justify-between gap-4">
+                <h3 className="label">Performance summary</h3>
+                <span className="label">2023 — 2026</span>
+              </div>
+
+              <div className="mt-5">
+                {SUMMARY_ROWS.map((row, i) => (
+                  <div key={row.metric}>
+                    <DrawnRule delay={i * 0.06} />
+                    <div className="grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_auto_13rem] items-baseline gap-x-5 sm:gap-x-8 py-5 transition-colors duration-150 hover:bg-[var(--surfaceHover)]">
+                      <div>
+                        <span className="text-[15px] md:text-base text-[var(--color-text-secondary)]">
+                          {row.metric}
+                        </span>
+                        <span className="label block sm:hidden mt-1">{row.source}</span>
+                      </div>
+                      <span
+                        className={`figure text-xl sm:text-2xl text-right ${
+                          row.trend === 'up' ? 'text-[var(--signal-up)]' : 'text-[var(--ink)]'
+                        }`}
+                      >
+                        {row.figure}
+                      </span>
+                      {/* Left-aligned so the source column has a clean left edge
+                          to scan down, the way a report footnote column does. */}
+                      <span className="label hidden sm:block">{row.source}</span>
+                    </div>
+                  </div>
+                ))}
+                <DrawnRule delay={SUMMARY_ROWS.length * 0.06} />
+              </div>
+
+              <p className="mt-6 text-[14px] leading-relaxed text-[var(--graphite)] max-w-[58ch]">
+                Figures from campaigns run 2023—2026 across a 14-property multifamily portfolio.
+                Each row traces to the platform named beside it.
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── The tracking underneath it. ───────────────────────────────── */}
+      <section className="py-28 md:py-40">
+        <div className={CONTAINER}>
+          <Reveal>
+            <h2 className="statement text-3xl md:text-5xl text-[var(--ink)] text-center mx-auto max-w-[20ch]">
+              The tracking gets built before the spend starts.
+            </h2>
+            <p className="mt-8 mx-auto max-w-[52ch] text-center text-lg leading-relaxed text-[var(--color-text-tertiary)]">
+              One UTM taxonomy across every campaign, events defined up front, and a reporting view
+              that reconciles the platform's numbers against GA4's.
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="mt-16 md:mt-24">
+          <Reveal>
+            <Capture
+              bleed
+              src="/captures/search-console.png"
+              alt="Google Search Console clicks and impressions trend"
+              source="Search Console"
+              caption="Clicks and impressions through the optimization window."
+              fallback={
+                borders?.media ? (
+                  <TileFallback>
+                    <MediaTile media={borders.media} className="w-full h-full" />
+                  </TileFallback>
+                ) : null
+              }
+            />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Selected work ─────────────────────────────────────────────── */}
+      <section className="py-28 md:py-40">
         <div className={CONTAINER}>
           <Reveal>
             <div className="flex items-baseline justify-between gap-4">
-              <h2 className="display-wide text-2xl md:text-3xl text-[var(--ink)]">
-                Selected work
-              </h2>
-              <Link
-                to="/work"
-                className="label underline underline-offset-4 decoration-[var(--rule)] transition-colors hover:text-[var(--ink)] hover:decoration-[var(--ink)]"
-              >
+              <h2 className="display text-2xl md:text-3xl text-[var(--ink)]">Selected work</h2>
+              <Link to="/work" className={`label ${LINK_UNDERLINE}`}>
                 All projects
               </Link>
             </div>
           </Reveal>
 
-          <div className="mt-10 md:mt-14 space-y-16 md:space-y-20">
+          <div className="mt-14 md:mt-20 space-y-24 md:space-y-32">
             {featured.map((project) => {
               const isDirectional = project.metrics.some((m) => m.placeholder);
               // The Borders timeframe literally reads "(placeholder)" in the
@@ -216,12 +273,12 @@ const Home: React.FC = () => {
 
               return (
                 <Reveal key={project.slug}>
-                  <article className="border-t border-[var(--rule)] pt-7">
-                    <div className="grid lg:grid-cols-[1.05fr_1fr] gap-8 lg:gap-14 items-start">
+                  <article>
+                    <div className="grid lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-16 items-start">
                       <Link
                         to={`/work/${project.slug}`}
                         aria-label={`Read the ${project.title} case study`}
-                        className="block h-72 sm:h-96 lg:h-full lg:min-h-[340px] overflow-hidden border border-[var(--rule)] bg-[var(--color-bg-elevated)] transition-colors duration-200 hover:border-[var(--ink)]"
+                        className="block h-72 sm:h-96 lg:h-full lg:min-h-[360px] overflow-hidden border border-[var(--rule)] bg-[var(--color-bg-elevated)] transition-colors duration-200 hover:border-[var(--ink)]"
                       >
                         <MediaTile
                           type={project.mediaType}
@@ -236,7 +293,7 @@ const Home: React.FC = () => {
                           {timeframe && <span className="label">{timeframe}</span>}
                         </div>
 
-                        <h3 className="display-wide text-2xl md:text-[1.75rem] mt-4">
+                        <h3 className="display text-2xl md:text-[2rem] mt-5">
                           <Link
                             to={`/work/${project.slug}`}
                             className="text-[var(--ink)] transition-opacity hover:opacity-70"
@@ -245,29 +302,27 @@ const Home: React.FC = () => {
                           </Link>
                         </h3>
 
-                        <p className="mt-4 max-w-[46ch] text-[15px] leading-relaxed text-[var(--color-text-tertiary)]">
+                        <p className="mt-5 max-w-[46ch] text-base leading-relaxed text-[var(--color-text-tertiary)]">
                           {project.description}
                         </p>
 
-                        {/* Same label/figure grammar as the hero summary, so
+                        {/* Same label/figure grammar as the summary above, so
                             the eye scans one column of figures down the page. */}
-                        <dl className="mt-8">
+                        <dl className="mt-10">
                           {project.metrics.slice(0, 3).map((metric) => (
                             <div
                               key={metric.label}
-                              className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-t border-[var(--rule)] py-2.5"
+                              className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-t border-[var(--rule)] py-3.5"
                             >
                               <dt className="label">{metric.label}</dt>
-                              <dd className="figure text-[15px] text-[var(--ink)]">
-                                {metric.value}
-                              </dd>
+                              <dd className="figure text-base text-[var(--ink)]">{metric.value}</dd>
                             </div>
                           ))}
                           <div className="border-t border-[var(--rule)]" />
                         </dl>
 
                         {isDirectional && (
-                          <p className="mt-3 text-[13px] leading-relaxed text-[var(--graphite)]">
+                          <p className="mt-4 text-[13px] leading-relaxed text-[var(--graphite)]">
                             Directional — a 30-day snapshot. Full attribution lands at 60–90 days
                             as indexing propagates.
                           </p>
@@ -275,7 +330,7 @@ const Home: React.FC = () => {
 
                         <Link
                           to={`/work/${project.slug}`}
-                          className="mt-7 inline-flex items-center gap-1.5 text-[15px] font-medium text-[var(--ink)] underline underline-offset-4 decoration-[var(--rule)] transition-colors hover:decoration-[var(--ink)]"
+                          className="mt-8 inline-flex items-center gap-1.5 text-[15px] font-medium text-[var(--ink)] underline underline-offset-4 decoration-[var(--rule)] transition-colors hover:decoration-[var(--ink)]"
                         >
                           Read the case study
                           <ArrowUpRight size={16} />
@@ -290,26 +345,24 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Capabilities: a spec sheet, not a card grid ───────────────── */}
-      <section className="py-20 md:py-28 border-t border-[var(--rule)]">
+      {/* ── Capabilities ──────────────────────────────────────────────── */}
+      <section className="py-28 md:py-40 bg-[var(--surface-sunken)]">
         <div className={CONTAINER}>
           <Reveal>
-            <h2 className="display-wide text-2xl md:text-3xl text-[var(--ink)]">Capabilities</h2>
-            <p className="mt-4 max-w-[56ch] text-[17px] leading-relaxed text-[var(--color-text-tertiary)]">
-              Campaign strategy, the measurement layer underneath it, and the reporting that makes
-              both actionable.
-            </p>
+            <h2 className="statement text-3xl md:text-5xl text-[var(--ink)] text-center mx-auto max-w-[24ch]">
+              Campaigns, the measurement under them, and the reporting that makes both useful.
+            </h2>
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="mt-12 grid md:grid-cols-2 gap-x-14">
+            <div className="mt-16 md:mt-24 grid md:grid-cols-2 gap-x-16">
               {CAPABILITIES.map((cap) => (
-                <div key={cap.title} className="border-t border-[var(--rule)] py-6 md:py-7">
-                  <h3 className="text-[17px] font-medium text-[var(--ink)]">{cap.title}</h3>
-                  <p className="mt-2 max-w-[44ch] text-[15px] leading-relaxed text-[var(--color-text-tertiary)]">
+                <div key={cap.title} className="border-t border-[var(--rule)] py-8 md:py-9">
+                  <h3 className="text-lg font-medium text-[var(--ink)]">{cap.title}</h3>
+                  <p className="mt-3 max-w-[44ch] text-[15px] leading-relaxed text-[var(--color-text-tertiary)]">
                     {cap.description}
                   </p>
-                  <p className="label mt-3">{cap.tools.join(' · ')}</p>
+                  <p className="label mt-4">{cap.tools.join(' · ')}</p>
                 </div>
               ))}
             </div>
@@ -318,40 +371,49 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Credentials: the shelf is the page's one moment of play ───── */}
-      <section className="py-20 md:py-28 border-t border-[var(--rule)]">
+      {/* ── Credentials: the page's one moment of play ────────────────── */}
+      <section className="py-28 md:py-40">
         <div className={CONTAINER}>
           <Reveal>
-            <h2 className="display-wide text-2xl md:text-3xl text-[var(--ink)]">Credentials</h2>
-            <p className="mt-4 max-w-[56ch] text-[17px] leading-relaxed text-[var(--color-text-tertiary)]">
-              Ten certifications across paid social, search, measurement, and AI tooling. Pull one
-              off the shelf to inspect it.
+            <h2 className="statement text-3xl md:text-5xl text-[var(--ink)] text-center mx-auto max-w-[20ch]">
+              Ten certifications. Pull one off the shelf.
+            </h2>
+            <p className="mt-8 mx-auto max-w-[50ch] text-center text-lg leading-relaxed text-[var(--color-text-tertiary)]">
+              Across paid social, search, measurement, and AI tooling.
             </p>
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="mt-10">
+            <div className="mt-16 md:mt-20">
               <LazyCertificationShelf />
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ── Close ─────────────────────────────────────────────────────── */}
-      <section className="py-20 md:py-28 border-t border-[var(--rule)]">
+      {/* ── Close ─────────────────────────────────────────────────────────
+          The page's one saturated field, and the only one on the site. It
+          works because everything above it is quiet — put a second one
+          anywhere and both stop meaning anything. ────────────────────── */}
+      <section className="py-32 md:py-48 bg-[var(--brand-field)]">
         <div className={CONTAINER}>
           <Reveal>
-            <div className="max-w-2xl">
-              <h2 className="display-wide text-3xl md:text-4xl text-[var(--ink)]">Let's talk.</h2>
-              <p className="mt-4 text-[17px] leading-relaxed text-[var(--color-text-tertiary)]">
+            <div className="text-center">
+              <h2 className="statement text-4xl md:text-6xl text-[var(--on-brand-field)] mx-auto max-w-[16ch]">
+                Let's talk.
+              </h2>
+              <p className="mt-8 mx-auto max-w-[48ch] text-lg leading-relaxed text-[var(--on-brand-field)] opacity-80">
                 I'm looking for my next paid social or growth role. Email me and I'll send over
                 whatever numbers you want to see.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3 sm:gap-4">
-                <a href="mailto:mychalolguin@gmail.com" className={BTN_PRIMARY}>
+              <div className="mt-12 flex flex-wrap justify-center gap-3 sm:gap-4">
+                <a href="mailto:mychalolguin@gmail.com" className={BTN_ON_BRAND}>
                   Email me
                 </a>
-                <Link to="/resume" className={BTN_SECONDARY}>
+                <Link
+                  to="/resume"
+                  className="inline-flex items-center gap-2 rounded-[3px] border border-[var(--on-brand-muted)] text-[var(--on-brand-field)] px-6 py-3 text-[15px] font-medium transition-colors duration-200 hover:border-[var(--on-brand-field)]"
+                >
                   View resume
                 </Link>
               </div>
@@ -359,7 +421,7 @@ const Home: React.FC = () => {
           </Reveal>
         </div>
       </section>
-    </PageTransition>
+    </>
   );
 };
 

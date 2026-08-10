@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import PageTransition from '../components/PageTransition';
-import { Reveal, StaggerContainer, StaggerItem } from '../components/Reveal';
+import { Reveal } from '../components/Reveal';
+import Capture from '../components/Capture';
+import MediaTile from '../components/MediaTile';
 import ScrollProgress from '../components/ScrollProgress';
 import MeasurementNote from '../components/MeasurementNote';
 import CaseStudyDashboard from '../components/CaseStudyDashboard';
 import { PROJECTS } from '../constants';
 import { Artifact } from '../types';
 import { useSEO } from '../hooks/useSEO';
+import { CONTAINER, LINK_UNDERLINE } from '../components/layout';
 
-// Graceful image component - returns null if image fails to load
+/** Renders nothing if the image 404s, so a missing artifact never leaves a gap. */
 const ArtifactImage: React.FC<{ artifact: Artifact }> = ({ artifact }) => {
   const [hasError, setHasError] = useState(false);
 
@@ -25,181 +26,221 @@ const ArtifactImage: React.FC<{ artifact: Artifact }> = ({ artifact }) => {
         src={artifact.src}
         alt={artifact.alt}
         onError={() => setHasError(true)}
-        className="w-full rounded-xl border border-[var(--color-border-default)] shadow-lg"
+        className="w-full border border-[var(--rule)]"
       />
       {artifact.caption && (
-        <figcaption className="text-center text-sm text-[var(--color-text-muted)] mt-3 italic">
-          {artifact.caption}
-        </figcaption>
+        <figcaption className="label mt-3">{artifact.caption}</figcaption>
       )}
     </figure>
   );
 };
 
+type Section = { title: string; body?: string; artifact?: Artifact };
+
+/**
+ * A numbered section of the write-up. The numbers are not decoration — a case
+ * study is a real sequence (what was wrong, what I did, what came back), and
+ * the order is part of the argument.
+ */
+const ProseSection: React.FC<{ index: number; section: Section }> = ({ index, section }) => (
+  <Reveal>
+    <section className="border-t border-[var(--rule)] pt-7 grid md:grid-cols-[13rem_1fr] gap-4 md:gap-10">
+      <div>
+        <span className="figure label">{String(index).padStart(2, '0')}</span>
+        <h2 className="display text-xl text-[var(--ink)] mt-2">{section.title}</h2>
+      </div>
+      <div>
+        {section.body && (
+          <p className="text-[17px] md:text-lg leading-relaxed text-[var(--color-text-secondary)] whitespace-pre-line max-w-[64ch]">
+            {section.body}
+          </p>
+        )}
+        {section.artifact && (
+          <div className="mt-10">
+            <ArtifactImage artifact={section.artifact} />
+          </div>
+        )}
+      </div>
+    </section>
+  </Reveal>
+);
+
 const WorkDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
-  const projectIndex = PROJECTS.findIndex(p => p.slug === slug);
+  const projectIndex = PROJECTS.findIndex((p) => p.slug === slug);
   const project = PROJECTS[projectIndex];
 
-  // Logic for Next Project Navigation
-  const nextProjectIndex = (projectIndex + 1) % PROJECTS.length;
-  const nextProject = PROJECTS[nextProjectIndex];
+  const nextProject = PROJECTS[(projectIndex + 1) % PROJECTS.length];
 
-  // SEO: Update page title and description
   useSEO({
     title: project?.title || 'Case Study',
-    description: project?.description || 'View this growth marketing case study by Mychal Olguin.'
+    description: project?.description || 'View this growth marketing case study by Mychal Olguin.',
   });
 
   if (!project) {
     return <Navigate to="/work" replace />;
   }
 
-  // Structured data for the case study
   const caseStudySchema = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": project.title,
-    "description": project.description,
-    "author": {
-      "@type": "Person",
-      "name": "Mychal Olguin"
-    },
-    "publisher": {
-      "@type": "Person",
-      "name": "Mychal Olguin"
-    },
-    "image": project.heroImage,
-    "articleSection": "Case Study",
-    "keywords": project.tags.join(", ")
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: project.title,
+    description: project.description,
+    author: { '@type': 'Person', name: 'Mychal Olguin' },
+    publisher: { '@type': 'Person', name: 'Mychal Olguin' },
+    image: project.heroImage,
+    articleSection: 'Case Study',
+    keywords: project.tags.join(', '),
   };
 
+  // The Borders timeframe literally reads "(placeholder)" in the data; the
+  // disclosure beneath the metrics states it properly instead.
+  const timeframe = project.timeframe?.replace(/\s*\(placeholder\)/i, '');
+  const hasDirectional = project.metrics.some((m) => m.placeholder);
+
+  /** Facts that belong in a masthead block, not in the prose. */
+  const FACTS: { label: string; value?: string; mono?: boolean }[] = [
+    { label: 'Timeframe', value: timeframe },
+    { label: 'Objective', value: project.objective },
+    { label: 'Channels', value: project.channels },
+    { label: 'Destination', value: project.destination, mono: true },
+    { label: 'Tools', value: project.tools },
+  ];
+  const facts = FACTS.filter((f) => f.value);
+
+  const sections: Section[] = project.problem
+    ? [
+        { title: 'Problem', body: project.problem },
+        { title: 'Approach', body: project.approach, artifact: project.artifacts?.[0] },
+        { title: 'Execution', body: project.execution },
+        { title: 'Reporting', body: project.reporting, artifact: project.artifacts?.[1] },
+        { title: 'Results', body: project.results },
+        { title: 'Next steps', body: project.nextSteps },
+      ].filter((s) => s.body || s.artifact)
+    : [
+        { title: 'The challenge', body: project.challenge },
+        { title: 'The solution', body: project.solution },
+        { title: 'The result', body: project.result },
+      ].filter((s) => s.body);
+
   return (
-    <PageTransition>
-      {/* Structured Data for Case Study */}
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudySchema) }}
       />
       <ScrollProgress />
-      <article className="pt-32 pb-20" itemScope itemType="https://schema.org/Article">
-        <div className="max-w-3xl lg:max-w-5xl mx-auto px-6 lg:px-10 xl:px-16">
-          <Reveal>
-            <Link to="/work" className="inline-flex items-center text-sm text-[var(--color-text-muted)] hover:text-[var(--color-accent)] mb-8 transition-colors group">
-              <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" />
-              Back to Work
-            </Link>
-          </Reveal>
 
-          <div className="mb-12">
-            <Reveal delay={0.05}>
-              <span className="text-[var(--color-accent-dark)] text-sm font-medium tracking-widest uppercase mb-4 block">
-                {project.eyebrow || project.subtitle}
-              </span>
+      <article itemScope itemType="https://schema.org/Article">
+        {/* ── Masthead ────────────────────────────────────────────────── */}
+        <section className="pt-36 md:pt-52 pb-16 md:pb-24">
+          <div className={CONTAINER}>
+            <Reveal>
+              <Link
+                to="/work"
+                className={`label inline-flex items-center gap-2 ${LINK_UNDERLINE}`}
+              >
+                <ArrowLeft size={13} />
+                All case studies
+              </Link>
             </Reveal>
-            <Reveal delay={0.1}>
-              <h1 className="text-4xl md:text-6xl font-semibold text-[var(--color-text-primary)] mb-8 leading-[1.1]">
+
+            <Reveal delay={0.05}>
+              <p className="label mt-9">{project.eyebrow || project.subtitle}</p>
+              <h1 className="display text-[2.25rem] sm:text-5xl lg:text-6xl text-[var(--ink)] mt-4 max-w-[20ch]">
                 {project.title}
               </h1>
+              <p className="mt-6 max-w-[58ch] text-lg leading-relaxed text-[var(--color-text-tertiary)]">
+                {project.description}
+              </p>
             </Reveal>
 
-            {/* Extended metadata */}
-            {(project.timeframe || project.objective || project.channels) && (
-              <Reveal delay={0.15}>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 p-4 bg-[var(--color-bg-elevated)]/50 rounded-xl border border-[var(--color-border-subtle)]">
-                  {project.timeframe && (
-                    <div>
-                      <p className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-1">Timeframe</p>
-                      <p className="text-sm text-[var(--color-text-secondary)] font-medium">{project.timeframe}</p>
+            {facts.length > 0 && (
+              <Reveal delay={0.1}>
+                <dl className="mt-12 max-w-3xl">
+                  {facts.map((fact) => (
+                    <div
+                      key={fact.label}
+                      className="grid grid-cols-[8rem_1fr] items-baseline gap-4 border-t border-[var(--rule)] py-3 transition-colors duration-150 hover:bg-[var(--surfaceHover)]"
+                    >
+                      <dt className="label">{fact.label}</dt>
+                      <dd
+                        className={`text-[15px] text-[var(--color-text-secondary)] break-words ${
+                          fact.mono ? 'figure' : ''
+                        }`}
+                      >
+                        {fact.value}
+                      </dd>
                     </div>
-                  )}
-                  {project.objective && (
-                    <div>
-                      <p className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-1">Objective</p>
-                      <p className="text-sm text-[var(--color-text-secondary)] font-medium">{project.objective}</p>
-                    </div>
-                  )}
-                  {project.channels && (
-                    <div>
-                      <p className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-1">Channels</p>
-                      <p className="text-sm text-[var(--color-text-secondary)] font-medium">{project.channels}</p>
-                    </div>
-                  )}
-                  {project.destination && (
-                    <div>
-                      <p className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-1">Destination</p>
-                      <p className="text-sm text-[var(--color-text-secondary)] font-medium font-mono">{project.destination}</p>
-                    </div>
-                  )}
-                </div>
+                  ))}
+                  <div className="border-t border-[var(--rule)]" />
+                </dl>
+                <p className="label mt-6">{project.tags.join(' · ')}</p>
               </Reveal>
             )}
-
-            {project.tools && (
-              <Reveal delay={0.2}>
-                <div className="mb-6">
-                  <p className="text-[10px] uppercase tracking-wider text-[var(--color-text-muted)] mb-2">Tools</p>
-                  <p className="text-sm text-[var(--color-text-tertiary)]">{project.tools}</p>
-                </div>
-              </Reveal>
-            )}
-
-            <Reveal delay={0.25}>
-              <div className="flex flex-wrap gap-3">
-                {project.tags.map(tag => (
-                  <span key={tag} className="text-sm text-[var(--color-text-tertiary)] bg-[var(--color-bg-elevated)] border border-[var(--color-border-default)] px-4 py-1.5 rounded-full">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </Reveal>
           </div>
-        </div>
+        </section>
 
+        {/* ── The capture: a real platform view, or the rendered tile ──── */}
         <Reveal y={30}>
-          <div className="w-full h-[400px] md:h-[600px] overflow-hidden bg-[var(--color-bg-elevated)] mb-20 relative">
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-base)] to-transparent opacity-50 z-10" />
-            <motion.img
-              src={project.heroImage}
-              alt={project.title}
-              className="w-full h-full object-cover"
-              initial={{ scale: 1.05 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
-            />
-          </div>
+          <Capture
+            bleed
+            src={project.heroImage}
+            alt={`Platform view for ${project.title}`}
+            source={project.channels || 'Platform'}
+            fallback={
+              project.media ? (
+                <div className="w-full h-[320px] md:h-[520px] overflow-hidden border border-[var(--rule)] bg-[var(--color-bg-elevated)]">
+                  <MediaTile
+                    type={project.mediaType}
+                    media={project.media}
+                    className="w-full h-full"
+                  />
+                </div>
+              ) : null
+            }
+          />
         </Reveal>
 
-        <div className="max-w-3xl lg:max-w-5xl mx-auto px-6 lg:px-10 xl:px-16">
-          {/* Key Metrics */}
-          <Reveal>
-            <section className="mb-24">
-              <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {project.metrics.map((metric, idx) => (
-                  <StaggerItem key={idx}>
-                    <motion.div
-                      className="bg-[var(--color-bg-elevated)]/30 border border-[var(--color-border-subtle)] p-6 rounded-2xl relative overflow-hidden group hover:border-mint-500/20 transition-colors"
-                      whileHover={{ y: -2 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-mint-500 to-mint-400 opacity-30 group-hover:opacity-100 transition-opacity" />
-                      <h3 className="text-[var(--color-text-muted)] text-xs font-medium mb-3 uppercase tracking-widest">{metric.label}</h3>
-                      <p className="text-3xl font-semibold text-[var(--color-text-primary)]">{metric.value}</p>
-                      {metric.placeholder && (
-                        <div className="mt-4 inline-flex items-center px-2 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded text-[10px] text-yellow-500 font-mono tracking-tight">
-                          Placeholder — update in 30 days
-                        </div>
-                      )}
-                    </motion.div>
-                  </StaggerItem>
-                ))}
-              </StaggerContainer>
-              <MeasurementNote />
-            </section>
-          </Reveal>
+        {/* ── Headline metrics ────────────────────────────────────────── */}
+        <section className="py-28 md:py-40">
+          <div className={CONTAINER}>
+            <Reveal>
+              <div className="flex items-baseline justify-between gap-4">
+                <h2 className="label">Headline metrics</h2>
+                {timeframe && <span className="label">{timeframe}</span>}
+              </div>
 
-          {/* Case Study Dashboard (if data available) */}
-          {project.dashboardData && (
+              <dl className="mt-4 max-w-3xl">
+                {project.metrics.map((metric) => (
+                  <div
+                    key={metric.label}
+                    className="grid grid-cols-[1fr_auto] items-baseline gap-5 border-t border-[var(--rule)] py-3.5 transition-colors duration-150 hover:bg-[var(--surfaceHover)]"
+                  >
+                    <dt className="text-[15px] text-[var(--color-text-secondary)]">
+                      {metric.label}
+                    </dt>
+                    <dd className="figure text-lg sm:text-xl text-[var(--ink)]">{metric.value}</dd>
+                  </div>
+                ))}
+                <div className="border-t border-[var(--rule)]" />
+              </dl>
+
+              {hasDirectional && (
+                <p className="mt-4 max-w-[58ch] text-[13px] leading-relaxed text-[var(--graphite)]">
+                  Directional — a 30-day snapshot rather than a measured result. Full attribution
+                  lands at 60–90 days as indexing propagates.
+                </p>
+              )}
+
+              <MeasurementNote />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ── Dashboard ───────────────────────────────────────────────── */}
+        {project.dashboardData && (
+          <div className={CONTAINER}>
             <Reveal>
               <CaseStudyDashboard
                 data={project.dashboardData}
@@ -208,134 +249,39 @@ const WorkDetail: React.FC = () => {
                 timeframe={project.timeframe}
               />
             </Reveal>
-          )}
-
-          {/* Content */}
-          <div className="space-y-24">
-            {/* Extended sections for detailed case studies */}
-            {project.problem ? (
-              <>
-                <Reveal>
-                  <div className="group">
-                    <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">Problem</h2>
-                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line max-w-prose">{project.problem}</p>
-                  </div>
-                </Reveal>
-
-                <Reveal>
-                  <div className="group">
-                    <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">Approach</h2>
-                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line max-w-prose">{project.approach}</p>
-                  </div>
-                </Reveal>
-
-                {/* First artifact after Approach */}
-                {project.artifacts && project.artifacts[0] && (
-                  <Reveal>
-                    <div className="my-16">
-                      <ArtifactImage artifact={project.artifacts[0]} />
-                    </div>
-                  </Reveal>
-                )}
-
-                {project.execution && (
-                  <Reveal>
-                    <div className="group">
-                      <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">Execution</h2>
-                      <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line max-w-prose">{project.execution}</p>
-                    </div>
-                  </Reveal>
-                )}
-
-                {project.reporting && (
-                  <Reveal>
-                    <div className="group">
-                      <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">Reporting</h2>
-                      <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light max-w-prose">{project.reporting}</p>
-                    </div>
-                  </Reveal>
-                )}
-
-                {/* Second artifact after Execution/Reporting */}
-                {project.artifacts && project.artifacts[1] && (
-                  <Reveal>
-                    <div className="my-16">
-                      <ArtifactImage artifact={project.artifacts[1]} />
-                    </div>
-                  </Reveal>
-                )}
-
-                <Reveal>
-                  <div className="group">
-                    <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">Results</h2>
-                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line max-w-prose">{project.results}</p>
-                  </div>
-                </Reveal>
-
-                {project.nextSteps && (
-                  <Reveal>
-                    <div className="group">
-                      <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">Next Steps</h2>
-                      <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light whitespace-pre-line max-w-prose">{project.nextSteps}</p>
-                    </div>
-                  </Reveal>
-                )}
-              </>
-            ) : (
-              <>
-                {/* Legacy sections for existing case studies */}
-                <Reveal>
-                  <div className="group">
-                    <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">The Challenge</h2>
-                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light max-w-prose">{project.challenge}</p>
-                  </div>
-                </Reveal>
-
-                <Reveal>
-                  <div className="group">
-                    <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">The Solution</h2>
-                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light max-w-prose">{project.solution}</p>
-                  </div>
-                </Reveal>
-
-                <Reveal>
-                  <div className="group">
-                    <h2 className="text-2xl font-serif italic text-[var(--color-text-primary)] mb-6 opacity-80 group-hover:opacity-100 transition-opacity">The Result</h2>
-                    <p className="text-[var(--color-text-secondary)] leading-relaxed text-lg md:text-xl font-light max-w-prose">{project.result}</p>
-                  </div>
-                </Reveal>
-              </>
-            )}
           </div>
-        </div>
+        )}
 
-        {/* Next Project Navigation */}
-        <div className="max-w-3xl lg:max-w-5xl mx-auto px-6 lg:px-10 xl:px-16 mt-32">
-          <Reveal>
-            <div className="border-t border-[var(--color-border-default)] pt-12">
-              <p className="text-[var(--color-text-muted)] text-sm mb-4">Next Project</p>
-              <Link to={`/work/${nextProject.slug}`} className="group block">
-                <motion.h3
-                  className="text-3xl md:text-4xl font-semibold text-[var(--color-text-primary)] mb-2 group-hover:text-[var(--color-accent)] transition-colors"
-                  whileHover={{ x: 4 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {nextProject.title}
-                </motion.h3>
-                <motion.div
-                  className="flex items-center gap-2 text-[var(--color-text-tertiary)]"
-                  whileHover={{ x: 8 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <span>View Case Study</span>
-                  <ArrowRight size={18} />
-                </motion.div>
-              </Link>
+        {/* ── The write-up ────────────────────────────────────────────── */}
+        <section className="py-28 md:py-40">
+          <div className={CONTAINER}>
+            <div className="space-y-16 md:space-y-20">
+              {sections.map((section, i) => (
+                <ProseSection key={section.title} index={i + 1} section={section} />
+              ))}
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </section>
+
+        {/* ── Next ────────────────────────────────────────────────────── */}
+        <section className="py-28 md:py-40">
+          <div className={CONTAINER}>
+            <Reveal>
+              <p className="label">Next case study</p>
+              <Link to={`/work/${nextProject.slug}`} className="group block mt-4">
+                <h2 className="display text-3xl md:text-4xl text-[var(--ink)] transition-opacity group-hover:opacity-70 max-w-[20ch]">
+                  {nextProject.title}
+                </h2>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-[15px] font-medium text-[var(--ink)] underline underline-offset-4 decoration-[var(--rule)] transition-colors group-hover:decoration-[var(--ink)]">
+                  Read it
+                  <ArrowRight size={16} />
+                </span>
+              </Link>
+            </Reveal>
+          </div>
+        </section>
       </article>
-    </PageTransition>
+    </>
   );
 };
 

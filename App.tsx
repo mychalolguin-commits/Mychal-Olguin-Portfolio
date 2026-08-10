@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
 import MotionProvider from './components/MotionProvider';
+import PageTransition from './components/PageTransition';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -10,29 +10,30 @@ import WorkDetail from './pages/WorkDetail';
 import Resume from './pages/Resume';
 import Contact from './pages/Contact';
 
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
-  return null;
-}
-
 const AnimatedRoutes = () => {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
+    /*
+      Deliberately no AnimatePresence. It previously wrapped <Routes> in
+      mode="wait", where it had no motion element whose exit it could track —
+      so it never learned the outgoing page had finished leaving and only
+      swapped when the *next* navigation forced it. The site rendered one
+      click behind its own URL: you clicked Contact and got Work.
+
+      Keying PageTransition on the pathname remounts it per route, which
+      replays the entrance and resets the scroll. Pages fade in; they don't
+      fade out. That costs nothing visually and removes the whole failure mode.
+    */
+    <PageTransition key={location.pathname}>
+      <Routes location={location}>
         <Route path="/" element={<Home />} />
         <Route path="/work" element={<Work />} />
         <Route path="/work/:slug" element={<WorkDetail />} />
         <Route path="/resume" element={<Resume />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
-    </AnimatePresence>
+    </PageTransition>
   );
 };
 
@@ -40,8 +41,7 @@ const App: React.FC = () => {
   return (
     <MotionProvider>
       <Router>
-        <ScrollToTop />
-        <div className="min-h-screen flex flex-col font-sans bg-[var(--color-bg-base)] text-[var(--color-text-secondary)] selection:bg-mint-500/30 selection:text-mint-200">
+        <div className="min-h-screen flex flex-col font-sans bg-[var(--color-bg-base)] text-[var(--color-text-secondary)] selection:bg-[var(--ink)] selection:text-[var(--paper)]">
           <Navbar />
           <main className="flex-grow">
             <AnimatedRoutes />

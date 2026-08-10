@@ -97,9 +97,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Display: Archivo (expanded widths for the masthead). Body: Inter Tight.
-         Figures: JetBrains Mono, which is the only face allowed to set a number. -->
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Display + body: DM Sans, a geometric grotesque with round bowls and a
+         tall x-height. It carries the warmth and calm the site is built around.
+         Figures and labels: JetBrains Mono, the only face allowed to set a
+         number. That pairing is the whole system — warm geometry for language,
+         technical mono for measurement. -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
@@ -111,23 +114,10 @@
               rule: 'var(--rule)',
               'signal-up': 'var(--signal-up)',
               'signal-down': 'var(--signal-down)',
-              // Legacy alias. Work / WorkDetail / Resume / Contact still carry
-              // ~40 `mint-*` classes and are awaiting their own design pass;
-              // without this they'd render as invisible or default-bordered
-              // elements. Re-pointed at the data green so they stay coherent.
-              // Remove once those pages are rebuilt.
-              mint: {
-                300: '#4EAE7C',
-                400: '#2E9160',
-                500: '#1F7A4D',
-                600: '#17603C',
-                900: '#0C3121',
-              },
             },
             fontFamily: {
-              // `display` is Archivo stretched wide — see .display-wide below.
-              display: ['Archivo', 'sans-serif'],
-              sans: ['Inter Tight', 'sans-serif'],
+              display: ['DM Sans', 'sans-serif'],
+              sans: ['DM Sans', 'sans-serif'],
               mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
             },
             animation: {
@@ -234,18 +224,49 @@
         --surfaceHover: rgba(20, 20, 19, 0.03);
         --textHover: var(--ink);
 
-        /* Section washes — neutralised. */
-        --wash-hero: none;
-        --wash-section: none;
-        --wash-cta: none;
 
-        /* Data palette. Muted and editorial so it sits on warm paper
-           without shouting; still five distinguishable hues. */
-        --data-1: #1F7A4D;
-        --data-2: #2F5D8C;
-        --data-3: #A67C1A;
-        --data-4: #6A5192;
-        --data-5: #B4472E;
+        /* Data palette. Two hues only, and that is deliberate: five
+           categorical colors cannot be told apart by a red-green colorblind
+           reader no matter how they are stepped (blue and purple collide
+           under deuteranopia). Charts here carry identity in the row label
+           and use color only for measure — volume vs cost. Both hues are
+           validated for lightness, chroma, CVD separation, and 3:1 contrast
+           against this surface. Re-validate before changing either. */
+        --data-1: #1F7A4D;  /* volume — sessions, views, reach */
+        --data-2: #1D5FA8;  /* cost — spend, CPM, cost per action */
+
+        /* Status, reserved. Never reused as a series color. */
+        --status-warn: #8A5A00;
+
+        /* ── The one hue ────────────────────────────────────────────
+           Deep pine. It has exactly one meaning — forward — and appears
+           on primary actions, the active nav marker, focus rings, and the
+           single full-bleed closing field. It is the same family as
+           --data-1 (volume) and --signal-up (growth), so every green on
+           the site points the same direction.
+
+           What it must never become: a link colour, a hover tint, a
+           gradient, a border on everything, or a background for cards.
+           That spray-on treatment is what made the old mint accent read
+           as AI-generated. One hue, one meaning, a handful of places.
+           7.33:1 against --on-brand. */
+        --brand:        #1B5E3F;
+        --brand-strong: #175239;  /* hover / pressed */
+        --on-brand:     #FAF9F5;
+
+        /* The closing field is its own pair. A colour sized for a button is
+           not a colour you can flood a viewport with — see the dark block,
+           where the interactive green is bright and the field green is not.
+           7.33:1. */
+        --brand-field:    #1B5E3F;
+        --on-brand-field: #FAF9F5;
+        /* A real rgba, not an opacity modifier: Tailwind cannot apply an
+           alpha channel to an arbitrary var() colour. */
+        --on-brand-muted: rgba(250, 249, 245, 0.45);
+
+        /* A barely-there tint — 1.06:1 against paper. Enough to separate
+           one band from the next without drawing a line. */
+        --surface-sunken: #F1F3EE;
       }
 
       [data-theme="dark"] {
@@ -271,31 +292,59 @@
 
         --surfaceHover: rgba(242, 240, 234, 0.04);
 
-        --data-1: #4EAE7C;
-        --data-2: #7BA3D0;
-        --data-3: #D4A845;
-        --data-4: #A08FC7;
-        --data-5: #D4735A;
+        /* Stepped for the dark surface, not flipped from light — both
+           re-validated against #12110F. */
+        --data-1: #35A971;
+        --data-2: #5590D8;
+
+        --status-warn: #D4A845;
+
+        /* Dark inverts the relationship: a bright fill carrying dark type,
+           rather than a dark fill carrying light type. 6.35:1. */
+        --brand:        #35A971;
+        --brand-strong: #45B77F;
+        --on-brand:     #12110F;
+
+        /* Deliberately NOT the bright interactive green. A full viewport of
+           #35A971 is the loud, sprayed-on look this palette exists to avoid;
+           at field scale the green has to recede. 6.97:1. */
+        --brand-field:    #1A5C3E;
+        --on-brand-field: #F2F0EA;
+        --on-brand-muted: rgba(242, 240, 234, 0.4);
+
+        --surface-sunken: #171917;
       }
 
       body {
         background-color: var(--paper);
         color: var(--color-text-secondary);
-        font-family: 'Inter Tight', sans-serif;
+        font-family: 'DM Sans', sans-serif;
+        font-optical-sizing: auto;
         -webkit-font-smoothing: antialiased;
         transition: background-color 0.3s ease, color 0.3s ease;
       }
 
       /* ── Type roles ───────────────────────────────────────────── */
 
-      /* Archivo at its widest. The masthead register: expanded
-         grotesques are what report and statement covers are set in. */
-      .display-wide {
-        font-family: 'Archivo', sans-serif;
-        font-stretch: 125%;
-        font-weight: 600;
-        letter-spacing: -0.02em;
-        line-height: 1.02;
+      /* Headlines. Medium weight, not bold — at the sizes this is used,
+         weight reads as shouting and the size already carries the emphasis.
+         Tracking is negative because geometric faces open up as they grow. */
+      .display {
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 500;
+        letter-spacing: -0.025em;
+        line-height: 1.06;
+      }
+
+      /* The hero statement and section openers: set centred, generously
+         leaded, and held to a short measure so the line breaks land where
+         the sentence breathes rather than wherever the container ends. */
+      .statement {
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 500;
+        letter-spacing: -0.03em;
+        line-height: 1.12;
+        text-wrap: balance;
       }
 
       /* Every number on the site goes through this. Tabular figures are
@@ -326,7 +375,7 @@
 
       /* ── Accessibility floor ──────────────────────────────────── */
       :focus-visible {
-        outline: 2px solid var(--ink);
+        outline: 2px solid var(--brand);
         outline-offset: 3px;
         border-radius: 1px;
       }
@@ -345,22 +394,6 @@
         color: var(--paper);
       }
 
-      /* ── Neutralised legacy utilities ─────────────────────────────
-         Still referenced by pages awaiting their own pass. Defined as
-         no-ops so those pages render flat rather than broken. */
-      .bg-noise { background-image: none; }
-      .wash-hero, .wash-section, .wash-cta { background-image: none; }
-
-      .card-elevated {
-        background-color: var(--color-bg-elevated);
-        border: 1px solid var(--rule);
-        transition: border-color 0.2s ease;
-      }
-      .card-elevated:hover { border-color: var(--ink); }
-
-      /* Surface variants */
-      .surface-base { background-color: var(--paper); }
-      .surface-elevated { background-color: var(--color-bg-elevated); }
       .surface-muted { background-color: var(--color-bg-muted); }
       .surface-2 { background-color: var(--color-surface2); }
 

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import PageTransition from '../components/PageTransition';
-import { Reveal, StaggerContainer, StaggerItem } from '../components/Reveal';
+import { Download } from 'lucide-react';
+import { Reveal } from '../components/Reveal';
 import { EXPERIENCE } from '../constants';
 import { catalog as CERTIFICATIONS } from '../components/shelf/catalog';
-import { Download, Linkedin, Mail, FileText } from 'lucide-react';
 import { useSEO } from '../hooks/useSEO';
+import { CONTAINER, BTN_PRIMARY, BTN_SECONDARY } from '../components/layout';
 
 const RESUME_PDF_PATH = '/Mychal_Olguin_Resume.pdf';
 const LINKEDIN_URL = 'https://www.linkedin.com/in/mychalolguin/';
@@ -15,100 +14,124 @@ const EDUCATION = [
   {
     degree: 'Master of Science in Marketing',
     school: 'The University of Texas Rio Grande Valley',
-    period: '2026'
+    period: '2026',
   },
   {
     degree: 'Bachelor of Arts in Communication',
     school: 'The University of Texas San Antonio',
-    period: '2023'
-  }
+    period: '2023',
+  },
 ];
 
 const SKILLS = {
-  'Strategy & Analytics': ['Local SEO', 'On-Page SEO', 'Google Business Profile', 'UTM Tracking', 'CTR/CPL Reporting'],
-  'Creative & Web': ['Website Copy Updates', 'Mobile UX', 'CTA Best Practices', 'Content Development', 'Basic HTML'],
-  'Platforms': ['Meta Ads Manager', 'Google Ads', 'Google Analytics', 'Meta Business Suite', 'Excel', 'Canva', 'Claude'],
-  'Media Production': ['Photography', 'Video', '360 Tours', 'Social Posting', 'Photoshop', 'Premiere Pro']
+  'Strategy & Analytics': [
+    'Local SEO',
+    'On-Page SEO',
+    'Google Business Profile',
+    'UTM Tracking',
+    'CTR/CPL Reporting',
+  ],
+  'Creative & Web': [
+    'Website Copy Updates',
+    'Mobile UX',
+    'CTA Best Practices',
+    'Content Development',
+    'Basic HTML',
+  ],
+  Platforms: [
+    'Meta Ads Manager',
+    'Google Ads',
+    'Google Analytics',
+    'Meta Business Suite',
+    'Excel',
+    'Canva',
+    'Claude',
+  ],
+  'Media Production': [
+    'Photography',
+    'Video',
+    '360 Tours',
+    'Social Posting',
+    'Photoshop',
+    'Premiere Pro',
+  ],
 };
+
+/** Section head: a label and a count, ruled off from the content below it. */
+const SectionHead: React.FC<{ title: string; meta?: string }> = ({ title, meta }) => (
+  <div className="flex flex-wrap items-baseline justify-between gap-2">
+    <h2 className="display text-2xl md:text-3xl text-[var(--ink)]">{title}</h2>
+    {meta && <span className="label">{meta}</span>}
+  </div>
+);
 
 const Resume: React.FC = () => {
   useSEO({
     title: 'Resume',
-    description: 'View the professional resume of Mychal Olguin - Growth Marketing Specialist with expertise in paid social, GA4 analytics, SEO, and conversion optimization.'
+    description:
+      'View the professional resume of Mychal Olguin - Growth Marketing Specialist with expertise in paid social, GA4 analytics, SEO, and conversion optimization.',
   });
 
   const [pdfExists, setPdfExists] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Check if PDF exists
     fetch(RESUME_PDF_PATH, { method: 'HEAD' })
-      .then(res => setPdfExists(res.ok))
+      .then((res) => setPdfExists(res.ok))
       .catch(() => setPdfExists(false));
   }, []);
 
   return (
-    <PageTransition>
-      <div className="pt-32 pb-20 max-w-3xl lg:max-w-5xl mx-auto px-6 lg:px-10 xl:px-16">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6 mb-12">
+    <>
+      {/* ── Masthead ──────────────────────────────────────────────────── */}
+      <section className="pt-36 md:pt-52 pb-20 md:pb-28">
+        <div className={CONTAINER}>
           <Reveal>
-            <div>
-              <h1 className="text-4xl font-semibold text-[var(--color-text-primary)] mb-2">Resume</h1>
-              <p className="text-[var(--color-text-tertiary)]">Experience & Capabilities</p>
-            </div>
+            <h1 className="label">Resume</h1>
+            <h2 className="display text-[2.25rem] sm:text-5xl lg:text-6xl text-[var(--ink)] mt-5 max-w-[16ch]">
+              Three years of running acquisition.
+            </h2>
+            <p className="mt-6 max-w-[54ch] text-lg leading-relaxed text-[var(--color-text-tertiary)]">
+              Paid social, local search, and the measurement layer underneath both — across a
+              14-property multifamily portfolio.
+            </p>
           </Reveal>
 
-          {/* Action Buttons */}
           <Reveal delay={0.1}>
-            <div className="flex flex-wrap gap-3">
-              <motion.a
-                href={RESUME_PDF_PATH}
-                download="Mychal_Olguin_Resume.pdf"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-[3px] bg-[var(--ink)] text-[var(--paper)] text-sm font-medium transition-opacity hover:opacity-85"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
+            <div className="mt-9 flex flex-wrap gap-3 sm:gap-4">
+              <a href={RESUME_PDF_PATH} download="Mychal_Olguin_Resume.pdf" className={BTN_PRIMARY}>
                 <Download size={16} />
-                <span>Download Resume (PDF)</span>
-              </motion.a>
-              <motion.a
+                Download PDF
+              </a>
+              <a
                 href={LINKEDIN_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[var(--color-bg-elevated)] border border-[var(--color-border-default)] text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-mint-400/50 transition-all"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                className={BTN_SECONDARY}
               >
-                <Linkedin size={16} />
-                <span>View on LinkedIn</span>
-              </motion.a>
-              <motion.a
-                href={`mailto:${EMAIL_ADDRESS}`}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[var(--color-bg-elevated)] border border-[var(--color-border-default)] text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:border-mint-400/50 transition-all"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Mail size={16} />
-                <span>Email Me</span>
-              </motion.a>
+                LinkedIn
+              </a>
+              <a href={`mailto:${EMAIL_ADDRESS}`} className={BTN_SECONDARY}>
+                Email me
+              </a>
             </div>
           </Reveal>
         </div>
+      </section>
 
-        {/* PDF Preview Section - 8.5x11 aspect ratio */}
-        <Reveal delay={0.15}>
-          <section className="mb-16">
+      {/* ── PDF preview ───────────────────────────────────────────────── */}
+      <section className="pb-28 md:pb-40">
+        <div className={CONTAINER}>
+          <Reveal>
             {pdfExists === null ? (
-              // Loading state
               <div
-                className="w-full bg-[var(--color-bg-elevated)]/30 rounded-2xl border border-[var(--color-border-subtle)] flex items-center justify-center"
+                className="w-full border border-[var(--rule)] bg-[var(--color-bg-elevated)] flex items-center justify-center"
                 style={{ aspectRatio: '8.5 / 11' }}
               >
-                <p className="text-[var(--color-text-muted)] text-sm">Loading preview...</p>
+                <p className="label">Loading preview</p>
               </div>
             ) : pdfExists ? (
-              // PDF exists - show embed with 8.5x11 aspect ratio
               <div
-                className="w-full rounded-2xl border border-[var(--color-border-subtle)] overflow-hidden bg-white"
+                className="w-full border border-[var(--rule)] overflow-hidden bg-white"
                 style={{ aspectRatio: '8.5 / 11' }}
               >
                 <object
@@ -118,159 +141,162 @@ const Resume: React.FC = () => {
                 >
                   <iframe
                     src={`${RESUME_PDF_PATH}#view=FitH&toolbar=0`}
-                    title="Resume PDF Preview"
+                    title="Resume PDF preview"
                     className="w-full h-full"
                   />
                 </object>
               </div>
             ) : (
-              // PDF placeholder
-              <div
-                className="w-full bg-[var(--color-bg-elevated)]/30 rounded-2xl border border-dashed border-[var(--color-border-default)] p-12 flex flex-col items-center justify-center text-center"
-                style={{ aspectRatio: '8.5 / 11' }}
-              >
-                <FileText size={48} className="text-[var(--color-text-muted)] mb-4 opacity-50" />
-                <h3 className="text-lg font-medium text-[var(--color-text-secondary)] mb-2">Resume PDF Preview</h3>
-                <p className="text-sm text-[var(--color-text-muted)] max-w-md mb-4">
-                  Drop your resume PDF at <code className="text-xs bg-[var(--color-bg-elevated)] px-2 py-1 rounded">/public/Mychal_Olguin_Resume.pdf</code> to enable inline preview.
+              /* If the file is ever missing, a visitor gets a way forward —
+                 not a note addressed to whoever builds the site. */
+              <div className="w-full border border-[var(--rule)] p-10 md:p-14 text-center">
+                <h3 className="display text-xl text-[var(--ink)]">
+                  The inline preview isn't available right now.
+                </h3>
+                <p className="mt-3 text-[15px] leading-relaxed text-[var(--color-text-tertiary)] max-w-[46ch] mx-auto">
+                  The full history is on this page below, and I'll send the PDF straight over if you
+                  ask.
                 </p>
-                <p className="text-xs text-[var(--color-text-muted)] opacity-60">
-                  The download button will work once the file is added.
-                </p>
+                <a href={`mailto:${EMAIL_ADDRESS}`} className={`${BTN_PRIMARY} mt-7`}>
+                  Request the PDF
+                </a>
               </div>
             )}
-          </section>
-        </Reveal>
-
-        <div className="space-y-16">
-          {/* Experience */}
-          <Reveal>
-            <section>
-              <h2 className="text-sm font-medium text-[var(--color-accent)] uppercase tracking-wider mb-8">Professional Experience</h2>
-              <div className="space-y-12 border-l border-[var(--color-border-default)] pl-8 ml-3">
-                {EXPERIENCE.map((job, idx) => (
-                  <motion.div
-                    key={idx}
-                    className="relative"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  >
-                    <div className="absolute -left-[37px] top-2 w-4 h-4 rounded-full bg-[var(--color-bg-base)] border-2 border-mint-500" />
-                    <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2">
-                      <h3 className="text-xl font-semibold text-[var(--color-text-primary)]">{job.role}</h3>
-                      <span className="text-sm text-[var(--color-text-muted)] font-mono">{job.period}</span>
-                    </div>
-                    <div className="text-base text-[var(--color-text-secondary)] mb-4">{job.company}</div>
-                    <ul className="list-disc list-outside ml-4 space-y-2 text-[var(--color-text-tertiary)] leading-relaxed text-sm">
-                      {job.description.map((desc, i) => (
-                        <li key={i}>{desc}</li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                ))}
-              </div>
-            </section>
-          </Reveal>
-
-          {/* Education */}
-          <Reveal>
-            <section>
-              <h2 className="text-sm font-medium text-[var(--color-accent)] uppercase tracking-wider mb-8">Education</h2>
-              <StaggerContainer className="space-y-4">
-                {EDUCATION.map((edu, idx) => (
-                  <StaggerItem key={idx}>
-                    <motion.div
-                      className="bg-[var(--color-bg-elevated)]/30 p-6 rounded-2xl border border-[var(--color-border-subtle)]"
-                      whileHover={{ y: -2, borderColor: 'rgba(74, 222, 128, 0.2)' }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2">
-                        <div>
-                          <h3 className="text-[var(--color-text-primary)] font-medium text-lg">{edu.degree}</h3>
-                          <p className="text-[var(--color-text-tertiary)]">{edu.school}</p>
-                        </div>
-                        {edu.period && (
-                          <span className="text-[var(--color-text-muted)] text-sm font-mono">{edu.period}</span>
-                        )}
-                      </div>
-                    </motion.div>
-                  </StaggerItem>
-                ))}
-              </StaggerContainer>
-            </section>
-          </Reveal>
-
-          {/* Certifications */}
-          <Reveal>
-            <section>
-              <div className="flex flex-wrap items-baseline justify-between gap-2 mb-8">
-                <h2 className="text-sm font-medium text-[var(--color-accent)] uppercase tracking-wider">Certifications</h2>
-                <span className="text-xs text-[var(--color-text-muted)]">{CERTIFICATIONS.length} credentials</span>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                {CERTIFICATIONS.map((cert, idx) => (
-                  <motion.div
-                    key={cert.id}
-                    className="flex gap-3 p-4 rounded-xl bg-[var(--color-bg-elevated)]/50 border border-[var(--color-border-subtle)]"
-                    initial={{ opacity: 0, y: 8 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: idx * 0.04 }}
-                    whileHover={{ y: -2, borderColor: 'rgba(74, 222, 128, 0.3)' }}
-                  >
-                    {/* Echoes the spine color of this credential on the homepage shelf. */}
-                    <span
-                      aria-hidden="true"
-                      className="w-1 shrink-0 rounded-full"
-                      style={{ backgroundColor: cert.cover }}
-                    />
-                    <div className="min-w-0">
-                      <h3 className="text-[var(--color-text-primary)] text-sm font-medium leading-snug">{cert.title}</h3>
-                      <p className="text-[var(--color-text-tertiary)] text-xs mt-1">{cert.author}</p>
-                      <p className="text-[var(--color-text-muted)] text-xs mt-1 font-mono">{cert.format}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </section>
-          </Reveal>
-
-          {/* Skills */}
-          <Reveal>
-            <section>
-              <h2 className="text-sm font-medium text-[var(--color-accent)] uppercase tracking-wider mb-8">Skills & Competencies</h2>
-              <div className="space-y-6">
-                {Object.entries(SKILLS).map(([category, skills], catIdx) => (
-                  <motion.div
-                    key={category}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: catIdx * 0.1 }}
-                  >
-                    <h3 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-3">{category}</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {skills.map((skill, idx) => (
-                        <motion.span
-                          key={skill}
-                          className="px-3 py-1.5 rounded-lg bg-[var(--color-bg-elevated)]/50 border border-[var(--color-border-subtle)] text-[var(--color-text-tertiary)] text-xs"
-                          whileHover={{ scale: 1.05, borderColor: 'rgba(74, 222, 128, 0.3)' }}
-                          transition={{ duration: 0.15 }}
-                        >
-                          {skill}
-                        </motion.span>
-                      ))}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </section>
           </Reveal>
         </div>
-      </div>
-    </PageTransition>
+      </section>
+
+      {/* ── Experience ────────────────────────────────────────────────── */}
+      <section className="py-28 md:py-40">
+        <div className={CONTAINER}>
+          <Reveal>
+            <SectionHead title="Experience" />
+          </Reveal>
+
+          <div className="mt-10 md:mt-14">
+            {EXPERIENCE.map((job, idx) => (
+              <Reveal key={`${job.company}-${idx}`}>
+                <article className="border-t border-[var(--rule)] py-8 md:py-10 grid md:grid-cols-[13rem_1fr] gap-3 md:gap-10">
+                  <div className="label md:pt-1.5">{job.period}</div>
+                  <div>
+                    <h3 className="display text-xl md:text-2xl text-[var(--ink)]">
+                      {job.role}
+                    </h3>
+                    <p className="mt-1.5 text-[15px] text-[var(--color-text-secondary)]">
+                      {job.company}
+                    </p>
+                    <ul className="mt-5 space-y-2.5 max-w-[64ch]">
+                      {job.description.map((desc, i) => (
+                        <li
+                          key={i}
+                          className="relative pl-5 text-[15px] leading-relaxed text-[var(--color-text-tertiary)] before:absolute before:left-0 before:top-[0.7em] before:h-px before:w-2.5 before:bg-[var(--rule)]"
+                        >
+                          {desc}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+            <div className="border-t border-[var(--rule)]" />
+          </div>
+        </div>
+      </section>
+
+      {/* ── Education ─────────────────────────────────────────────────── */}
+      <section className="py-28 md:py-40 bg-[var(--surface-sunken)]">
+        <div className={CONTAINER}>
+          <Reveal>
+            <SectionHead title="Education" />
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <dl className="mt-10 md:mt-12">
+              {EDUCATION.map((edu) => (
+                <div
+                  key={edu.degree}
+                  className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-t border-[var(--rule)] py-5 transition-colors duration-150 hover:bg-[var(--surfaceHover)]"
+                >
+                  <div>
+                    <dt className="text-[17px] font-medium text-[var(--ink)]">{edu.degree}</dt>
+                    <dd className="mt-1 text-[15px] text-[var(--color-text-tertiary)]">
+                      {edu.school}
+                    </dd>
+                  </div>
+                  <span className="figure label">{edu.period}</span>
+                </div>
+              ))}
+              <div className="border-t border-[var(--rule)]" />
+            </dl>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Certifications ────────────────────────────────────────────── */}
+      <section className="py-28 md:py-40">
+        <div className={CONTAINER}>
+          <Reveal>
+            <SectionHead title="Certifications" meta={`${CERTIFICATIONS.length} credentials`} />
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="mt-10 md:mt-12 grid sm:grid-cols-2 gap-x-14">
+              {CERTIFICATIONS.map((cert) => (
+                <div
+                  key={cert.id}
+                  className="flex gap-4 border-t border-[var(--rule)] py-5 transition-colors duration-150 hover:bg-[var(--surfaceHover)]"
+                >
+                  {/* Echoes the spine color of this credential on the homepage
+                      shelf, so the list and the 3D shelf read as one set. */}
+                  <span
+                    aria-hidden="true"
+                    className="w-[3px] shrink-0"
+                    style={{ backgroundColor: cert.cover }}
+                  />
+                  <div className="min-w-0">
+                    <h3 className="text-[15px] font-medium leading-snug text-[var(--ink)]">
+                      {cert.title}
+                    </h3>
+                    <p className="mt-1 text-[14px] text-[var(--color-text-tertiary)]">
+                      {cert.author}
+                    </p>
+                    <p className="label mt-1.5">{cert.format}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-[var(--rule)]" />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Skills ────────────────────────────────────────────────────── */}
+      <section className="py-28 md:py-40">
+        <div className={CONTAINER}>
+          <Reveal>
+            <SectionHead title="Skills" />
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <dl className="mt-10 md:mt-12">
+              {Object.entries(SKILLS).map(([category, skills]) => (
+                <div
+                  key={category}
+                  className="grid md:grid-cols-[13rem_1fr] gap-1.5 md:gap-10 border-t border-[var(--rule)] py-5 transition-colors duration-150 hover:bg-[var(--surfaceHover)]"
+                >
+                  <dt className="label md:pt-1">{category}</dt>
+                  <dd className="text-[15px] leading-relaxed text-[var(--color-text-secondary)]">
+                    {skills.join(' · ')}
+                  </dd>
+                </div>
+              ))}
+              <div className="border-t border-[var(--rule)]" />
+            </dl>
+          </Reveal>
+        </div>
+      </section>
+    </>
   );
 };
 

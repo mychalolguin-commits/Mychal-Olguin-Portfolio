@@ -1,87 +1,162 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import PageTransition from '../components/PageTransition';
-import { Reveal, StaggerContainer, StaggerItem } from '../components/Reveal';
+import { ArrowUpRight } from 'lucide-react';
+import { Reveal } from '../components/Reveal';
 import MediaTile from '../components/MediaTile';
 import { PROJECTS } from '../constants';
-import { ArrowUpRight } from 'lucide-react';
 import { useSEO } from '../hooks/useSEO';
+import { CONTAINER, BTN_ON_BRAND } from '../components/layout';
 
+/**
+ * The homepage features these same case studies, so this index earns its place
+ * by being the complete record rather than a second teaser: every metric, not
+ * a slice of three, plus the tag line and timeframe.
+ */
 const Work: React.FC = () => {
   useSEO({
     title: 'Work',
-    description: 'Case studies in growth marketing, paid social campaigns, SEO optimization, and analytics systems by Mychal Olguin.'
+    description:
+      'Case studies in growth marketing, paid social campaigns, SEO optimization, and analytics systems by Mychal Olguin.',
   });
 
   return (
-    <PageTransition>
-      <div className="pt-32 pb-20 max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16 wash-section">
-        <Reveal>
-          <h1 className="text-4xl font-semibold text-[var(--color-text-primary)] mb-6">Work</h1>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <p className="text-[var(--color-text-tertiary)] max-w-xl mb-16 leading-relaxed">
-            A selection of projects focusing on growth architecture, paid acquisition, and analytics systems.
-          </p>
-        </Reveal>
+    <>
+      <section className="pt-36 md:pt-52 pb-20 md:pb-28">
+        <div className={CONTAINER}>
+          <Reveal>
+            <div className="flex items-baseline justify-between gap-4">
+              <h1 className="label">Case studies</h1>
+              <span className="figure label">
+                {String(PROJECTS.length).padStart(2, '0')} total
+              </span>
+            </div>
+            <h2 className="display text-[2.25rem] sm:text-5xl lg:text-6xl text-[var(--ink)] mt-5 max-w-[18ch]">
+              The work, with the numbers attached.
+            </h2>
+            <p className="mt-6 max-w-[56ch] text-lg leading-relaxed text-[var(--color-text-tertiary)]">
+              Each study runs the same way: what the problem was, what I built, and what the
+              platforms reported afterward. Where a figure is directional rather than measured, it
+              says so.
+            </p>
+          </Reveal>
+        </div>
+      </section>
 
-        <StaggerContainer className="grid gap-12">
-          {PROJECTS.map((project) => (
-            <StaggerItem key={project.slug}>
-              <Link
-                to={`/work/${project.slug}`}
-                className="group relative block"
-              >
-                <motion.div
-                  className="absolute -inset-4 rounded-3xl bg-[var(--color-border-subtle)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
-                  whileHover={{ scale: 1.01 }}
-                  transition={{ duration: 0.3 }}
-                />
+      <section className="pb-28 md:pb-40">
+        <div className={CONTAINER}>
+          <div className="space-y-16 md:space-y-24">
+            {PROJECTS.map((project) => {
+              const isDirectional = project.metrics.some((m) => m.placeholder);
+              // The Borders timeframe literally reads "(placeholder)" in the
+              // data; the disclosure below states it properly instead.
+              const timeframe = project.timeframe?.replace(/\s*\(placeholder\)/i, '');
 
-                <div className="grid md:grid-cols-2 gap-8 items-center">
-                  <motion.div
-                    className="aspect-video md:aspect-auto md:min-h-[280px] rounded-xl bg-[var(--color-bg-elevated)] border border-[var(--card-border)] shadow-[var(--shadow-card)] relative group-hover:border-[var(--card-border-hover)] group-hover:shadow-[var(--shadow-card-hover)] transition-all duration-300"
-                    whileHover={{ y: -4 }}
-                    transition={{ duration: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
-                  >
-                    <MediaTile
-                      type={project.mediaType}
-                      media={project.media}
-                      className="w-full h-full opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
-                    />
-                  </motion.div>
-                  <div className="py-2">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-[var(--color-accent)] text-xs font-medium tracking-wider uppercase">{project.subtitle}</span>
-                      <motion.div
-                        whileHover={{ x: 2, y: -2 }}
-                        transition={{ duration: 0.2 }}
+              return (
+                <Reveal key={project.slug}>
+                  <article className="border-t border-[var(--rule)] pt-7">
+                    <div className="grid lg:grid-cols-[1.05fr_1fr] gap-8 lg:gap-14 items-start">
+                      <Link
+                        to={`/work/${project.slug}`}
+                        aria-label={`Read the ${project.title} case study`}
+                        className="block h-72 sm:h-96 lg:h-full lg:min-h-[340px] overflow-hidden border border-[var(--rule)] bg-[var(--color-bg-elevated)] transition-colors duration-200 hover:border-[var(--ink)]"
                       >
-                        <ArrowUpRight className="text-[var(--color-text-muted)] group-hover:text-[var(--color-text-primary)] transition-colors" size={20} />
-                      </motion.div>
+                        <MediaTile
+                          type={project.mediaType}
+                          media={project.media}
+                          className="w-full h-full"
+                        />
+                      </Link>
+
+                      <div>
+                        <div className="flex items-baseline justify-between gap-4">
+                          <span className="label">{project.subtitle}</span>
+                          {timeframe && <span className="label">{timeframe}</span>}
+                        </div>
+
+                        <h3 className="display text-2xl md:text-[1.75rem] mt-4">
+                          <Link
+                            to={`/work/${project.slug}`}
+                            className="text-[var(--ink)] transition-opacity hover:opacity-70"
+                          >
+                            {project.title}
+                          </Link>
+                        </h3>
+
+                        <p className="mt-4 max-w-[48ch] text-[15px] leading-relaxed text-[var(--color-text-tertiary)]">
+                          {project.description}
+                        </p>
+
+                        {/* Same label/figure grammar as the homepage summary, so
+                            the eye scans one column of figures down the page. */}
+                        <dl className="mt-8">
+                          {project.metrics.map((metric) => (
+                            <div
+                              key={metric.label}
+                              className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-t border-[var(--rule)] py-2.5 transition-colors duration-150 hover:bg-[var(--surfaceHover)]"
+                            >
+                              <dt className="label">{metric.label}</dt>
+                              <dd className="figure text-[15px] text-[var(--ink)]">
+                                {metric.value}
+                              </dd>
+                            </div>
+                          ))}
+                          <div className="border-t border-[var(--rule)]" />
+                        </dl>
+
+                        {isDirectional && (
+                          <p className="mt-3 text-[13px] leading-relaxed text-[var(--graphite)]">
+                            Directional — a 30-day snapshot. Full attribution lands at 60–90 days as
+                            indexing propagates.
+                          </p>
+                        )}
+
+                        <p className="label mt-6">{project.tags.join(' · ')}</p>
+
+                        <Link
+                          to={`/work/${project.slug}`}
+                          className="mt-7 inline-flex items-center gap-1.5 text-[15px] font-medium text-[var(--ink)] underline underline-offset-4 decoration-[var(--rule)] transition-colors hover:decoration-[var(--ink)]"
+                        >
+                          Read the case study
+                          <ArrowUpRight size={16} />
+                        </Link>
+                      </div>
                     </div>
-                    <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-3 group-hover:text-mint-300 transition-colors">
-                      {project.title}
-                    </h2>
-                    <p className="text-[var(--color-text-tertiary)] text-sm leading-relaxed mb-6">
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map(tag => (
-                        <span key={tag} className="text-xs text-[var(--color-text-muted)] bg-[var(--color-bg-muted)] border border-[var(--card-border)] px-2 py-1 rounded">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
-      </div>
-    </PageTransition>
+                  </article>
+                </Reveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Close: the brand field, one per page, always at the end. ──── */}
+      <section className="py-32 md:py-48 bg-[var(--brand-field)]">
+        <div className={CONTAINER}>
+          <Reveal>
+            <div className="text-center">
+              <h2 className="statement text-4xl md:text-5xl text-[var(--on-brand-field)] mx-auto max-w-[18ch]">
+                Want the full read-out?
+              </h2>
+              <p className="mt-8 mx-auto max-w-[50ch] text-lg leading-relaxed text-[var(--on-brand-field)] opacity-80">
+                I'll walk you through the account, the tracking setup, and the reporting behind any
+                of these.
+              </p>
+              <div className="mt-12 flex flex-wrap justify-center gap-3 sm:gap-4">
+                <a href="mailto:mychalolguin@gmail.com" className={BTN_ON_BRAND}>
+                  Email me
+                </a>
+                <Link
+                  to="/resume"
+                  className="inline-flex items-center gap-2 rounded-[3px] border border-[var(--on-brand-muted)] text-[var(--on-brand-field)] px-6 py-3 text-[15px] font-medium transition-colors duration-200 hover:border-[var(--on-brand-field)]"
+                >
+                  View resume
+                </Link>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+    </>
   );
 };
 
