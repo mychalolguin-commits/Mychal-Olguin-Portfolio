@@ -350,7 +350,7 @@ const Home: React.FC = () => {
         <div className={CONTAINER}>
           <Reveal>
             <h2 className="statement text-3xl md:text-5xl text-[var(--ink)] text-center mx-auto max-w-[24ch]">
-              The site, the campaigns that point at it, and the measurement that settles which one worked.
+              The site, the campaigns that point at it, and the measurement that says which one worked.
             </h2>
           </Reveal>
 

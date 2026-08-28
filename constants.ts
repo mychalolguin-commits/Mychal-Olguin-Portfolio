@@ -86,7 +86,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: 'cornerstone-apartment-websites',
-    title: 'Cornerstone Capital — Four Sites Written to Be Quoted',
+    title: 'Cornerstone Capital — Four Sites Rebuilt for AI Answers',
     subtitle: 'Web Design · SEO · AI Search',
     mediaType: 'seo',
     eyebrow: 'WEB DESIGN · SEO · AI SEARCH',
@@ -95,17 +95,17 @@ export const PROJECTS: Project[] = [
     channels: 'Organic Search · AI Assistants',
     tools: 'Yardi RentCafe site builder, hand-written HTML/CSS widgets, on-page SEO, 360° capture',
     description:
-      'Four apartment communities rebuilt so that when a renter asks an AI assistant a question, the assistant quotes the property instead of a listing aggregator.',
+      'Four apartment communities rebuilt. ChatGPT now answers questions about two of them from the property\'s own page instead of a listing site.',
     tags: ['Web Design', 'Answer-First Content', 'On-Page SEO', 'Multifamily'],
     heroImage: '/captures/borders-site.png',
     heroSource: 'bordersapts.com',
 
     challenge:
-      'Four dated property sites with no FAQ content, no meta descriptions, and no keyword targeting — so renters found aggregators describing the property second-hand before they found the property.',
+      'Four out-of-date property sites with no FAQ content, no meta descriptions, and no keyword targeting. Renters found listing sites before they found the property.',
     solution:
-      'Full rebuilds in Yardi RentCafe, extended with hand-written widgets, and every page rewritten to answer the questions a leasing office actually gets by phone.',
+      'Full rebuilds in Yardi RentCafe with hand-written widgets, and every page rewritten to answer the questions the leasing office gets by phone.',
     result:
-      'ChatGPT now answers Brownsville renter queries by citing Borders and Los Cedros directly from their own sites, quoting the pet policy off the page.',
+      'ChatGPT now cites Borders and Los Cedros from their own sites, using the pet policy written on the page.',
 
     // No GA4 or Search Console baseline was captured for this engagement, so
     // there are no numbers to headline. WorkDetail skips the metrics rail when
@@ -116,49 +116,49 @@ export const PROJECTS: Project[] = [
     narrative: [
       {
         title: 'What they had',
-        body: `Four Cornerstone Capital communities — Borders and Los Cedros in Brownsville, Compass Bay in Corpus Christi, Verano Oaks in Hurst — were running on dated sites with the same three gaps: no FAQ content, no meta descriptions, and no keyword targeting.
+        body: `Cornerstone Capital runs four communities: Borders and Los Cedros in Brownsville, Compass Bay in Corpus Christi, and Verano Oaks in Hurst. All four sites were out of date. None had FAQ content, meta descriptions, or keyword targeting.
 
-The practical effect shows up the moment someone searches. Ask about pet-friendly apartments in Brownsville and you get Rent.com, Realtor, and Apartments.com, each describing the property second-hand from a listing feed. The property's own site had nothing on it worth quoting, so nothing quoted it.`,
+Search for pet-friendly apartments in Brownsville and you got Rent.com, Realtor, and Apartments.com. Each described the property from a listing feed. The property's own site did not answer the question.`,
       },
       {
         title: 'What I built',
-        body: `Full rebuilds across all four, done over about four months in 2025, working solo.
+        body: `I rebuilt all four in about four months in 2025, working solo.
 
-The platform was Yardi's RentCafe site builder — a template system with a fixed catalogue of blocks. Anything it didn't offer, I wrote by hand in HTML and CSS and dropped in as a custom widget, which is how the pet policy tiers, the FAQ blocks, and the floor-plan detail got onto pages that otherwise couldn't hold them.
+The platform was Yardi's RentCafe site builder, which ships a fixed set of blocks. For anything outside that set I wrote the HTML and CSS myself and added it as a custom widget. The pet policy tiers, the FAQ blocks, and the floor-plan detail were all built that way.
 
-I shot the 360° tours, photography, and video for three of the four; Compass Bay's imagery was supplied. The on-page SEO was deliberately narrow: a real H1 and H2 structure on every page, and alt text on every photo.`,
+I shot the 360° tours, photography, and video for three of the properties. Compass Bay's imagery was supplied. The on-page SEO was small: H1 and H2 structure on every page, and alt text on every photo.`,
       },
       {
-        title: 'Written to be answered',
-        body: `The rule was simple — take the questions the leasing office actually gets by phone and answer them in plain sentences on the page, rather than burying them in a PDF or leaving them to the chat widget.
+        title: 'How I wrote the pages',
+        body: `I took the questions the leasing office gets by phone and answered them on the page, in full sentences, instead of leaving them to a PDF or the chat widget.
 
-The pet policy is the clearest example. Instead of "we're pet friendly," the page states the terms: two weight tiers, a two-pet limit, the one-time fee and the monthly rent for each tier, and a line saying breed restrictions apply. The floor-plan FAQ does the same thing in question form — what plans are offered, whether there's laundry in the unit, whether homes have a patio or balcony, how quickly you can move in.
+The pet policy is the clearest case. Rather than "we're pet friendly," the page lists the terms: two weight tiers, a limit of two pets, the one-time fee and monthly rent for each tier, and a note that breed restrictions apply. The floor-plan FAQ covers which plans exist, whether units have laundry, whether homes have a patio or balcony, and how soon you can move in.
 
-Worth being precise about what this was not. There is no schema markup on these sites. No JSON-LD, no FAQPage, no LocalBusiness. Just a heading that names the question and a sentence that answers it, in the order a person would ask.`,
+These sites have no schema markup. No JSON-LD, no FAQPage, no LocalBusiness. The structure is a heading with the question and a sentence with the answer.`,
         artifact: {
           src: '/captures/apts-pet-widget.png',
           alt: 'Custom pet policy widget and floor plan FAQ built for Los Cedros Apartments',
-          caption: 'The hand-coded pet policy tiers and FAQ block — Los Cedros',
+          caption: 'Pet policy tiers and floor-plan FAQ I built for Los Cedros',
         },
       },
       {
-        title: 'What came back',
-        body: `Asked "pet friendly apartments in brownsville tx," ChatGPT returns seven properties. Five are described from Rent.com, Realtor, or Apartments.com. Two are cited from their own websites — Borders and Los Cedros. Both are mine.
+        title: 'What ChatGPT shows now',
+        body: `Asked "pet friendly apartments in brownsville tx," ChatGPT listed seven properties. Five were sourced from Rent.com, Realtor, or Apartments.com. Two were sourced from the property's own website: Borders and Los Cedros. I built both.
 
-What it says about them came off the page. For Los Cedros: "up to 2 pets, with fees depending on pet size." For Borders: "up to 2 pets, with breed restrictions." Those are the widget's own terms, read and repeated back.
+The details match the pages. For Los Cedros it reported "up to 2 pets, with fees depending on pet size." For Borders, "up to 2 pets, with breed restrictions." Both lines come from the pet policy widget.
 
-The boundary matters as much as the result. That screenshot proves retrieval and citation, and nothing more. It is not a ranking, not a traffic lift, and not proof of causation — no before-and-after baseline was captured, and I would rather show the receipt for what it is than dress it up as one.`,
+The screenshot shows one thing: these pages were retrieved and cited. It is not a ranking, a traffic number, or evidence of cause. No baseline was recorded before the rebuild.`,
         artifact: {
           src: '/captures/apts-ai-answer.png',
           alt: 'ChatGPT citing Borders Apartments and Los Cedros Apartments own websites for their pet policies',
-          caption: 'ChatGPT, August 2026 — the citation chips read "Borders Apartments" and "Los Cedros Apartments," not Rent.com',
+          caption: 'ChatGPT, August 2026. The citations read "Borders Apartments" and "Los Cedros Apartments," not Rent.com.',
         },
       },
       {
         title: "What's still open",
-        body: `Schema markup is the obvious next layer — FAQPage and LocalBusiness on content that is already written in question-and-answer form is a small change with a clear rationale.
+        body: `Schema markup is the next step. The content is already in question-and-answer form, so adding FAQPage and LocalBusiness is a small change.
 
-The bigger gap is measurement. This engagement ran without a Search Console baseline, which is why this page argues from screenshots rather than a trend line. That is a fixable mistake and the first thing I would set up on the next one: a baseline before the rebuild, so the next version of this case study can show the curve as well as the citation.`,
+The larger gap is measurement. This project ran without a Search Console baseline, which is why this page shows screenshots and not a trend line. On the next rebuild I will record the baseline first.`,
       },
     ],
 
