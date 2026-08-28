@@ -16,7 +16,7 @@ const Work: React.FC = () => {
   useSEO({
     title: 'Work',
     description:
-      'Case studies in growth marketing, paid social campaigns, SEO optimization, and analytics systems by Mychal Olguin.',
+      'Case studies in web design, SEO and answer-engine optimization, paid social, and the measurement behind them, by Mychal Olguin.',
   });
 
   return (
@@ -31,11 +31,11 @@ const Work: React.FC = () => {
               </span>
             </div>
             <h2 className="display text-[2.25rem] sm:text-5xl lg:text-6xl text-[var(--ink)] mt-5 max-w-[18ch]">
-              The work, with the numbers attached.
+              The work, and the evidence behind it.
             </h2>
             <p className="mt-6 max-w-[56ch] text-lg leading-relaxed text-[var(--color-text-tertiary)]">
-              Each study runs the same way: what the problem was, what I built, and what the
-              platforms reported afterward. Where a figure is directional rather than measured, it
+              Each study covers what the problem was, what I built, and what came back. Where
+              there's a number, the source is named next to it. Where there isn't one, the study
               says so.
             </p>
           </Reveal>

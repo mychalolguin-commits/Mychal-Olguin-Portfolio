@@ -27,7 +27,7 @@ const Contact: React.FC = () => {
   useSEO({
     title: 'Contact',
     description:
-      'Get in touch with Mychal Olguin for growth marketing, paid social, and analytics opportunities. Based in Texas, open to remote roles.',
+      'Get in touch with Mychal Olguin about digital marketing work — web design, search, paid media, and analytics. Based in Texas, open to remote roles.',
   });
 
   const [name, setName] = useState('');
@@ -63,11 +63,11 @@ const Contact: React.FC = () => {
           <Reveal>
             <h1 className="label">Contact</h1>
             <h2 className="display text-[2.25rem] sm:text-5xl lg:text-6xl text-[var(--ink)] mt-5 max-w-[16ch]">
-              Tell me what you need measured.
+              Tell me what you need built and measured.
             </h2>
             <p className="mt-6 max-w-[54ch] text-lg leading-relaxed text-[var(--color-text-tertiary)]">
-              I'm looking for my next paid social or growth role. Ask me anything about the
-              campaigns, the tracking setup, or the reporting behind them.
+              I'm looking for my next digital marketing or growth role. Ask me anything about the
+              sites, the campaigns, the tracking setup, or the reporting behind them.
             </p>
           </Reveal>
 

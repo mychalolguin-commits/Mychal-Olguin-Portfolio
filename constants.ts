@@ -13,20 +13,24 @@ export const PROJECTS: Project[] = [
     destination: '/floorplans',
     channels: 'Meta (Facebook/Instagram)',
     tools: 'Meta Ads Manager, GA4, UTM Structure, Excel Reporting',
-    description: 'A traffic-focused campaign driving qualified users to floorplan pages, optimizing for landing page views with precise measurement infrastructure.',
+    description: 'A Meta campaign pointed at the floorplan pages, optimized for landing page views, with the tracking built before the spend started.',
     tags: ['Paid Social', 'Measurement', 'GA4', 'Traffic Campaigns'],
     // A capture of the real account, not stock photography. Until the file
     // exists the detail page falls back to the rendered data tile — see
     // public/captures/README.md.
     heroImage: '/captures/meta-ads-manager.png',
-    challenge: 'The property lacked consistent top-of-funnel traffic to key conversion pages, and there was no measurement framework to attribute floorplan engagement back to paid efforts.',
-    solution: 'Deployed a traffic-optimized campaign structure on Meta with UTM taxonomy feeding GA4 events for granular floorplan page tracking.',
-    result: 'Achieved efficient cost per landing page view while building a measurement foundation for future conversion optimization.',
-    problem: 'Towne Oaks needed to increase visibility of available floorplans to prospective residents. The existing marketing mix relied heavily on search and referral traffic, leaving paid social underutilized. Without a structured measurement layer, there was no clear path to attribute floorplan engagement to specific campaigns or creatives.',
-    approach: 'Built a traffic campaign on Meta optimized for Landing Page Views (LPV) rather than link clicks—ensuring quality visits over vanity metrics. Established a clean UTM structure (utm_source, utm_medium, utm_campaign, utm_content) to segment traffic in GA4. Created custom events in GA4 to track floorplan page engagement depth.',
-    reporting: 'Configured a weekly reporting cadence in Excel pulling from Meta Ads Manager exports and GA4 exploration reports. Metrics tracked: Reach, Impressions, LPV, Spend, Cost/LPV. Added secondary views for creative-level performance to inform iteration cycles.',
-    results: 'Over 3 months, the campaign delivered 2,475 landing page views to floorplan content at $0.52/LPV—well within efficiency targets for awareness-stage traffic. The measurement framework now enables future campaign layers (retargeting, conversion optimization) with clean attribution.',
-    nextSteps: 'Phase 2 will introduce retargeting audiences based on floorplan page visitors, shifting optimization toward tour scheduling. Additionally, exploring Meta CAPI integration for server-side event tracking to improve signal quality as iOS restrictions impact pixel reliability.',
+    challenge: 'Not enough traffic reached the floorplan pages, and nothing connected the visits that did arrive back to a campaign.',
+    solution: 'A Meta traffic campaign with one UTM structure feeding GA4 events, so a floorplan visit could be traced to the ad that produced it.',
+    result: '2,475 landing page views at $0.52 each over three months, on tracking that later campaigns can reuse.',
+    problem: 'Towne Oaks needed more people looking at the available floorplans. Traffic came mostly from search and referral, and paid social was barely running. There was also no way to tell which campaign or creative produced a floorplan visit, so there was nothing to optimize against.',
+    approach: `I optimized for landing page views rather than link clicks. A click counts when someone taps the ad; a landing page view counts when the page finishes loading. The second number is the one worth paying for.
+
+Every ad carried the same UTM structure — utm_source, utm_medium, utm_campaign, utm_content — so the traffic could be split apart in GA4. I added custom GA4 events to record how far into the floorplan pages people got.`,
+    reporting: 'A weekly Excel report pulling from Meta Ads Manager exports and GA4 explorations, tracking reach, impressions, landing page views, spend, and cost per landing page view. A second view broke the same numbers out by creative, which is what drove the changes.',
+    results: `Over three months the campaign delivered 2,475 landing page views to the floorplan pages at $0.52 each, on $1,295 of spend, reaching 67,454 people across 233,526 impressions.
+
+The tracking outlasted the campaign. Retargeting and conversion campaigns can run on the same UTM structure and the same events without rebuilding any of it.`,
+    nextSteps: 'Next is retargeting the people who viewed a floorplan, optimizing for tour bookings rather than traffic. After that, Meta CAPI for server-side events, since iOS restrictions have made the pixel less reliable on its own.',
     metrics: [
       { label: 'Spend', value: '$1,295' },
       { label: 'LP Views', value: '2,475' },

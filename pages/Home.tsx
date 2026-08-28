@@ -20,10 +20,8 @@ import {
  * pulled it from, and the source is printed next to it — that sourcing is the
  * point of the section, not decoration.
  *
- * Deliberately excludes the Borders case-study metrics: those carry
- * `placeholder: true` in constants.ts, so they must not be presented as
- * career results. Everything below comes from EXPERIENCE or from Towne Oaks'
- * real dashboardData.
+ * Every row comes from EXPERIENCE or from Towne Oaks' real dashboardData.
+ * Nothing derived from a case study without measured numbers belongs here.
  */
 const SUMMARY_ROWS: {
   metric: string;
@@ -40,33 +38,33 @@ const SUMMARY_ROWS: {
 
 const CAPABILITIES = [
   {
-    title: 'Paid social & growth',
-    description: 'Plan, launch, and optimize campaigns with disciplined testing and budget control.',
-    tools: ['Meta Ads Manager', 'Creative testing', 'Budget pacing'],
+    title: 'Websites',
+    description: 'Design and build the pages, including inside a locked-down CMS that will not do what you need.',
+    tools: ['Web design', 'HTML/CSS', 'RentCafe', 'Shopify'],
   },
   {
-    title: 'Measurement & attribution',
-    description: 'Build clean tracking so performance ties back to real behavior.',
-    tools: ['GA4', 'UTMs', 'Event tracking', 'CAPI'],
+    title: 'Paid social & search',
+    description: 'Plan, launch, and run Meta and Google campaigns, testing creative against a set budget.',
+    tools: ['Meta Ads Manager', 'Google Ads', 'Creative testing', 'Budget pacing'],
   },
   {
-    title: 'SEO & web',
-    description: 'Design and optimize pages that rank locally and guide users to conversion.',
-    tools: ['SEO', 'HTML', 'On-page', 'CRO'],
+    title: 'SEO & answer engines',
+    description: 'Structure and write pages so they rank locally and get quoted directly by AI assistants.',
+    tools: ['On-page SEO', 'FAQ content', 'Heading structure', 'AEO'],
   },
   {
-    title: 'Dashboards & insights',
-    description: 'Reporting that turns channel metrics into decisions and next steps.',
-    tools: ['Excel', 'Tableau', 'Data viz', 'KPIs'],
+    title: 'Measurement & reporting',
+    description: 'Build the tracking first, then report against it every week.',
+    tools: ['GA4', 'UTMs', 'Event tracking', 'Excel'],
   },
   {
     title: 'Creative strategy',
-    description: 'Use performance learnings to iterate creative, hooks, and messaging fast.',
+    description: 'Read what performed, then change the hook, the copy, and the creative.',
     tools: ['A/B testing', 'Ad creative', 'Hooks', 'Iteration'],
   },
   {
     title: 'Local search & reputation',
-    description: 'Improve high-intent visibility through profile optimization and review strategy.',
+    description: 'Google Business Profiles and reviews, so the property turns up in local and map results.',
     tools: ['Google Business', 'Reviews', 'Local SEO', 'Maps'],
   },
 ];
@@ -267,8 +265,8 @@ const Home: React.FC = () => {
           <div className="mt-14 md:mt-20 space-y-24 md:space-y-32">
             {featured.map((project) => {
               const isDirectional = project.metrics.some((m) => m.placeholder);
-              // The Borders timeframe literally reads "(placeholder)" in the
-              // data; the disclosure below states it properly instead.
+              // Kept as a guard for any future entry that ships a
+              // "(placeholder)" timeframe. No current project has one.
               const timeframe = project.timeframe?.replace(/\s*\(placeholder\)/i, '');
 
               return (
@@ -403,8 +401,8 @@ const Home: React.FC = () => {
                 Let's talk.
               </h2>
               <p className="mt-8 mx-auto max-w-[48ch] text-lg leading-relaxed text-[var(--on-brand-field)] opacity-80">
-                I'm looking for my next paid social or growth role. Email me and I'll send over
-                whatever numbers you want to see.
+                I'm looking for my next digital marketing or growth role. Email me and I'll send
+                over whatever you want to see.
               </p>
               <div className="mt-12 flex flex-wrap justify-center gap-3 sm:gap-4">
                 <a href="mailto:mychalolguin@gmail.com" className={BTN_ON_BRAND}>

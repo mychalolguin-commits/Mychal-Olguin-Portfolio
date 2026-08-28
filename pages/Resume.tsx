@@ -69,7 +69,7 @@ const Resume: React.FC = () => {
   useSEO({
     title: 'Resume',
     description:
-      'View the professional resume of Mychal Olguin - Growth Marketing Specialist with expertise in paid social, GA4 analytics, SEO, and conversion optimization.',
+      'The resume of Mychal Olguin, a digital marketer working across web design, SEO and answer-engine optimization, paid media, and analytics.',
   });
 
   const [pdfExists, setPdfExists] = useState<boolean | null>(null);
@@ -88,10 +88,10 @@ const Resume: React.FC = () => {
           <Reveal>
             <h1 className="label">Resume</h1>
             <h2 className="display text-[2.25rem] sm:text-5xl lg:text-6xl text-[var(--ink)] mt-5 max-w-[16ch]">
-              Three years of running acquisition.
+              Three years of running marketing.
             </h2>
             <p className="mt-6 max-w-[54ch] text-lg leading-relaxed text-[var(--color-text-tertiary)]">
-              Paid social, local search, and the measurement layer underneath both — across a
+              Websites, paid media, local search, and the measurement under all of it — across a
               14-property multifamily portfolio.
             </p>
           </Reveal>
