@@ -5,6 +5,9 @@ export interface Project {
   description: string;
   tags: string[];
   heroImage: string;
+  /** Cited beside the hero capture. Falls back to `channels`, which is wrong
+   *  when the capture is a website rather than a platform report. */
+  heroSource?: string;
   mediaType: 'meta' | 'seo' | 'reporting';
   challenge: string;
   solution: string;
@@ -26,10 +29,24 @@ export interface Project {
   nextSteps?: string;
   // Artifact images
   artifacts?: Artifact[];
+
+  /**
+   * Overrides the fixed Problem/Approach/Execution/Reporting/Results spine.
+   * That order assumes a measured campaign; a craft case study — where the
+   * evidence is the work itself rather than a number — needs its own headings
+   * and would otherwise leave three sections begging for invented metrics.
+   */
+  narrative?: NarrativeSection[];
   // Dashboard data for case studies with metrics
   dashboardData?: DashboardData;
   // Media tile data for mini-dashboard visualization
   media?: MediaData;
+}
+
+export interface NarrativeSection {
+  title: string;
+  body?: string;
+  artifact?: Artifact;
 }
 
 export interface DashboardData {
@@ -134,7 +151,9 @@ export interface SEOMediaData {
   };
   cwvTiles: { metric: string; value: string; status: 'good' | 'needs-improvement' | 'poor' }[];
   speedScore?: number;
-  sparkline: SparklinePoint[];
+  /** Optional. A case study with no trend to plot must not be forced to
+   *  invent one — MediaTile drops the sparkline rather than draw a fake. */
+  sparkline?: SparklinePoint[];
 }
 
 // PaidSocial Variant

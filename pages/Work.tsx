@@ -47,8 +47,8 @@ const Work: React.FC = () => {
           <div className="space-y-16 md:space-y-24">
             {PROJECTS.map((project) => {
               const isDirectional = project.metrics.some((m) => m.placeholder);
-              // The Borders timeframe literally reads "(placeholder)" in the
-              // data; the disclosure below states it properly instead.
+              // Kept as a guard for any future entry that ships a
+              // "(placeholder)" timeframe. No current project has one.
               const timeframe = project.timeframe?.replace(/\s*\(placeholder\)/i, '');
 
               return (

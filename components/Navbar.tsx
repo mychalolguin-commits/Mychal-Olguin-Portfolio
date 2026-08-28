@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
           <span className="display text-[var(--ink)] text-lg">Mychal Olguin</span>
           {/* The masthead's utility line — the standing context a report header
               carries. Hidden below sm so the bar doesn't crowd. */}
-          <span className="label hidden sm:block">Growth marketing · Texas</span>
+          <span className="label hidden sm:block">Digital marketing · Texas</span>
         </NavLink>
 
         {/* Desktop Nav */}

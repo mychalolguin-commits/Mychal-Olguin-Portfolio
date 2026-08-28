@@ -93,8 +93,8 @@ const WorkDetail: React.FC = () => {
     keywords: project.tags.join(', '),
   };
 
-  // The Borders timeframe literally reads "(placeholder)" in the data; the
-  // disclosure beneath the metrics states it properly instead.
+  // Kept as a guard for any future entry that ships a "(placeholder)"
+  // timeframe. No current project has one.
   const timeframe = project.timeframe?.replace(/\s*\(placeholder\)/i, '');
   const hasDirectional = project.metrics.some((m) => m.placeholder);
 
@@ -108,7 +108,9 @@ const WorkDetail: React.FC = () => {
   ];
   const facts = FACTS.filter((f) => f.value);
 
-  const sections: Section[] = project.problem
+  const sections: Section[] = project.narrative
+    ? project.narrative.filter((s) => s.body || s.artifact)
+    : project.problem
     ? [
         { title: 'Problem', body: project.problem },
         { title: 'Approach', body: project.approach, artifact: project.artifacts?.[0] },
@@ -187,7 +189,7 @@ const WorkDetail: React.FC = () => {
             bleed
             src={project.heroImage}
             alt={`Platform view for ${project.title}`}
-            source={project.channels || 'Platform'}
+            source={project.heroSource || project.channels || 'Platform'}
             fallback={
               project.media ? (
                 <div className="w-full h-[320px] md:h-[520px] overflow-hidden border border-[var(--rule)] bg-[var(--color-bg-elevated)]">
@@ -202,7 +204,11 @@ const WorkDetail: React.FC = () => {
           />
         </Reveal>
 
-        {/* ── Headline metrics ────────────────────────────────────────── */}
+        {/* ── Headline metrics ──────────────────────────────────────────
+            Skipped entirely when a case study has no numbers. An empty
+            metrics rail reads as missing data; no rail reads as a case
+            study that argues from something other than a figure. */}
+        {project.metrics.length > 0 && (
         <section className="py-28 md:py-40">
           <div className={CONTAINER}>
             <Reveal>
@@ -237,6 +243,7 @@ const WorkDetail: React.FC = () => {
             </Reveal>
           </div>
         </section>
+        )}
 
         {/* ── Dashboard ───────────────────────────────────────────────── */}
         {project.dashboardData && (

@@ -257,10 +257,12 @@ const SEOVariant: React.FC<{ data: SEOMediaData }> = ({ data }) => {
         </div>
       )}
 
-      {/* Sparkline */}
-      <div className="mt-auto pt-2">
-        <Sparkline data={data.sparkline} color="var(--data-1)" />
-      </div>
+      {/* Sparkline — omitted when there is no measured trend behind it. */}
+      {data.sparkline && data.sparkline.length > 0 && (
+        <div className="mt-auto pt-2">
+          <Sparkline data={data.sparkline} color="var(--data-1)" />
+        </div>
+      )}
     </div>
   );
 };

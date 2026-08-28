@@ -85,66 +85,94 @@ export const PROJECTS: Project[] = [
     }
   },
   {
-    slug: 'borders-seo-conversion',
-    title: 'Borders — SEO + Conversion System Redesign',
-    subtitle: 'SEO · Conversion · UX',
+    slug: 'cornerstone-apartment-websites',
+    title: 'Cornerstone Capital — Four Sites Written to Be Quoted',
+    subtitle: 'Web Design · SEO · AI Search',
     mediaType: 'seo',
-    eyebrow: 'SEO · CONVERSION · UX',
-    timeframe: '30-day snapshot (placeholder)',
-    objective: 'Organic Growth + Conversion',
-    channels: 'Organic Search',
-    tools: 'GA4, Google Search Console, On-page SEO, IA/UX, Content updates',
-    description: 'A foundational SEO and conversion optimization initiative restructuring site architecture, on-page elements, and user flows to improve organic visibility and engagement.',
-    tags: ['Technical SEO', 'CRO', 'UX Research', 'Content Strategy'],
-    heroImage: '/captures/search-console.png',
-    challenge: 'The site suffered from poor indexability and unclear user journeys, leading to stagnant organic traffic despite content investment.',
-    solution: 'Implemented a comprehensive SEO and UX overhaul targeting technical foundations, content structure, and conversion pathways.',
-    result: 'Early indicators show improved rankings and engagement, with full impact expected as changes index and mature.',
-    problem: `• Organic traffic plateaued despite consistent content production—indicating structural or technical barriers to growth.
-• High bounce rates on key landing pages suggested misalignment between search intent and page content/UX.
-• No systematic measurement framework existed to connect SEO efforts to downstream engagement or conversion events.`,
-    approach: `• Conducted a technical SEO audit to identify indexation blockers, crawl inefficiencies, and on-page gaps.
-• Mapped user journeys from SERP entry points to conversion actions, identifying friction points in navigation and content hierarchy.
-• Prioritized quick-win optimizations (title tags, meta descriptions, internal linking) alongside structural IA improvements.
-• Established baseline metrics in GA4 and GSC to measure impact over a 30/60/90-day window.`,
-    execution: `• Rewrote title tags and meta descriptions for top 20 landing pages targeting primary keyword clusters.
-• Restructured internal linking to distribute authority toward high-intent conversion pages.
-• Implemented schema markup (Organization, LocalBusiness, FAQ) to improve SERP feature eligibility.
-• Optimized Core Web Vitals by compressing images and deferring non-critical scripts.
-• Created content briefs for new pages targeting keyword gaps identified in competitive analysis.`,
-    results: `These metrics represent a 30-day snapshot. Full attribution will be clearer at the 60–90 day mark as indexing propagates:
+    eyebrow: 'WEB DESIGN · SEO · AI SEARCH',
+    timeframe: '2025 · ~4 months',
+    objective: 'Rebuild + organic visibility',
+    channels: 'Organic Search · AI Assistants',
+    tools: 'Yardi RentCafe site builder, hand-written HTML/CSS widgets, on-page SEO, 360° capture',
+    description:
+      'Four apartment communities rebuilt so that when a renter asks an AI assistant a question, the assistant quotes the property instead of a listing aggregator.',
+    tags: ['Web Design', 'Answer-First Content', 'On-Page SEO', 'Multifamily'],
+    heroImage: '/captures/borders-site.png',
+    heroSource: 'bordersapts.com',
 
-• Organic Sessions: +22% MoM
-• Engagement Rate: +11%
-• Lead Conversion Rate: 1.6% → 2.2%
-• Top 10 Keywords: +14
-• GSC Clicks: +18%`,
-    nextSteps: `• Expand content production based on keyword gap analysis—targeting informational queries to build topical authority.
-• Implement conversion rate experiments (A/B tests) on primary landing pages to further optimize lead capture.
-• Build a recurring SEO reporting dashboard connecting GSC, GA4, and CRM data for ongoing performance visibility.`,
-    metrics: [
-      { label: 'Organic Sessions', value: '+22% MoM', placeholder: true },
-      { label: 'Engagement Rate', value: '+11%', placeholder: true },
-      { label: 'Lead Conversion', value: '1.6% → 2.2%', placeholder: true },
-      { label: 'Top 10 Keywords', value: '+14', placeholder: true },
-      { label: 'GSC Clicks', value: '+18%', placeholder: true }
+    challenge:
+      'Four dated property sites with no FAQ content, no meta descriptions, and no keyword targeting — so renters found aggregators describing the property second-hand before they found the property.',
+    solution:
+      'Full rebuilds in Yardi RentCafe, extended with hand-written widgets, and every page rewritten to answer the questions a leasing office actually gets by phone.',
+    result:
+      'ChatGPT now answers Brownsville renter queries by citing Borders and Los Cedros directly from their own sites, quoting the pet policy off the page.',
+
+    // No GA4 or Search Console baseline was captured for this engagement, so
+    // there are no numbers to headline. WorkDetail skips the metrics rail when
+    // this is empty — which is the honest presentation, and the whole argument
+    // here is carried by the screenshots instead.
+    metrics: [],
+
+    narrative: [
+      {
+        title: 'What they had',
+        body: `Four Cornerstone Capital communities — Borders and Los Cedros in Brownsville, Compass Bay in Corpus Christi, Verano Oaks in Hurst — were running on dated sites with the same three gaps: no FAQ content, no meta descriptions, and no keyword targeting.
+
+The practical effect shows up the moment someone searches. Ask about pet-friendly apartments in Brownsville and you get Rent.com, Realtor, and Apartments.com, each describing the property second-hand from a listing feed. The property's own site had nothing on it worth quoting, so nothing quoted it.`,
+      },
+      {
+        title: 'What I built',
+        body: `Full rebuilds across all four, done over about four months in 2025, working solo.
+
+The platform was Yardi's RentCafe site builder — a template system with a fixed catalogue of blocks. Anything it didn't offer, I wrote by hand in HTML and CSS and dropped in as a custom widget, which is how the pet policy tiers, the FAQ blocks, and the floor-plan detail got onto pages that otherwise couldn't hold them.
+
+I shot the 360° tours, photography, and video for three of the four; Compass Bay's imagery was supplied. The on-page SEO was deliberately narrow: a real H1 and H2 structure on every page, and alt text on every photo.`,
+      },
+      {
+        title: 'Written to be answered',
+        body: `The rule was simple — take the questions the leasing office actually gets by phone and answer them in plain sentences on the page, rather than burying them in a PDF or leaving them to the chat widget.
+
+The pet policy is the clearest example. Instead of "we're pet friendly," the page states the terms: two weight tiers, a two-pet limit, the one-time fee and the monthly rent for each tier, and a line saying breed restrictions apply. The floor-plan FAQ does the same thing in question form — what plans are offered, whether there's laundry in the unit, whether homes have a patio or balcony, how quickly you can move in.
+
+Worth being precise about what this was not. There is no schema markup on these sites. No JSON-LD, no FAQPage, no LocalBusiness. Just a heading that names the question and a sentence that answers it, in the order a person would ask.`,
+        artifact: {
+          src: '/captures/apts-pet-widget.png',
+          alt: 'Custom pet policy widget and floor plan FAQ built for Los Cedros Apartments',
+          caption: 'The hand-coded pet policy tiers and FAQ block — Los Cedros',
+        },
+      },
+      {
+        title: 'What came back',
+        body: `Asked "pet friendly apartments in brownsville tx," ChatGPT returns seven properties. Five are described from Rent.com, Realtor, or Apartments.com. Two are cited from their own websites — Borders and Los Cedros. Both are mine.
+
+What it says about them came off the page. For Los Cedros: "up to 2 pets, with fees depending on pet size." For Borders: "up to 2 pets, with breed restrictions." Those are the widget's own terms, read and repeated back.
+
+The boundary matters as much as the result. That screenshot proves retrieval and citation, and nothing more. It is not a ranking, not a traffic lift, and not proof of causation — no before-and-after baseline was captured, and I would rather show the receipt for what it is than dress it up as one.`,
+        artifact: {
+          src: '/captures/apts-ai-answer.png',
+          alt: 'ChatGPT citing Borders Apartments and Los Cedros Apartments own websites for their pet policies',
+          caption: 'ChatGPT, August 2026 — the citation chips read "Borders Apartments" and "Los Cedros Apartments," not Rent.com',
+        },
+      },
+      {
+        title: "What's still open",
+        body: `Schema markup is the obvious next layer — FAQPage and LocalBusiness on content that is already written in question-and-answer form is a small change with a clear rationale.
+
+The bigger gap is measurement. This engagement ran without a Search Console baseline, which is why this page argues from screenshots rather than a trend line. That is a fixable mistake and the first thing I would set up on the next one: a baseline before the rebuild, so the next version of this case study can show the curve as well as the citation.`,
+      },
     ],
-    // ArtifactImage renders nothing when a file is absent, so an unshot
-    // artifact leaves no gap. Add the file and it appears.
-    artifacts: [
-      { src: '/captures/search-console.png', alt: 'Google Search Console performance', caption: 'GSC clicks and impressions through the optimization window' }
-    ],
+
     media: {
       variant: 'seo',
-      dateLabel: 'GSC Snapshot (30-day)',
-      performanceSignal: { label: 'Organic Sessions', value: '+22%', trend: 'up' },
+      dateLabel: 'Brownsville query · Aug 2026',
+      performanceSignal: { label: 'Cited by ChatGPT', value: '2 of 2', trend: 'up' },
       cwvTiles: [
-        { metric: 'LCP', value: '1.2s', status: 'good' },
-        { metric: 'CLS', value: '0.05', status: 'good' },
-        { metric: 'INP', value: '120ms', status: 'needs-improvement' },
+        { metric: 'H1/H2', value: 'Restructured', status: 'good' },
+        { metric: 'Alt text', value: 'All photos', status: 'good' },
+        { metric: 'Schema', value: 'Not shipped', status: 'needs-improvement' },
       ],
-      speedScore: 92,
-      sparkline: [{ value: 420 }, { value: 480 }, { value: 510 }, { value: 560 }, { value: 620 }, { value: 710 }],
+      // No sparkline: there is no measured trend behind this engagement, and
+      // an invented curve is exactly what this site refuses to ship.
     }
   }
 ];

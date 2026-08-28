@@ -71,7 +71,7 @@ const CAPABILITIES = [
   },
 ];
 
-const FEATURED_SLUGS = ['towne-oaks-paid-social', 'borders-seo-conversion'];
+const FEATURED_SLUGS = ['towne-oaks-paid-social', 'cornerstone-apartment-websites'];
 
 /**
  * A rule that draws itself in left-to-right. This is the page's entire motion
@@ -99,7 +99,7 @@ const TileFallback: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 const Home: React.FC = () => {
   const featured = PROJECTS.filter((p) => FEATURED_SLUGS.includes(p.slug));
   const towneOaks = PROJECTS.find((p) => p.slug === 'towne-oaks-paid-social');
-  const borders = PROJECTS.find((p) => p.slug === 'borders-seo-conversion');
+  const websites = PROJECTS.find((p) => p.slug === 'cornerstone-apartment-websites');
 
   return (
     <>
@@ -110,9 +110,9 @@ const Home: React.FC = () => {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
-            className="statement text-[2.75rem] sm:text-6xl lg:text-7xl text-[var(--ink)] text-center mx-auto max-w-[17ch]"
+            className="statement text-[2.75rem] sm:text-6xl lg:text-7xl text-[var(--ink)] text-center mx-auto max-w-[20ch]"
           >
-            I run paid social and prove what it did.
+            I build the site, run the ads, and prove what worked.
           </motion.h1>
 
           <motion.p
@@ -121,8 +121,8 @@ const Home: React.FC = () => {
             transition={{ duration: 0.7, delay: 0.12, ease: [0.25, 0.4, 0.25, 1] }}
             className="mt-8 mx-auto max-w-[52ch] text-center text-lg md:text-xl leading-relaxed text-[var(--color-text-tertiary)]"
           >
-            Paid social acquisition and full-funnel measurement. I build the tracking first, then
-            spend against it. Currently looking for my next growth role.
+            Websites, search, and paid media — plus the measurement layer that shows which of
+            them did the work. Currently looking for my next growth role.
           </motion.p>
 
           <motion.div
@@ -241,9 +241,9 @@ const Home: React.FC = () => {
               source="Search Console"
               caption="Clicks and impressions through the optimization window."
               fallback={
-                borders?.media ? (
+                websites?.media ? (
                   <TileFallback>
-                    <MediaTile media={borders.media} className="w-full h-full" />
+                    <MediaTile media={websites.media} className="w-full h-full" />
                   </TileFallback>
                 ) : null
               }
@@ -350,7 +350,7 @@ const Home: React.FC = () => {
         <div className={CONTAINER}>
           <Reveal>
             <h2 className="statement text-3xl md:text-5xl text-[var(--ink)] text-center mx-auto max-w-[24ch]">
-              Campaigns, the measurement under them, and the reporting that makes both useful.
+              The site, the campaigns that point at it, and the measurement that settles which one worked.
             </h2>
           </Reveal>
 
