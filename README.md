@@ -1,110 +1,126 @@
-# Mychal Olguin - Growth Marketing Portfolio
+# Mychal Olguin — Portfolio
 
-A modern, responsive portfolio website showcasing growth marketing case studies, paid social campaigns, and analytics expertise.
+A single-page portfolio for a digital marketer who builds the websites, runs the search
+and paid media, and keeps the measurement honest. Case studies in web design, SEO and
+answer-engine optimization, paid social, and the analytics underneath all three.
 
-## Tech Stack
+Live at [mychalolguin.com](https://mychalolguin.com).
 
-- **React 19** + **TypeScript**
-- **Tailwind CSS** (via CDN)
-- **Framer Motion** for animations
-- **React Router** for navigation
-- **Vite** for build tooling
+> **Working on this repo with an AI agent?** Read [`CLAUDE.md`](./CLAUDE.md) first, not
+> this file. It is the source of truth on architecture, theming, and the design rules —
+> particularly the ones about colour, which are easy to break by accident.
 
-## Features
+## Tech stack
 
-- Dark/Light theme with system preference detection
-- Responsive design (mobile-first)
-- SEO optimized with meta tags, Open Graph, and structured data
-- Smooth page transitions and reveal animations
-- Interactive case study dashboards with data visualizations
-- Accessible and performant
+- **React 19** + **TypeScript** (type-checking is `noEmit`; Vite does not type-check on build)
+- **Vite 6** for dev and build
+- **Tailwind CSS** via CDN, with its config inlined in `index.html` — there is no
+  `tailwind.config.js` and no PostCSS step
+- **Framer Motion** for entrances and page transitions
+- **React Router** (`HashRouter`, so live URLs look like `/#/work/:slug`)
+- **three.js** for the certification shelf, lazy-loaded into its own chunk
 
-## Project Structure
+No backend and no data fetching. Every piece of content is a static literal in
+`constants.ts`.
 
-```
-├── components/          # Reusable UI components
-│   ├── Navbar.tsx
-│   ├── Footer.tsx
-│   ├── MediaTile.tsx
-│   ├── CaseStudyDashboard.tsx
-│   └── ...
-├── pages/               # Page components
-│   ├── Home.tsx
-│   ├── Work.tsx
-│   ├── WorkDetail.tsx
-│   ├── Resume.tsx
-│   └── Contact.tsx
-├── hooks/               # Custom React hooks
-│   ├── useSEO.ts
-│   ├── useTheme.ts
-│   └── useReducedMotion.ts
-├── public/              # Static assets
-│   ├── images/
-│   ├── robots.txt
-│   ├── sitemap.xml
-│   └── favicon.svg
-├── constants.ts         # Project data and content
-├── types.ts             # TypeScript type definitions
-└── index.html           # Entry point with theme tokens
-```
+## Getting started
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- npm or yarn
-
-### Installation
+Requires Node 18+.
 
 ```bash
-# Clone the repository
-git clone https://github.com/mychalolguin-commits/Mychal-Olguin-Portfolio.git
-
-# Navigate to the project
-cd Mychal-Olguin-Portfolio
-
-# Install dependencies
 npm install
-
-# Start development server
-npm run dev
+npm run dev       # Vite dev server on port 3000, host 0.0.0.0
+npm run build     # production build -> dist/
+npm run preview   # serve the built dist/
+npx tsc --noEmit  # type-check; currently passes clean
 ```
 
-### Build for Production
+There is no test suite, linter, or formatter configured.
 
-```bash
-npm run build
+## Project structure
+
+```
+├── components/
+│   ├── Navbar.tsx / Footer.tsx / ThemeToggle.tsx / ScrollProgress.tsx
+│   ├── Capture.tsx              # a real platform screenshot, cited like a source
+│   ├── CaseStudyDashboard.tsx   # derives CPM, frequency, LPV rate from raw totals
+│   ├── MediaTile.tsx            # rendered tiles for the Work index
+│   ├── MeasurementNote.tsx
+│   ├── MotionProvider.tsx       # forces reducedMotion: 'always' when asked
+│   ├── PageTransition.tsx       # applied once, in App.tsx
+│   ├── Reveal.tsx               # scroll-triggered entrances
+│   ├── layout.ts                # CONTAINER + the shared button/link classes
+│   └── shelf/                   # three.js certification shelf (see CLAUDE.md)
+├── pages/                       # Home, Work, WorkDetail, Resume, Contact
+├── hooks/                       # useSEO, useTheme, useReducedMotion
+├── public/
+│   ├── captures/                # platform screenshots (see the README in there)
+│   ├── images/                  # headshot, Memoji
+│   ├── favicon.png / apple-touch-icon.png
+│   ├── Mychal_Olguin_Resume.pdf
+│   ├── robots.txt
+│   └── sitemap.xml
+├── constants.ts                 # PROJECTS, EXPERIENCE, CAPABILITIES — all site content
+├── types.ts
+└── index.html                   # theme tokens, Tailwind config, base meta, JSON-LD
 ```
 
-The build output will be in the `dist/` directory.
+## Content
+
+All case studies, experience, and capability copy live in `constants.ts`; `types.ts`
+defines their shapes. A `Project` has a small required core plus optional fields that
+each unlock a section on the detail page.
+
+Adding a case study means appending to `PROJECTS` and adding the slug to
+`public/sitemap.xml`. Routing and next-project navigation both derive from array order.
+
+Certifications are the one exception: they live in `components/shelf/catalog.ts`, which
+feeds both the 3D shelf on the homepage and the Certifications section of the resume
+page. Edit that one file and both update.
+
+## Design
+
+Two rules carry most of the weight, and both are easy to undo without noticing:
+
+**One hue.** The site has a single colour — a deep pine green that means *forward*. It
+is permitted in exactly five places: the primary button (one per view), the active nav
+marker, focus rings, the full-bleed closing field at the end of a page, and chart series.
+It is not a link colour, a hover tint, a card background, or a gradient. Everything else
+is ink on paper.
+
+**Colour encodes data, never decoration.** `--signal-up` / `--signal-down` appear only on
+a real change in a real number; `--data-*` only inside charts.
+
+Theme tokens are CSS custom properties in the `<style>` block of `index.html`, under
+`:root` (light, the default) and `[data-theme="dark"]`. Six tokens are the source of
+truth — `--paper`, `--ink`, `--graphite`, `--rule`, `--signal-up`, `--signal-down` — and
+everything else derives from them. The older `--color-*` names are a compatibility layer
+kept only because ~430 usages still reference them; new code should use the six directly.
+
+Any new colour has to be added as a token in **both** theme blocks, or dark mode breaks.
+
+Type is two families: DM Sans for everything readable, JetBrains Mono for every number
+and label and nothing else.
+
+There is no stock photography on this site, and none should be added — a generic image
+undercuts the measurement argument the rest of the design is making.
+
+`CLAUDE.md` covers all of this in more detail, along with the parts that have already
+been broken once and shouldn't be re-broken.
 
 ## Deployment
 
-This site can be deployed to:
+Deployed on Vercel, linked to this repo. Pushing to `main` builds and ships to
+production; pull requests get preview deployments.
 
-- **Vercel** (recommended) - Connect your GitHub repo
-- **Netlify** - Drag and drop the `dist/` folder
-- **GitHub Pages** - Use the `gh-pages` branch
-
-## Customization
-
-### Theme Colors
-
-Theme tokens are defined in `index.html` under the `<style>` tag. Key variables:
-
-- `--color-bg-base` - Main background
-- `--color-accent` - Primary accent (mint green)
-- `--card-border` - Card borders
-- `--shadow-card` - Card shadows
-
-### Content
-
-All project data, experience, and content is managed in `constants.ts`.
+Note that `public/sitemap.xml` lists non-hash paths while the router is a `HashRouter`,
+so the two will drift until one of them changes.
 
 ## License
 
-MIT License - Feel free to use this as a template for your own portfolio.
+MIT. The certification shelf under `components/shelf/` is ported from the MIT-licensed
+`complete-shelf` experience in `mintdotgg/mint-playground`; its `LICENSE` and
+`THIRD_PARTY_NOTICES.md` stay in that directory.
 
 ## Contact
 

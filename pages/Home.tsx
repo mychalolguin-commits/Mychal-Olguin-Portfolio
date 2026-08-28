@@ -102,12 +102,27 @@ const Home: React.FC = () => {
   return (
     <>
       {/* ── The statement. One sentence, and room around it. ──────────── */}
-      <section className="pt-36 md:pt-52 pb-24 md:pb-32">
+      <section className="pt-28 md:pt-40 pb-24 md:pb-32">
         <div className={CONTAINER}>
+          {/* The one piece of personality above the statement. It is a Memoji,
+              not a photograph and not stock art — a mark that says a person
+              wrote this. Transparent PNG so it sits on either theme's paper. */}
+          <motion.img
+            src="/images/mychal-memoji.png"
+            alt="Memoji of Mychal Olguin"
+            width={320}
+            height={320}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
+            className="mx-auto mb-8 md:mb-10 h-20 w-20 md:h-24 md:w-24 select-none"
+            draggable={false}
+          />
+
           <motion.h1
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
+            transition={{ duration: 0.7, delay: 0.06, ease: [0.25, 0.4, 0.25, 1] }}
             className="statement text-[2.75rem] sm:text-6xl lg:text-7xl text-[var(--ink)] text-center mx-auto max-w-[20ch]"
           >
             I build the site, run the ads, and prove what worked.
