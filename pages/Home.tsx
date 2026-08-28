@@ -101,77 +101,106 @@ const Home: React.FC = () => {
 
   return (
     <>
-      {/* ── The statement. One sentence, and room around it. ──────────── */}
-      <section className="pt-28 md:pt-40 pb-24 md:pb-32">
+      {/* ── The statement, and the evidence for it, on one screen. ──────
+          The GA4 capture used to sit in its own section directly below this
+          one, which put every sourced figure under the fold. The sourcing is
+          the argument the page makes, so it should not cost a scroll to
+          find — claim left, evidence right, both above the fold at 1440×900. */}
+      <section className="pt-16 md:pt-24 pb-20 md:pb-28">
         <div className={CONTAINER}>
-          {/* The one piece of personality above the statement. It is a Memoji,
-              not a photograph and not stock art — a mark that says a person
-              wrote this. Transparent PNG so it sits on either theme's paper. */}
-          <motion.img
-            src="/images/mychal-memoji.png"
-            alt="Memoji of Mychal Olguin"
-            width={320}
-            height={320}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
-            className="mx-auto mb-8 md:mb-10 h-20 w-20 md:h-24 md:w-24 select-none"
-            draggable={false}
-          />
+          <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-16 items-center">
+            {/* ── The claim ─────────────────────────────────────────── */}
+            <div className="min-w-0">
+              {/* The Memoji, now set as a byline rather than a banner. Beside
+                  the status line it still says a person wrote this, without
+                  spending the top third of the viewport to say it. */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
+                className="flex items-center gap-4 mb-8 md:mb-10"
+              >
+                <img
+                  src="/images/mychal-memoji.png"
+                  alt="Memoji of Mychal Olguin"
+                  width={320}
+                  height={320}
+                  className="h-16 w-16 md:h-20 md:w-20 flex-none select-none"
+                  draggable={false}
+                />
+                {/* The availability line lives here rather than trailing the
+                    paragraph: it is the most time-sensitive sentence on the
+                    site, and it is one string to delete the day it stops
+                    being true. */}
+                <span className="label leading-relaxed">
+                  Austin, Texas
+                  <br />
+                  Open to growth roles
+                </span>
+              </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.06, ease: [0.25, 0.4, 0.25, 1] }}
-            className="statement text-[2.75rem] sm:text-6xl lg:text-7xl text-[var(--ink)] text-center mx-auto max-w-[20ch]"
-          >
-            I build the site, run the ads, and prove what worked.
-          </motion.h1>
+              <motion.h1
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.06, ease: [0.25, 0.4, 0.25, 1] }}
+                className="statement text-[2.5rem] sm:text-5xl lg:text-6xl text-[var(--ink)] max-w-[16ch]"
+              >
+                I build the site, run the ads, and prove what worked.
+              </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.12, ease: [0.25, 0.4, 0.25, 1] }}
-            className="mt-8 mx-auto max-w-[52ch] text-center text-lg md:text-xl leading-relaxed text-[var(--color-text-tertiary)]"
-          >
-            Websites, search, and paid media — plus the measurement layer that shows which of
-            them did the work. Currently looking for my next growth role.
-          </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.12, ease: [0.25, 0.4, 0.25, 1] }}
+                className="mt-7 max-w-[44ch] text-lg leading-relaxed text-[var(--color-text-tertiary)]"
+              >
+                Websites, search, and paid media — plus the measurement layer that shows which of
+                them did the work.
+              </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.24 }}
-            className="mt-12 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
-          >
-            <Link to="/work" className={BTN_PRIMARY}>
-              Read the case studies
-            </Link>
-            <Link to="/resume" className={BTN_SECONDARY}>
-              View resume
-            </Link>
-          </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.24 }}
+                className="mt-10 flex flex-wrap items-center gap-3 sm:gap-4"
+              >
+                <Link to="/work" className={BTN_PRIMARY}>
+                  Read the case studies
+                </Link>
+                <Link to="/resume" className={BTN_SECONDARY}>
+                  View resume
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* ── The evidence ──────────────────────────────────────────
+                `bare` because the grid column already owns the width; the
+                capture's own CONTAINER would inset and re-centre it inside
+                the column. Not wrapped in Reveal — anything above the fold
+                renders immediately rather than waiting on a scroll trigger. */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.18, ease: [0.25, 0.4, 0.25, 1] }}
+              className="min-w-0"
+            >
+              <Capture
+                bare
+                src="/captures/ga4-overview.png"
+                alt="GA4 acquisition overview for the Towne Oaks campaign window"
+                source="GA4"
+                caption="Acquisition across the campaign window — 7,857 sessions, 38.4% of them from paid social."
+                fallback={
+                  towneOaks?.media ? (
+                    <TileFallback>
+                      <MediaTile media={towneOaks.media} className="w-full h-full" />
+                    </TileFallback>
+                  ) : null
+                }
+              />
+            </motion.div>
+          </div>
         </div>
-      </section>
-
-      {/* ── The evidence. Full-bleed, uncropped, sourced. ─────────────── */}
-      <section className="pb-28 md:pb-40">
-        <Reveal>
-          <Capture
-            bleed
-            src="/captures/ga4-overview.png"
-            alt="GA4 acquisition overview for the Towne Oaks campaign window"
-            source="GA4"
-            caption="Acquisition across the campaign window — 7,857 sessions, 38.4% of them from paid social."
-            fallback={
-              towneOaks?.media ? (
-                <TileFallback>
-                  <MediaTile media={towneOaks.media} className="w-full h-full" />
-                </TileFallback>
-              ) : null
-            }
-          />
-        </Reveal>
       </section>
 
       {/* ── Performance summary: the credibility core, given air. ─────── */}
@@ -231,6 +260,74 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* ── The answer-engine proof. ──────────────────────────────────
+          The strongest single artifact on the site: a live ChatGPT answer
+          where two of the four citations point at pages I built and the
+          other two point at aggregators. It used to appear only inside the
+          case study; the crop lives at apts-ai-answer-citations.png and the
+          whole frame links through to the study. */}
+      {websites && (
+        <section className="py-20 md:py-28">
+          <div className={CONTAINER}>
+            <Reveal>
+              <div className="flex items-baseline justify-between gap-4">
+                <h3 className="label">Answer engines</h3>
+                <span className="label">Brownsville · Aug 2026</span>
+              </div>
+
+              <h2 className="statement mt-7 text-3xl md:text-5xl text-[var(--ink)] max-w-[24ch]">
+                Two of these citations point at pages I built.
+              </h2>
+
+              <p className="mt-7 max-w-[58ch] text-lg leading-relaxed text-[var(--color-text-tertiary)]">
+                Asked for pet-friendly apartments in Brownsville, ChatGPT sourced most of its
+                answer from Rent.com, Realtor, and Apartments.com — and two properties from the
+                property's own website. Those two are Borders and Los Cedros.
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.1}>
+              <figure className="mt-12 md:mt-14">
+                <Link
+                  to={`/work/${websites.slug}`}
+                  aria-label={`Read the ${websites.title} case study`}
+                  className="block border border-[var(--rule)] bg-[var(--color-bg-elevated)] p-3 sm:p-5 transition-colors duration-200 hover:border-[var(--ink)]"
+                >
+                  <img
+                    src="/captures/apts-ai-answer-citations.png"
+                    alt="ChatGPT listing four Brownsville apartment complexes. The citations under Los Cedros Apartments and Borders Apartments name the properties' own websites; the citations under Midtown Brownsville and Las Palmas name Rent.com and Realtor."
+                    className="w-full h-auto block"
+                  />
+                </Link>
+
+                {/* Same discipline as the rest of the page: cite the source,
+                    and say plainly what the capture does not prove. */}
+                <figcaption className="mt-5 flex flex-wrap items-baseline gap-x-6 gap-y-1">
+                  <span className="label">ChatGPT · August 2026</span>
+                  <span className="text-[14px] leading-relaxed text-[var(--graphite)] max-w-[62ch]">
+                    The chips under Los Cedros and Borders read as the properties' own sites; the
+                    others read Rent.com and Realtor. This is a citation, not a ranking — no
+                    baseline was recorded before the rebuild.
+                  </span>
+                </figcaption>
+              </figure>
+            </Reveal>
+
+            <Reveal delay={0.16}>
+              <div className="mt-10">
+                <Link
+                  to={`/work/${websites.slug}`}
+                  className={`${LINK_UNDERLINE} inline-flex items-center gap-2 text-[15px] text-[var(--color-text-secondary)]`}
+                >
+                  Read how the four sites were rebuilt
+                  <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" />
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      )}
+
       {/* ── The tracking underneath it. ───────────────────────────────── */}
       <section className="py-28 md:py-40">
         <div className={CONTAINER}>
@@ -253,13 +350,13 @@ const Home: React.FC = () => {
               alt="Google Search Console clicks and impressions trend"
               source="Search Console"
               caption="Clicks and impressions through the optimization window."
-              fallback={
-                websites?.media ? (
-                  <TileFallback>
-                    <MediaTile media={websites.media} className="w-full h-full" />
-                  </TileFallback>
-                ) : null
-              }
+              /* No stand-in here on purpose. This slot used to fall back to
+                 the Cornerstone answer-engine tile, which is evidence for a
+                 different claim than the heading above makes — and MediaTile
+                 lays out with justify-between for a tall frame, so a short
+                 tile rendered ~280px of empty box. The slot now stays empty
+                 until search-console.png lands, then fills itself. */
+              fallback={null}
             />
           </Reveal>
         </div>

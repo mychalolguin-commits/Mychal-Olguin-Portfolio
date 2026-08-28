@@ -16,6 +16,12 @@ interface CaptureProps {
   fallback?: React.ReactNode;
   /** Full-bleed captures skip the page gutters entirely. */
   bleed?: boolean;
+  /**
+   * Neither bleed nor page gutters — the caller owns the width. For a
+   * capture placed inside a column that already has its own container,
+   * where re-applying CONTAINER would inset and re-centre it.
+   */
+  bare?: boolean;
 }
 
 /**
@@ -32,9 +38,14 @@ const Capture: React.FC<CaptureProps> = ({
   caption,
   fallback,
   bleed = false,
+  bare = false,
 }) => {
   const [failed, setFailed] = useState(false);
   const showImage = Boolean(src) && !failed;
+  // `bare` wins over `bleed`: a caller that owns the width has already
+  // decided the gutters, so neither the container nor the full-bleed
+  // escape applies.
+  const gutters = bare ? 'w-full' : CONTAINER;
 
   return (
     <figure className="w-full">
@@ -42,7 +53,7 @@ const Capture: React.FC<CaptureProps> = ({
         /* Only a real capture goes full-bleed. A photograph can carry the
            whole viewport; a rendered tile cannot, so the fallback always
            stays inside the page gutters at a sane width. */
-        <div className={bleed ? 'w-full' : CONTAINER}>
+        <div className={bleed && !bare ? 'w-full' : gutters}>
           <img
             src={src}
             alt={alt}
@@ -51,14 +62,14 @@ const Capture: React.FC<CaptureProps> = ({
           />
         </div>
       ) : (
-        <div className={CONTAINER}>{fallback}</div>
+        <div className={gutters}>{fallback}</div>
       )}
 
       {/* The caption is a citation for the capture. When the fallback is
           showing there is nothing to cite, and printing the source anyway
           would credit a rendered chart to a platform it didn't come from. */}
       {showImage && (caption || source) && (
-        <figcaption className={`${CONTAINER} mt-5 flex flex-wrap items-baseline gap-x-6 gap-y-1`}>
+        <figcaption className={`${gutters} mt-5 flex flex-wrap items-baseline gap-x-6 gap-y-1`}>
           <span className="label">{source}</span>
           {caption && (
             <span className="text-[14px] leading-relaxed text-[var(--graphite)]">{caption}</span>
