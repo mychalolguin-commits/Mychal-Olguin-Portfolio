@@ -32,8 +32,12 @@
     <meta name="twitter:image" content="https://mychalolguin.com/images/og-image.png" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <!-- ?v=2 is a cache-buster, not decoration. Chrome keys its favicon cache
+         on the icon URL and holds it through hard reloads, so a tab that saw
+         the old mint "M" keeps drawing it until the URL itself changes. -->
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png?v=2" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=2" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#12110F" media="(prefers-color-scheme: dark)" />
