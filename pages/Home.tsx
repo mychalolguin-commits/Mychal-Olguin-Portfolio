@@ -106,7 +106,11 @@ const Home: React.FC = () => {
           one, which put every sourced figure under the fold. The sourcing is
           the argument the page makes, so it should not cost a scroll to
           find — claim left, evidence right, both above the fold at 1440×900. */}
-      <section className="pt-16 md:pt-24 pb-20 md:pb-28">
+      {/* Navbar is `fixed` and h-16, so it sits outside the flow: the first
+          64px of this padding lands underneath it and is not visible space.
+          pt-28 leaves ~47px of actual gap below the rule, md:pt-32 ~63px.
+          Anything at or below pt-16 puts content against the nav border. */}
+      <section className="pt-28 md:pt-32 pb-20 md:pb-28">
         <div className={CONTAINER}>
           <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-16 items-center">
             {/* ── The claim ─────────────────────────────────────────── */}
@@ -118,7 +122,10 @@ const Home: React.FC = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
-                className="flex items-center gap-4 mb-8 md:mb-10"
+                /* Tighter below than the gap above, so the byline reads as
+                   attached to the headline rather than floating between
+                   two equal spaces. */
+                className="flex items-center gap-4 mb-6 md:mb-8"
               >
                 {/* Sized by height with width:auto, because the asset is now
                     cropped to the artwork (230x312) rather than padded out to a
