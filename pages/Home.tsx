@@ -120,12 +120,18 @@ const Home: React.FC = () => {
                 transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
                 className="flex items-center gap-4 mb-8 md:mb-10"
               >
+                {/* Sized by height with width:auto, because the asset is now
+                    cropped to the artwork (230x312) rather than padded out to a
+                    320 square. The old square had 45px of transparent margin on
+                    each side, which rendered as a ~9px indent against the
+                    headline's left edge — visible on mobile, where the Memoji
+                    and the headline stack against the same gutter. */}
                 <img
                   src="/images/mychal-memoji.png"
                   alt="Memoji of Mychal Olguin"
-                  width={320}
-                  height={320}
-                  className="h-16 w-16 md:h-20 md:w-20 flex-none select-none"
+                  width={230}
+                  height={312}
+                  className="h-16 md:h-20 w-auto flex-none select-none"
                   draggable={false}
                 />
                 {/* The availability line lives here rather than trailing the
