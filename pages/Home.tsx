@@ -86,15 +86,67 @@ const DrawnRule: React.FC<{ delay?: number }> = ({ delay = 0 }) => (
   />
 );
 
+const CampaignEvidenceTile: React.FC<{ project: Project }> = ({ project }) => {
+  const totals = project.dashboardData?.totals;
+  const monthly = project.dashboardData?.monthly || [];
+
+  if (!totals || monthly.length === 0) {
+    return <MediaTile type={project.mediaType} media={project.media} className="h-full w-full" />;
+  }
+
+  const maxViews = Math.max(...monthly.map((month) => month.lpv));
+  const costPerView = totals.lpv > 0 ? (totals.spend / totals.lpv).toFixed(2) : '0.00';
+
+  return (
+    <div className="flex h-full w-full flex-col justify-between bg-[var(--color-bg-muted)] p-5 sm:p-6">
+      <div className="flex items-start justify-between gap-6">
+        <div>
+          <p className="label">Meta floorplan traffic</p>
+          <p className="figure mt-4 text-5xl sm:text-6xl leading-none text-[var(--ink)]">
+            {totals.lpv.toLocaleString()}
+          </p>
+          <p className="label mt-2">Landing page views</p>
+        </div>
+
+        <div className="text-right">
+          <p className="label">Cost / LPV</p>
+          <p className="figure mt-4 text-3xl sm:text-4xl leading-none text-[var(--data-1)]">
+            ${costPerView}
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-8">
+        <div className="grid h-20 grid-cols-3 items-end gap-3" aria-hidden="true">
+          {monthly.map((month) => (
+            <div key={month.month} className="flex h-full flex-col justify-end gap-2">
+              <div
+                className="bg-[var(--data-1)]"
+                style={{ height: `${Math.max((month.lpv / maxViews) * 100, 8)}%` }}
+              />
+              <span className="label text-center">{month.month.replace('Month ', 'M')}</span>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
 const EvidenceTile: React.FC<{ project: Project }> = ({ project }) => {
   if (project.slug === 'cornerstone-apartment-websites') {
     return (
       <img
-        src="/captures/apts-ai-answer-citations.png"
-        alt="ChatGPT citations for Borders Apartments and Los Cedros Apartments"
+        src="/captures/chatgpt-brownsville-pet-friendly.png"
+        alt="ChatGPT Search result for pet-friendly apartments in Brownsville, Texas"
         className="h-full w-full object-cover object-top"
       />
     );
+  }
+
+  if (project.slug === 'towne-oaks-paid-social') {
+    return <CampaignEvidenceTile project={project} />;
   }
 
   return <MediaTile type={project.mediaType} media={project.media} className="h-full w-full" />;
