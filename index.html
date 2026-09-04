@@ -40,8 +40,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#12110F" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#FAF9F5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#15120E" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F7F1E6" media="(prefers-color-scheme: light)" />
 
     <!-- Structured Data - Person -->
     <script type="application/ld+json">
@@ -128,12 +128,12 @@
          serves light and [data-theme="dark"] overrides it.
          ═══════════════════════════════════════════════════════════ */
       :root {
-        --paper:       #FAF9F5;
-        --ink:         #141413;
-        --graphite:    #6B6A65;
-        --rule:        #E3E1DA;
-        --signal-up:   #1F7A4D;
-        --signal-down: #B4472E;
+        --paper:       #F7F1E6;
+        --ink:         #171411;
+        --graphite:    #6F665B;
+        --rule:        #D8CFC1;
+        --signal-up:   #24724A;
+        --signal-down: #A8442F;
 
         /* ── Legacy token names, re-pointed at the palette above ──
            ~430 usages across pages/ and components/ still reference
@@ -142,32 +142,32 @@
 
         /* Core surfaces */
         --color-bg-base: var(--paper);
-        --color-bg-elevated: #FFFFFF;
-        --color-bg-muted: #F2F0EA;
-        --color-surface2: #EAE7DE;
+        --color-bg-elevated: #FFFBF2;
+        --color-bg-muted: #EFE7D9;
+        --color-surface2: #E5D9C8;
 
         /* Text hierarchy */
         --color-text-primary: var(--ink);
-        --color-text-secondary: #3A3934;
-        --color-text-tertiary: #57564F;
+        --color-text-secondary: #3D3831;
+        --color-text-tertiary: #5D554B;
         --color-text-muted: var(--graphite);
 
         /* Borders */
-        --color-border-subtle: rgba(20, 20, 19, 0.07);
+        --color-border-subtle: rgba(23, 20, 17, 0.08);
         --color-border-default: var(--rule);
         --color-border-hover: var(--ink);
 
         /* Navigation */
-        --color-nav-bg: rgba(250, 249, 245, 0.88);
+        --color-nav-bg: rgba(247, 241, 230, 0.9);
 
         /* "Accent" is ink now — colour is reserved for data. */
         --color-accent: var(--ink);
         --color-accent-dark: var(--graphite);
-        --color-accent-subtle: rgba(20, 20, 19, 0.05);
+        --color-accent-subtle: rgba(23, 20, 17, 0.05);
 
         /* Scrollbar */
         --color-scrollbar-track: var(--paper);
-        --color-scrollbar-thumb: #D5D2C9;
+        --color-scrollbar-thumb: #CFC4B4;
         --color-scrollbar-hover: var(--graphite);
 
         /* Atmosphere effects are switched off, not deleted, so any
@@ -192,7 +192,7 @@
         --card-border-hover: var(--ink);
         --card-highlight: none;
         --borderGlow: var(--ink);
-        --surfaceHover: rgba(20, 20, 19, 0.03);
+        --surfaceHover: rgba(23, 20, 17, 0.035);
         --textHover: var(--ink);
 
 
@@ -203,11 +203,11 @@
            and use color only for measure — volume vs cost. Both hues are
            validated for lightness, chroma, CVD separation, and 3:1 contrast
            against this surface. Re-validate before changing either. */
-        --data-1: #1F7A4D;  /* volume — sessions, views, reach */
-        --data-2: #1D5FA8;  /* cost — spend, CPM, cost per action */
+        --data-1: #24724A;  /* volume — sessions, views, reach */
+        --data-2: #255F96;  /* cost — spend, CPM, cost per action */
 
         /* Status, reserved. Never reused as a series color. */
-        --status-warn: #8A5A00;
+        --status-warn: #835200;
 
         /* ── The one hue ────────────────────────────────────────────
            Deep pine. It has exactly one meaning — forward — and appears
@@ -220,70 +220,70 @@
            gradient, a border on everything, or a background for cards.
            That spray-on treatment is what made the old mint accent read
            as AI-generated. One hue, one meaning, a handful of places.
-           7.33:1 against --on-brand. */
-        --brand:        #1B5E3F;
-        --brand-strong: #175239;  /* hover / pressed */
-        --on-brand:     #FAF9F5;
+           8.98:1 against --on-brand. */
+        --brand:        #174F38;
+        --brand-strong: #123F2D;  /* hover / pressed */
+        --on-brand:     #FFF8EA;
 
         /* The closing field is its own pair. A colour sized for a button is
            not a colour you can flood a viewport with — see the dark block,
            where the interactive green is bright and the field green is not.
-           7.33:1. */
-        --brand-field:    #1B5E3F;
-        --on-brand-field: #FAF9F5;
+           11.20:1. */
+        --brand-field:    #123F2D;
+        --on-brand-field: #FFF8EA;
         /* A real rgba, not an opacity modifier: Tailwind cannot apply an
            alpha channel to an arbitrary var() colour. */
-        --on-brand-muted: rgba(250, 249, 245, 0.45);
+        --on-brand-muted: rgba(255, 248, 234, 0.45);
 
         /* A barely-there tint — 1.06:1 against paper. Enough to separate
            one band from the next without drawing a line. */
-        --surface-sunken: #F1F3EE;
+        --surface-sunken: #ECE8DA;
       }
 
       [data-theme="dark"] {
-        --paper:       #12110F;
-        --ink:         #F2F0EA;
-        --graphite:    #8F8D86;
-        --rule:        #2A2823;
-        --signal-up:   #4EAE7C;
-        --signal-down: #D4735A;
+        --paper:       #15120E;
+        --ink:         #F5EFE4;
+        --graphite:    #9B9184;
+        --rule:        #30291F;
+        --signal-up:   #58B883;
+        --signal-down: #D97860;
 
-        --color-bg-elevated: #1A1815;
-        --color-bg-muted: #171512;
-        --color-surface2: #211E1A;
+        --color-bg-elevated: #1C1812;
+        --color-bg-muted: #19150F;
+        --color-surface2: #241F17;
 
-        --color-text-secondary: #D8D5CC;
-        --color-text-tertiary: #B3B0A8;
+        --color-text-secondary: #E0D7C8;
+        --color-text-tertiary: #B9AE9E;
 
-        --color-border-subtle: rgba(242, 240, 234, 0.08);
-        --color-nav-bg: rgba(18, 17, 15, 0.88);
-        --color-accent-subtle: rgba(242, 240, 234, 0.06);
+        --color-border-subtle: rgba(245, 239, 228, 0.08);
+        --color-nav-bg: rgba(21, 18, 14, 0.9);
+        --color-accent-subtle: rgba(245, 239, 228, 0.06);
 
-        --color-scrollbar-thumb: #33302A;
+        --color-scrollbar-thumb: #40382D;
 
-        --surfaceHover: rgba(242, 240, 234, 0.04);
+        --surfaceHover: rgba(245, 239, 228, 0.04);
 
         /* Stepped for the dark surface, not flipped from light — both
            re-validated against #12110F. */
-        --data-1: #35A971;
-        --data-2: #5590D8;
+        --data-1: #46B57A;
+        --data-2: #6CA2DA;
 
         --status-warn: #D4A845;
 
         /* Dark inverts the relationship: a bright fill carrying dark type,
-           rather than a dark fill carrying light type. 6.35:1. */
-        --brand:        #35A971;
-        --brand-strong: #45B77F;
-        --on-brand:     #12110F;
+           rather than a dark fill carrying light type. 7.25:1. */
+        --brand:        #46B57A;
+        --brand-strong: #58C68B;
+        --on-brand:     #15120E;
 
         /* Deliberately NOT the bright interactive green. A full viewport of
-           #35A971 is the loud, sprayed-on look this palette exists to avoid;
-           at field scale the green has to recede. 6.97:1. */
-        --brand-field:    #1A5C3E;
-        --on-brand-field: #F2F0EA;
-        --on-brand-muted: rgba(242, 240, 234, 0.4);
+           the interactive green is the loud, sprayed-on look this palette exists
+           to avoid; at field scale the green has to recede. 8.89:1. */
+        --brand-field:    #164A35;
+        --on-brand-field: #F5EFE4;
+        --on-brand-muted: rgba(245, 239, 228, 0.4);
 
-        --surface-sunken: #171917;
+        --surface-sunken: #1A1812;
       }
 
       body {
