@@ -24,6 +24,7 @@ bottom.
 | `borders-site.png` | Borders homepage, full page | Apartment websites case study |
 | `compass-bay-site.png` | Compass Bay homepage, full page | Apartment websites case study |
 | `verano-oaks-site.png` | Verano Oaks homepage, full page | Apartment websites case study |
+| `chatgpt-brownsville-pet-friendly.png` | ChatGPT Search surfacing Los Cedros and Borders for "pet friendly apartments in brownsville tx" | Homepage visual receipt |
 | `apts-ai-answer.png` | ✅ **Landed.** ChatGPT citing Borders' own site for its pet policy | Apartment websites case study |
 | `apts-ai-answer-full.png` | ✅ **Landed.** The same answer including the map and the query | Apartment websites case study |
 | `apts-schema.png` | Rich Results Test or the schema block on a live page | Apartment websites case study |

@@ -58,6 +58,12 @@ const WORKING_SYSTEM = [
   },
 ];
 
+const RECEIPT_ROWS = [
+  { label: 'Search surface', value: 'ChatGPT' },
+  { label: 'Properties surfaced', value: '2' },
+  { label: 'Proof type', value: 'AI visibility' },
+];
+
 const formatProjectProof = (project: Project) => {
   if (project.slug === 'cornerstone-apartment-websites') {
     return [
@@ -206,6 +212,68 @@ const Home: React.FC = () => {
       </section>
 
       <section className="py-20 md:py-28 bg-[var(--surface-sunken)]">
+        <div className={CONTAINER}>
+          <Reveal>
+            <div className="grid lg:grid-cols-[0.82fr_1.18fr] gap-10 lg:gap-14 items-start">
+              <div>
+                <div className="flex items-baseline justify-between gap-4">
+                  <p className="label">Visual receipt</p>
+                  <span className="label">ChatGPT · Aug 2026</span>
+                </div>
+
+                <h2 className="statement mt-6 text-3xl md:text-5xl text-[var(--ink)] max-w-[17ch]">
+                  The work shows up where renters ask.
+                </h2>
+
+                <p className="mt-7 text-lg leading-relaxed text-[var(--color-text-tertiary)] max-w-[43ch]">
+                  For the search "pet friendly apartments in brownsville tx," ChatGPT surfaced Los
+                  Cedros in the map results and listed Borders in the answer.
+                </p>
+
+                <dl className="mt-10 border-y border-[var(--rule)]">
+                  {RECEIPT_ROWS.map((row) => (
+                    <div
+                      key={row.label}
+                      className="grid grid-cols-[1fr_auto] items-baseline gap-4 border-b border-[var(--rule)] py-3 last:border-b-0"
+                    >
+                      <dt className="label">{row.label}</dt>
+                      <dd className="figure text-[15px] text-[var(--ink)]">{row.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+
+                <Link
+                  to="/work/cornerstone-apartment-websites"
+                  className="mt-8 inline-flex items-center gap-1.5 text-[15px] font-medium text-[var(--ink)] underline underline-offset-4 decoration-[var(--rule)] transition-colors hover:decoration-[var(--ink)]"
+                >
+                  Read the AI-search case study
+                  <ArrowUpRight size={16} aria-hidden="true" />
+                </Link>
+              </div>
+
+              <figure className="min-w-0">
+                <Link
+                  to="/work/cornerstone-apartment-websites"
+                  aria-label="Read the AI-search case study"
+                  className="block w-full max-w-full overflow-x-auto border border-[var(--rule)] bg-[var(--color-bg-elevated)] p-3 sm:p-4 transition-colors hover:border-[var(--ink)]"
+                >
+                  <img
+                    src="/captures/chatgpt-brownsville-pet-friendly.png"
+                    alt="ChatGPT Search result for pet-friendly apartments in Brownsville, Texas"
+                    className="block h-auto w-[38rem] max-w-none sm:w-full sm:max-w-full"
+                  />
+                </Link>
+                <figcaption className="mt-4 text-[13px] leading-relaxed text-[var(--graphite)]">
+                  Visibility proof, not attribution proof: the capture shows rebuilt properties
+                  appearing in ChatGPT Search.
+                </figcaption>
+              </figure>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28">
         <div className={CONTAINER}>
           <Reveal>
             <div className="flex items-baseline justify-between gap-4">
