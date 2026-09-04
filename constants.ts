@@ -99,7 +99,7 @@ The tracking outlasted the campaign. Retargeting and conversion campaigns can ru
     channels: 'Organic Search · AI Assistants',
     tools: 'Yardi RentCafe site builder, hand-written HTML/CSS widgets, on-page SEO, 360° capture',
     description:
-      'Four apartment communities rebuilt. ChatGPT now answers questions about two of them from the property\'s own page instead of a listing site.',
+      'Four apartment websites rebuilt around renter questions. ChatGPT later cited two property-owned pages and surfaced a third rebuilt property.',
     tags: ['Web Design', 'Answer-First Content', 'On-Page SEO', 'Multifamily'],
     heroImage: '/captures/borders-site.png',
     heroSource: 'bordersapts.com',
@@ -109,7 +109,7 @@ The tracking outlasted the campaign. Retargeting and conversion campaigns can ru
     solution:
       'Full rebuilds in Yardi RentCafe with hand-written widgets, and every page rewritten to answer the questions the leasing office gets by phone.',
     result:
-      'ChatGPT now cites Borders and Los Cedros from their own sites, using the pet policy written on the page.',
+      'ChatGPT now cites Borders and Los Cedros from their own sites, and Verano Oaks surfaced in a separate Hurst apartment answer.',
 
     // No GA4 or Search Console baseline was captured for this engagement, so
     // there are no numbers to headline. WorkDetail skips the metrics rail when
@@ -119,13 +119,30 @@ The tracking outlasted the campaign. Retargeting and conversion campaigns can ru
 
     narrative: [
       {
-        title: 'What they had',
-        body: `Cornerstone Capital runs four communities: Borders and Los Cedros in Brownsville, Compass Bay in Corpus Christi, and Verano Oaks in Hurst. All four sites were out of date. None had FAQ content, meta descriptions, or keyword targeting.
+        title: 'What ChatGPT showed',
+        body: `Asked "pet friendly apartments in brownsville tx," ChatGPT listed seven properties. Five were sourced from Rent.com, Realtor, or Apartments.com. Two were sourced from the property's own website: Borders and Los Cedros. I built both.
 
-Search for pet-friendly apartments in Brownsville and you got Rent.com, Realtor, and Apartments.com. Each described the property from a listing feed. The property's own site did not answer the question.`,
+The details match the pages. For Los Cedros it reported "up to 2 pets, with fees depending on pet size." For Borders, "up to 2 pets, with breed restrictions." Both lines come from the pet policy widget.
+
+Verano Oaks also surfaced in a separate ChatGPT answer for Hurst apartments under $1,200/month. That screenshot is a visibility signal, but the clean owned-source citation proof is still Borders and Los Cedros.
+
+The screenshots show one thing: these properties were retrieved, surfaced, and in two cases cited from property-owned pages. This is not a ranking, a traffic number, or evidence of cause. No baseline was recorded before the rebuild.`,
+        artifact: {
+          src: '/captures/apts-ai-answer.png',
+          alt: 'ChatGPT citing Borders Apartments and Los Cedros Apartments own websites for their pet policies',
+          caption: 'ChatGPT, August 2026. The citations read "Borders Apartments" and "Los Cedros Apartments," not Rent.com.',
+        },
       },
       {
-        title: 'What I built',
+        title: 'Why the answer was there',
+        body: `I took the questions the leasing office gets by phone and answered them on the page, in full sentences, instead of leaving them to a PDF or the chat widget.
+
+The pet policy is the clearest case. Rather than "we're pet friendly," the page lists the terms: two weight tiers, a limit of two pets, the one-time fee and monthly rent for each tier, and a note that breed restrictions apply. The floor-plan FAQ covers which plans exist, whether units have laundry, whether homes have a patio or balcony, and how soon you can move in.
+
+These sites have no schema markup. No JSON-LD, no FAQPage, no LocalBusiness. The structure is a heading with the question and a sentence with the answer.`,
+      },
+      {
+        title: 'What I rebuilt',
         body: `I rebuilt all four in about four months in 2025, working solo.
 
 The platform was Yardi's RentCafe site builder, which ships a fixed set of blocks. For anything outside that set I wrote the HTML and CSS myself and added it as a custom widget. The pet policy tiers, the FAQ blocks, and the floor-plan detail were all built that way.
@@ -133,30 +150,10 @@ The platform was Yardi's RentCafe site builder, which ships a fixed set of block
 I shot the 360° tours, photography, and video for three of the properties. Compass Bay's imagery was supplied. The on-page SEO was small: H1 and H2 structure on every page, and alt text on every photo.`,
       },
       {
-        title: 'How I wrote the pages',
-        body: `I took the questions the leasing office gets by phone and answered them on the page, in full sentences, instead of leaving them to a PDF or the chat widget.
+        title: 'What they had before',
+        body: `Cornerstone Capital runs four communities: Borders and Los Cedros in Brownsville, Compass Bay in Corpus Christi, and Verano Oaks in Hurst. All four sites were out of date. None had FAQ content, meta descriptions, or keyword targeting.
 
-The pet policy is the clearest case. Rather than "we're pet friendly," the page lists the terms: two weight tiers, a limit of two pets, the one-time fee and monthly rent for each tier, and a note that breed restrictions apply. The floor-plan FAQ covers which plans exist, whether units have laundry, whether homes have a patio or balcony, and how soon you can move in.
-
-These sites have no schema markup. No JSON-LD, no FAQPage, no LocalBusiness. The structure is a heading with the question and a sentence with the answer.`,
-        artifact: {
-          src: '/captures/apts-pet-widget.png',
-          alt: 'Custom pet policy widget and floor plan FAQ built for Los Cedros Apartments',
-          caption: 'Pet policy tiers and floor-plan FAQ I built for Los Cedros',
-        },
-      },
-      {
-        title: 'What ChatGPT shows now',
-        body: `Asked "pet friendly apartments in brownsville tx," ChatGPT listed seven properties. Five were sourced from Rent.com, Realtor, or Apartments.com. Two were sourced from the property's own website: Borders and Los Cedros. I built both.
-
-The details match the pages. For Los Cedros it reported "up to 2 pets, with fees depending on pet size." For Borders, "up to 2 pets, with breed restrictions." Both lines come from the pet policy widget.
-
-The screenshot shows one thing: these pages were retrieved and cited. It is not a ranking, a traffic number, or evidence of cause. No baseline was recorded before the rebuild.`,
-        artifact: {
-          src: '/captures/apts-ai-answer.png',
-          alt: 'ChatGPT citing Borders Apartments and Los Cedros Apartments own websites for their pet policies',
-          caption: 'ChatGPT, August 2026. The citations read "Borders Apartments" and "Los Cedros Apartments," not Rent.com.',
-        },
+Search for pet-friendly apartments in Brownsville and you got Rent.com, Realtor, and Apartments.com. Each described the property from a listing feed. The property's own site did not answer the question.`,
       },
       {
         title: "What's still open",
