@@ -67,6 +67,7 @@ const ArtifactImage: React.FC<{ artifact: Artifact }> = ({ artifact }) => {
 };
 
 type Section = { title: string; body?: string; artifact?: Artifact };
+type SnapshotItem = { label: string; value: string };
 
 const EvidenceFigure: React.FC<{
   src: string;
@@ -236,6 +237,45 @@ const AEOProjectFrame: React.FC<{ facts: Fact[]; tags: string[] }> = ({ facts, t
   </section>
 );
 
+const CaseSnapshot: React.FC<{ project: Project }> = ({ project }) => {
+  const items: SnapshotItem[] = [
+    { label: 'Challenge', value: project.challenge },
+    { label: 'What I did', value: project.solution },
+    { label: 'Result', value: project.result },
+  ];
+
+  return (
+    <section className="py-16 md:py-20 border-y border-[var(--rule)] bg-[var(--color-bg-elevated)]">
+      <div className={CONTAINER}>
+        <Reveal>
+          <div className="grid lg:grid-cols-[14rem_1fr] gap-8 lg:gap-12">
+            <div>
+              <p className="label">Case snapshot</p>
+              <p className="mt-4 max-w-[28ch] text-[15px] leading-relaxed text-[var(--graphite)]">
+                What changed, what I did, and what came back.
+              </p>
+            </div>
+
+            <dl className="grid md:grid-cols-3 border-y md:border-y-0 md:border-l border-[var(--rule)]">
+              {items.map((item) => (
+                <div
+                  key={item.label}
+                  className="border-b last:border-b-0 md:border-b-0 md:border-r border-[var(--rule)] py-6 md:px-6"
+                >
+                  <dt className="label">{item.label}</dt>
+                  <dd className="mt-4 text-[16px] leading-relaxed text-[var(--color-text-secondary)]">
+                    {item.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+};
+
 /**
  * A numbered section of the write-up. The numbers are not decoration — a case
  * study is a real sequence (what was wrong, what I did, what came back), and
@@ -367,6 +407,8 @@ const WorkDetail: React.FC = () => {
             </div>
           </section>
         )}
+
+        <CaseSnapshot project={project} />
 
         {/* ── The capture: a real platform view, or the rendered tile ──── */}
         {isAeoCaseStudy ? (
