@@ -1,6 +1,8 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides detailed guidance to AI coding agents working in this repository.
+Codex reads `AGENTS.md` automatically; this file remains the longer design and
+architecture notebook for Claude Code and any agent doing deeper work.
 
 ## Commands
 
@@ -17,19 +19,22 @@ There is no test suite, linter, or formatter configured. TypeScript is `noEmit` 
 
 Single-page React 19 portfolio site, built with Vite. No backend, no data fetching — every piece of content is a static literal in `constants.ts`.
 
-**Routing** — `App.tsx` uses `HashRouter`, so live URLs are `/#/work`, `/#/work/:slug`, etc. `public/sitemap.xml` lists non-hash paths, so it will drift from real URLs unless the router is changed. Adding a route means touching `App.tsx`, `components/Navbar.tsx`, and `public/sitemap.xml`.
+**Routing** — `App.tsx` uses `BrowserRouter`, so live URLs are clean paths like `/work` and `/work/:slug`. Vercel rewrites extensionless requests to `index.html` via `vercel.json`, which keeps direct visits working. Adding a route means touching `App.tsx`, `components/Navbar.tsx`, and `public/sitemap.xml`.
 
-**Content model** — `constants.ts` exports `PROJECTS`, `EXPERIENCE`, and `CAPABILITIES`; `types.ts` defines their shapes. Case studies are the interesting part: a `Project` has a small required core (slug, title, metrics) plus many optional fields that each unlock a section in `pages/WorkDetail.tsx`. Two optional fields drive whole components:
+**Content model** — `constants.ts` exports `PROJECTS`, `EXPERIENCE`, and `CAPABILITIES`; `types.ts` defines their shapes. Case studies are the interesting part: a `Project` has a small required core (slug, title, metrics) plus many optional fields that each unlock a section in `pages/WorkDetail.tsx`. Three of them restructure the page outright:
 - `dashboardData` → renders `CaseStudyDashboard` on the detail page. It stores only raw totals; CPM, frequency, LPV rate, and cost/LPV are all derived in the component, so never hardcode a derived number into `constants.ts`.
+- `narrative` → replaces the fixed Problem/Approach/Execution/Reporting/Results spine with your own headings. That spine assumes a measured campaign; a craft case study, where the evidence is the work itself, would otherwise leave three sections begging for invented metrics. `WorkDetail` filters out entries with neither `body` nor `artifact`.
 - `media` → renders `MediaTile` on the Work index. `MediaData` is a discriminated union on `variant` (`ga4` | `seo` | `paidSocial`); adding a variant means extending the union in `types.ts` and adding a matching branch in `MediaTile.tsx`. `Project.mediaType` (`meta`/`seo`/`reporting`) is the legacy fallback used when `media` is absent.
+
+`metrics` is required but may be `[]` — `WorkDetail` skips the metrics rail entirely when it is empty, which is the honest presentation for an engagement with no baseline (see `cornerstone-apartment-websites`). Never fill it to avoid the gap.
 
 To add a case study: append to `PROJECTS`, add its slug to `public/sitemap.xml`. Routing and next-project navigation are derived from array order — `WorkDetail` links to `PROJECTS[(index + 1) % length]`.
 
 **Theming** — All colors, shadows, and section washes are CSS custom properties defined in the `<style>` block of `index.html`, under `:root` (**light** — the default) and `[data-theme="dark"]` (the designed second theme). An inline script in `<head>` always writes `data-theme` before paint, from `localStorage` or `prefers-color-scheme`, so the attribute is never absent; `hooks/useTheme.ts` reads that attribute as its initial state and writes back to both the attribute and `localStorage`. Components consume tokens as `bg-[var(--color-bg-elevated)]`, `border-[var(--card-border)]`, etc. — add new colors as tokens in **both** theme blocks rather than as literal Tailwind colors, or dark mode will break.
 
-Six tokens are the source of truth and everything else derives from them: `--paper`, `--ink`, `--graphite`, `--rule`, `--signal-up`, `--signal-down`. The `--color-*` / `--card-border` names are a **legacy compatibility layer** — ~430 usages across `pages/` and `components/` still reference them, so they are aliased onto the six above rather than removed. New code should reach for the six directly; don't add new `--color-*` names.
+Six tokens are the source of truth and everything else derives from them: `--paper`, `--ink`, `--graphite`, `--rule`, `--signal-up`, `--signal-down`. The `--color-*` / `--card-border` names are a **legacy compatibility layer** — ~160 usages across `pages/` and `components/` (including `shelf.css`) still reference them, so they are aliased onto the six above rather than removed. (The "~430" figure in the `index.html` comment and the README is stale.) New code should reach for the six directly; don't add new `--color-*` names.
 
-Tailwind is loaded from the CDN (`cdn.tailwindcss.com`) with its config inlined in `index.html` — there is no `tailwind.config.js` and no PostCSS step. That inline config maps the six palette tokens to Tailwind color names (`paper`, `ink`, `graphite`, `rule`, `signal-up`, `signal-down`), sets `font-sans`/`font-display` to DM Sans and `font-mono` to JetBrains Mono, and defines the `fade-in`/`slide-up` animations. `index.html` also links `/index.css`, which does not exist, and carries an `importmap` left over from AI Studio that Vite ignores at build time.
+Tailwind is compiled at build time through `index.css`, `postcss.config.cjs`, and `tailwind.config.cjs`. The config maps the six palette tokens to Tailwind color names (`paper`, `ink`, `graphite`, `rule`, `signal-up`, `signal-down`), sets `font-sans`/`font-display` to DM Sans and `font-mono` to JetBrains Mono, and defines the `fade-in`/`slide-up` animations. Do not re-add `cdn.tailwindcss.com`, the missing `/index.css` link, or the AI Studio import map to `index.html`.
 
 **Motion** — `MotionProvider` wraps the app and switches Framer Motion to `reducedMotion: 'always'` based on `hooks/useReducedMotion.ts`, so individual animations don't need their own reduced-motion guards.
 
@@ -49,7 +54,7 @@ Separate from the brand hue, and governed by the same restraint: **colour encode
 
 **Type** — One family for language, one for measurement. `DM Sans` sets everything readable; `JetBrains Mono` sets every number and label and nothing else. Roles: `.statement` (centred hero/section openers, balanced wrap), `.display` (left-aligned headings), `.figure` (tabular numerals — every figure on the site goes through it), `.label` (uppercase mono, for column heads and row keys). Headings are weight 500, not bold: at these sizes the size carries the emphasis and weight just shouts.
 
-**Captures** — `components/Capture.tsx` renders a screenshot of a real platform view as evidence: full-bleed, never cropped (`object-cover` would let the layout choose which numbers a visitor sees), with the source printed beside it like a citation. Files live in `public/captures/` under fixed names — see the README there. When a file is absent, `Capture` renders its `fallback` instead and suppresses the caption, since there is no source to cite. Always pass a real fallback; the page has to be complete before the screenshots land. **`public/captures/` currently holds only its README — no screenshot has landed yet**, so every `Capture` on the site is rendering its fallback today. `Project.heroImage` also points into `/captures/`, so those paths are likewise unresolved. There is no stock photography on this site and none should be added — a generic image undercuts the measurement argument the whole design makes.
+**Captures** — `components/Capture.tsx` renders a screenshot of a real platform view as evidence: full-bleed, never cropped (`object-cover` would let the layout choose which numbers a visitor sees), with the source printed beside it like a citation. Files live in `public/captures/` under fixed names — see the README there. When a file is absent, `Capture` renders its `fallback` instead and suppresses the caption, since there is no source to cite. Always pass a real fallback; the page has to be complete before the screenshots land. Six screenshots have landed. The website captures resolve (`borders-site.png`, `apts-pet-widget.png`, `apts-ai-answer.png`, plus three not yet referenced by any component: `apts-ai-answer-full.png`, `compass-bay-site.png`, `los-cedros-site.png`). The three *platform* captures are still missing — `ga4-overview.png` and `search-console.png` on `Home`, and `meta-ads-manager.png`, which is Towne Oaks' `heroImage` — so those slots render fallbacks today. Check the directory before claiming either state. There is no stock photography on this site and none should be added — a generic image undercuts the measurement argument the whole design makes.
 
 **Charts** — Only two data hues exist (`--data-1` volume, `--data-2` cost) and that is deliberate: five categorical colours cannot be distinguished under deuteranopia no matter how they are stepped, so charts carry identity in the row label and use colour only for measure. Both hues are validated for lightness, chroma, CVD separation, and 3:1 contrast against each theme's surface — re-validate before changing either. `--status-warn` is reserved for status and is never a series colour. Never build a dual-axis chart; plot two measures as two charts sharing an x axis.
 
@@ -78,4 +83,6 @@ The vendored surface is wider than `ShelfEngine.ts` alone: `cover-art.ts`, `book
 - `.env.local` holds `GEMINI_API_KEY`, wired into `process.env.API_KEY` by `vite.config.ts`. Nothing in the current source reads it — it's scaffolding from AI Studio.
 - `@/` is aliased to the repo root in both `vite.config.ts` and `tsconfig.json`, though the code uses relative imports throughout.
 - `dist/` is gitignored but exists locally with stale build output; don't edit files there.
-- `README.md` predates the redesign — it still describes a mint-green accent and a `--color-accent` token that no longer exist. Treat this file, not the README, as the source of truth on design and theming.
+- `README.md` has been rewritten to match the current design and current build setup. This file remains the deeper source of truth on architecture and the design rules.
+- Deployed on Vercel from this repo: pushing to `main` ships to production, PRs get preview deployments.
+- `AGENTS.md` is the Codex entrypoint and deliberately stays shorter than this file.

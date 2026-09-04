@@ -101,7 +101,6 @@
         document.documentElement.setAttribute('data-theme', stored || (prefersDark ? 'dark' : 'light'));
       })();
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Display + body: DM Sans, a geometric grotesque with round bowls and a
@@ -110,41 +109,6 @@
          number. That pairing is the whole system — warm geometry for language,
          technical mono for measurement. -->
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              paper: 'var(--paper)',
-              ink: 'var(--ink)',
-              graphite: 'var(--graphite)',
-              rule: 'var(--rule)',
-              'signal-up': 'var(--signal-up)',
-              'signal-down': 'var(--signal-down)',
-            },
-            fontFamily: {
-              display: ['DM Sans', 'sans-serif'],
-              sans: ['DM Sans', 'sans-serif'],
-              mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
-            },
-            animation: {
-              'fade-in': 'fadeIn 0.7s ease-out forwards',
-              'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-            },
-            keyframes: {
-              fadeIn: {
-                '0%': { opacity: '0' },
-                '100%': { opacity: '1' },
-              },
-              slideUp: {
-                '0%': { opacity: '0', transform: 'translateY(20px)' },
-                '100%': { opacity: '1', transform: 'translateY(0)' },
-              },
-            },
-          }
-        }
-      }
-    </script>
     <style>
       /* ═══════════════════════════════════════════════════════════
          INSTRUMENT PANEL
@@ -408,18 +372,6 @@
       .border-theme { border-color: var(--rule); }
       .border-theme-hover:hover { border-color: var(--ink); }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.12.0"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
 </head>
   <body>
     <div id="root"></div>

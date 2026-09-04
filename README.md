@@ -6,18 +6,19 @@ answer-engine optimization, paid social, and the analytics underneath all three.
 
 Live at [mychalolguin.com](https://mychalolguin.com).
 
-> **Working on this repo with an AI agent?** Read [`CLAUDE.md`](./CLAUDE.md) first, not
-> this file. It is the source of truth on architecture, theming, and the design rules —
-> particularly the ones about colour, which are easy to break by accident.
+> **Working on this repo with an AI agent?** Codex reads [`AGENTS.md`](./AGENTS.md)
+> automatically. Read [`CLAUDE.md`](./CLAUDE.md) before changing architecture,
+> theming, motion, routing, or case-study content; it is the detailed notebook for
+> the design rules, particularly the ones about colour.
 
 ## Tech stack
 
 - **React 19** + **TypeScript** (type-checking is `noEmit`; Vite does not type-check on build)
 - **Vite 6** for dev and build
-- **Tailwind CSS** via CDN, with its config inlined in `index.html` — there is no
-  `tailwind.config.js` and no PostCSS step
+- **Tailwind CSS** compiled at build time with `tailwind.config.cjs`, `postcss.config.cjs`,
+  and `index.css`
 - **Framer Motion** for entrances and page transitions
-- **React Router** (`HashRouter`, so live URLs look like `/#/work/:slug`)
+- **React Router** (`BrowserRouter`, with Vercel rewriting clean URLs to `index.html`)
 - **three.js** for the certification shelf, lazy-loaded into its own chunk
 
 No backend and no data fetching. Every piece of content is a static literal in
@@ -62,7 +63,11 @@ There is no test suite, linter, or formatter configured.
 │   └── sitemap.xml
 ├── constants.ts                 # PROJECTS, EXPERIENCE, CAPABILITIES — all site content
 ├── types.ts
-└── index.html                   # theme tokens, Tailwind config, base meta, JSON-LD
+├── tailwind.config.cjs          # Tailwind content paths, palette aliases, fonts, animation
+├── postcss.config.cjs
+├── index.css                    # Tailwind entrypoint
+├── vercel.json                  # SPA rewrite for clean URLs
+└── index.html                   # theme tokens, base meta, JSON-LD
 ```
 
 ## Content
@@ -95,7 +100,7 @@ Theme tokens are CSS custom properties in the `<style>` block of `index.html`, u
 `:root` (light, the default) and `[data-theme="dark"]`. Six tokens are the source of
 truth — `--paper`, `--ink`, `--graphite`, `--rule`, `--signal-up`, `--signal-down` — and
 everything else derives from them. The older `--color-*` names are a compatibility layer
-kept only because ~430 usages still reference them; new code should use the six directly.
+kept only because legacy usages still reference them; new code should use the six directly.
 
 Any new colour has to be added as a token in **both** theme blocks, or dark mode breaks.
 
@@ -113,8 +118,7 @@ been broken once and shouldn't be re-broken.
 Deployed on Vercel, linked to this repo. Pushing to `main` builds and ships to
 production; pull requests get preview deployments.
 
-Note that `public/sitemap.xml` lists non-hash paths while the router is a `HashRouter`,
-so the two will drift until one of them changes.
+`public/sitemap.xml` uses the same clean paths the app serves in production.
 
 ## License
 

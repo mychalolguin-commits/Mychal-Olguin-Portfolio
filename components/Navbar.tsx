@@ -57,6 +57,9 @@ const Navbar: React.FC = () => {
           <ThemeToggle />
           <motion.button
             onClick={toggleMenu}
+            aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isOpen}
+            aria-controls="mobile-navigation"
             className="text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)] p-1"
             whileTap={{ scale: 0.95 }}
           >
@@ -91,11 +94,12 @@ const Navbar: React.FC = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
+            id="mobile-navigation"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.25, ease: [0.25, 0.4, 0.25, 1] }}
-            className="md:hidden absolute top-16 left-0 right-0 bg-[var(--color-bg-elevated)] border-b border-[var(--rule)] overflow-hidden"
+            className="md:hidden fixed top-16 left-0 right-0 h-[calc(100vh-4rem)] bg-[var(--color-bg-elevated)] border-b border-[var(--rule)] overflow-hidden"
           >
             <motion.div
               initial={{ opacity: 0 }}
