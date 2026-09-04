@@ -21,8 +21,8 @@ module.exports = {
         'signal-down': 'var(--signal-down)',
       },
       fontFamily: {
-        display: ['DM Sans', 'sans-serif'],
-        sans: ['DM Sans', 'sans-serif'],
+        display: ['Manrope', 'sans-serif'],
+        sans: ['Manrope', 'sans-serif'],
         mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       animation: {

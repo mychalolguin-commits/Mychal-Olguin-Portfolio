@@ -102,7 +102,7 @@ const Home: React.FC = () => {
     <>
       <section className="pt-28 md:pt-36 pb-20 md:pb-24">
         <div className={CONTAINER}>
-          <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-12 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-12 items-center">
             <div className="min-w-0">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -129,7 +129,7 @@ const Home: React.FC = () => {
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.06, ease: [0.25, 0.4, 0.25, 1] }}
-                className="statement text-[2.5rem] sm:text-5xl lg:text-6xl text-[var(--ink)] max-w-[15ch]"
+                className="statement text-[2.5rem] sm:text-5xl lg:text-6xl text-[var(--ink)] max-w-[16ch]"
               >
                 Marketing work you can inspect.
               </motion.h1>

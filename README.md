@@ -104,8 +104,8 @@ kept only because legacy usages still reference them; new code should use the si
 
 Any new colour has to be added as a token in **both** theme blocks, or dark mode breaks.
 
-Type is two families: DM Sans for everything readable, JetBrains Mono for every number
-and label and nothing else.
+Type is two roles: Manrope for readable headings and body copy, and JetBrains Mono for
+every number and label.
 
 There is no stock photography on this site, and none should be added — a generic image
 undercuts the measurement argument the rest of the design is making.
