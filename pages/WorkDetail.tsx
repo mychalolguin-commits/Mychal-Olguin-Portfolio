@@ -12,6 +12,7 @@ import { Artifact, Project } from '../types';
 import { useSEO } from '../hooks/useSEO';
 import { CONTAINER, LINK_UNDERLINE } from '../components/layout';
 
+const TOWNE_OAKS_CASE_STUDY_SLUG = 'towne-oaks-paid-social';
 const AEO_CASE_STUDY_SLUG = 'cornerstone-apartment-websites';
 const CHATGPT_CITATION_CROP = '/captures/apts-ai-answer-citations.png';
 const PET_WIDGET_CAPTURE = '/captures/apts-pet-widget.png';
@@ -19,6 +20,7 @@ const BORDERS_SITE_CAPTURE = '/captures/borders-site.png';
 const VERANO_CHATGPT_CAPTURE = '/captures/verano-oaks-chatgpt.png';
 
 type Fact = { label: string; value?: string; mono?: boolean };
+type MethodStep = { label: string; value: string };
 
 const AEO_PROOF_POINTS = [
   {
@@ -40,6 +42,34 @@ const AEO_PROOF_POINTS = [
     label: 'Schema shipped',
     value: '0',
     detail: 'The citation came from readable page structure, not markup',
+  },
+];
+
+const TOWNE_MEASUREMENT_STEPS: MethodStep[] = [
+  {
+    label: 'Objective',
+    value:
+      'Optimized for landing page views instead of link clicks, because the goal was loaded floorplan traffic.',
+  },
+  {
+    label: 'Tracking',
+    value:
+      'Used one UTM structure across ad variants so Meta traffic could be separated cleanly inside GA4.',
+  },
+  {
+    label: 'Validation',
+    value:
+      'Compared Meta landing page views against GA4 sessions, engagement, and floorplan-page behavior.',
+  },
+  {
+    label: 'Reporting',
+    value:
+      'Built weekly reporting from Meta Ads Manager exports, GA4 explorations, and an Excel performance view.',
+  },
+  {
+    label: 'Privacy',
+    value:
+      'Redrew the visuals from real exports so account names, IDs, audiences, and billing details stay private.',
   },
 ];
 
@@ -294,6 +324,37 @@ const ProofMethodology: React.FC = () => (
   </section>
 );
 
+const TowneMeasurementMethodology: React.FC = () => (
+  <section className="border-b border-[var(--rule)] py-14 md:py-16 bg-[var(--surface-sunken)]">
+    <div className={CONTAINER}>
+      <Reveal>
+        <div className="grid lg:grid-cols-[14rem_1fr] gap-8 lg:gap-12">
+          <div>
+            <p className="label">How I measured it</p>
+            <h2 className="display mt-4 text-2xl md:text-3xl text-[var(--ink)]">
+              The setup mattered as much as the spend.
+            </h2>
+          </div>
+
+          <dl className="border-y border-[var(--rule)]">
+            {TOWNE_MEASUREMENT_STEPS.map((step) => (
+              <div
+                key={step.label}
+                className="grid gap-3 border-b border-[var(--rule)] py-5 last:border-b-0 md:grid-cols-[9rem_1fr] md:gap-8"
+              >
+                <dt className="label">{step.label}</dt>
+                <dd className="text-[16px] leading-relaxed text-[var(--color-text-secondary)]">
+                  {step.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+);
+
 /**
  * A numbered section of the write-up. The numbers are not decoration — a case
  * study is a real sequence (what was wrong, what I did, what came back), and
@@ -356,6 +417,7 @@ const WorkDetail: React.FC = () => {
   const hasDirectional = project.metrics.some((m) => m.placeholder);
 
   const isAeoCaseStudy = project.slug === AEO_CASE_STUDY_SLUG;
+  const isTowneOaksCaseStudy = project.slug === TOWNE_OAKS_CASE_STUDY_SLUG;
 
   /** Facts that belong in a framing block, not in the prose. */
   const FACTS: Fact[] = [
@@ -428,6 +490,7 @@ const WorkDetail: React.FC = () => {
 
         <CaseSnapshot project={project} />
         <ProofMethodology />
+        {isTowneOaksCaseStudy && <TowneMeasurementMethodology />}
 
         {/* ── The capture: a real platform view, or the rendered tile ──── */}
         {isAeoCaseStudy ? (
