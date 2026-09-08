@@ -276,6 +276,24 @@ const CaseSnapshot: React.FC<{ project: Project }> = ({ project }) => {
   );
 };
 
+const ProofMethodology: React.FC = () => (
+  <section className="border-b border-[var(--rule)] py-8 md:py-10">
+    <div className={CONTAINER}>
+      <Reveal>
+        <div className="grid md:grid-cols-[14rem_1fr] gap-4 md:gap-12">
+          <p className="label">Proof methodology</p>
+          <p className="max-w-[72ch] text-[15px] md:text-[16px] leading-relaxed text-[var(--color-text-tertiary)]">
+            Some campaign and reporting visuals are redrawn from real platform exports to protect
+            employer and client account details. Account names, IDs, billing, and audience data are
+            removed; the visible metrics stay tied to the case study. Public website and AI-search
+            captures are shown directly when they do not expose private account data.
+          </p>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+);
+
 /**
  * A numbered section of the write-up. The numbers are not decoration — a case
  * study is a real sequence (what was wrong, what I did, what came back), and
@@ -409,6 +427,7 @@ const WorkDetail: React.FC = () => {
         )}
 
         <CaseSnapshot project={project} />
+        <ProofMethodology />
 
         {/* ── The capture: a real platform view, or the rendered tile ──── */}
         {isAeoCaseStudy ? (
