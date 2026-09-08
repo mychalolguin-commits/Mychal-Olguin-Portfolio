@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import MotionProvider from './components/MotionProvider';
 import PageTransition from './components/PageTransition';
 import Navbar from './components/Navbar';
@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Work from './pages/Work';
 import WorkDetail from './pages/WorkDetail';
-import Resume from './pages/Resume';
+import About from './pages/About';
 import Contact from './pages/Contact';
 
 const AnimatedRoutes = () => {
@@ -30,7 +30,8 @@ const AnimatedRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/work" element={<Work />} />
         <Route path="/work/:slug" element={<WorkDetail />} />
-        <Route path="/resume" element={<Resume />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/resume" element={<Navigate to="/about" replace />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </PageTransition>

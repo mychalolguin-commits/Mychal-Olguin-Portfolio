@@ -52,13 +52,12 @@ There is no test suite, linter, or formatter configured.
 │   ├── Reveal.tsx               # scroll-triggered entrances
 │   ├── layout.ts                # CONTAINER + the shared button/link classes
 │   └── shelf/                   # three.js certification shelf (see CLAUDE.md)
-├── pages/                       # Home, Work, WorkDetail, Resume, Contact
+├── pages/                       # Home, Work, WorkDetail, About, Contact
 ├── hooks/                       # useSEO, useTheme, useReducedMotion
 ├── public/
 │   ├── captures/                # platform screenshots (see the README in there)
 │   ├── images/                  # headshot, Memoji
 │   ├── favicon.png / apple-touch-icon.png
-│   ├── Mychal_Olguin_Resume.pdf
 │   ├── robots.txt
 │   └── sitemap.xml
 ├── constants.ts                 # PROJECTS, EXPERIENCE, CAPABILITIES — all site content
@@ -80,7 +79,7 @@ Adding a case study means appending to `PROJECTS` and adding the slug to
 `public/sitemap.xml`. Routing and next-project navigation both derive from array order.
 
 Certifications are the one exception: they live in `components/shelf/catalog.ts`, which
-feeds both the 3D shelf on the homepage and the Certifications section of the resume
+feeds both the 3D shelf on the homepage and the Certifications section of the about
 page. Edit that one file and both update.
 
 ## Design

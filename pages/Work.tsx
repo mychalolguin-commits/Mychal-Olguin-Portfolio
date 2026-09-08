@@ -146,10 +146,10 @@ const Work: React.FC = () => {
                   Email me
                 </a>
                 <Link
-                  to="/resume"
+                  to="/about"
                   className="inline-flex items-center gap-2 rounded-[3px] border border-[var(--on-brand-muted)] text-[var(--on-brand-field)] px-6 py-3 text-[15px] font-medium transition-colors duration-200 hover:border-[var(--on-brand-field)]"
                 >
-                  View resume
+                  About me
                 </Link>
               </div>
             </div>
