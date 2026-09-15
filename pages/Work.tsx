@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { Reveal } from '../components/Reveal';
 import MediaTile from '../components/MediaTile';
-import { PROJECTS } from '../constants';
+import { PROJECTS, SOCIAL_CREATIVE } from '../constants';
 import { useSEO } from '../hooks/useSEO';
-import { CONTAINER, BTN_ON_BRAND } from '../components/layout';
+import { CONTAINER, BTN_ON_BRAND, LINK_UNDERLINE } from '../components/layout';
 
 /**
  * The homepage features these same case studies, so this index earns its place
@@ -126,6 +126,54 @@ const Work: React.FC = () => {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      <section id="paid-social-creative" aria-labelledby="social-creative-heading" className="border-t border-[var(--rule)] py-20 md:py-28">
+        <div className={CONTAINER}>
+          <Reveal>
+            <p className="label">Selected paid-social creative</p>
+            <h2 id="social-creative-heading" className="statement mt-5 max-w-[22ch] text-3xl md:text-5xl text-[var(--ink)]">
+              Give renters a reason to look closer.
+            </h2>
+            <p className="mt-6 max-w-[60ch] text-lg leading-relaxed text-[var(--graphite)]">
+              Paid-social carousels for Christy Estates and Borders Apartments. I shot all the
+              photography, created the graphics, and wrote the captions.
+            </p>
+          </Reveal>
+
+          <div className="mt-14 space-y-16 md:space-y-24">
+            {SOCIAL_CREATIVE.map((creative) => (
+              <Reveal key={creative.property}>
+                <article className="grid items-start gap-8 border-t border-[var(--rule)] pt-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
+                  <div>
+                    <p className="label">{creative.property}</p>
+                    <h3 className="display mt-4 text-2xl md:text-3xl text-[var(--ink)]">{creative.title}</h3>
+                    <p className="mt-5 text-[16px] leading-relaxed text-[var(--graphite)]">{creative.strategy}</p>
+                    <p className="mt-4 text-[16px] leading-relaxed text-[var(--graphite)]">{creative.execution}</p>
+                  </div>
+                  <div className={`grid items-start gap-4 ${creative.images.length > 1 ? 'grid-cols-2' : 'mx-auto w-full max-w-sm'}`}>
+                    {creative.images.map((asset) => (
+                      <figure key={asset.src} className="min-w-0">
+                        <a href={asset.src} target="_blank" rel="noopener noreferrer" aria-label={`Open full screenshot: ${asset.alt}`} className="block">
+                          <img src={asset.src} alt={asset.alt} loading="lazy" className="block h-auto w-full border border-[var(--rule)]" />
+                        </a>
+                        <figcaption className="mt-3 text-[13px] leading-relaxed text-[var(--graphite)]">
+                          {asset.caption}
+                          <a href={asset.src} target="_blank" rel="noopener noreferrer" className={`mt-2 block ${LINK_UNDERLINE}`}>View full screenshot ↗</a>
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+          <p className="mt-12 max-w-[68ch] text-[14px] leading-relaxed text-[var(--graphite)]">
+            Source: screenshots of the published Facebook creative. The $2,400 figure describes
+            the advertised savings over a 12-month lease. These examples document the creative;
+            campaign performance is not reported here.
+          </p>
         </div>
       </section>
 

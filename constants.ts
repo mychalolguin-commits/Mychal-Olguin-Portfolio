@@ -186,6 +186,28 @@ The larger gap is measurement. This project ran without a Search Console baselin
   }
 ];
 
+export const SOCIAL_CREATIVE = [
+  {
+    property: 'Christy Estates · Corpus Christi',
+    title: 'Make the full lease savings clear.',
+    strategy: 'I presented the rent discount as $2,400 in total savings over a 12-month lease. The goal was to make the full value of the offer easier to see than a monthly discount alone.',
+    execution: 'The carousel paired that offer with interior photography, amenities, and an aerial image showing H-E-B across the street. Each card gave renters a specific reason to explore the property, with an “Apply now” action.',
+    images: [
+      { src: '/captures/christy-paid-social-offer.jpg', alt: 'Christy Estates paid-social carousel showing the $2,400 annual savings offer and apartment interior', caption: 'The offer and interior photography.' },
+      { src: '/captures/christy-paid-social-location.jpg', alt: 'Christy Estates carousel card with labeled aerial photography showing H-E-B across the street', caption: 'Aerial photography makes the location benefit visible.' },
+    ],
+  },
+  {
+    property: 'Borders Apartments · Brownsville',
+    title: 'Show what “centrally located” means.',
+    strategy: 'I used an aerial photograph with labeled landmarks to show the property in relation to US-83 and Sunrise Mall. The image gives renters a concrete view of the location.',
+    execution: 'I shot the photography, added the location markers and headline, and wrote the caption. The carousel used a “Learn more” action to invite renters to explore the property.',
+    images: [
+      { src: '/captures/borders-paid-social-location.jpg', alt: 'Sponsored Borders Apartments carousel with an aerial photograph labeling the property, US-83, and Sunrise Mall', caption: 'Published paid-social creative with labeled local landmarks.' },
+    ],
+  },
+];
+
 export const EXPERIENCE: Experience[] = [
   {
     role: 'Freelance Digital Marketing Consultant',
