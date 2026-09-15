@@ -103,6 +103,14 @@ The tracking outlasted the campaign. Retargeting and conversion campaigns can ru
     tags: ['Web Design', 'Answer-First Content', 'On-Page SEO', 'Multifamily'],
     heroImage: '/captures/borders-site.png',
     heroSource: 'bordersapts.com',
+    virtualTour: {
+      title: 'Walk through the space before booking a visit.',
+      embedUrl: 'https://3dtour.yardiyc1.com/3dLoad.html#BXBV9%26%2c%3f',
+      sourceUrl: 'https://www.loscedrosapts.com/floorplans',
+      description: 'I added interactive 360° tours to help renters explore the apartments online and take the next step toward scheduling a visit or signing a lease. This is the Cedros floor plan at Los Cedros Apartments.',
+      role: 'I shot and edited the 360° photography, built the room-to-room navigation, and embedded the finished tours on the property website.',
+      outcome: 'I observed more website visitors taking action, with more scheduled tours and leases. This is a qualitative observation from the project; I do not have a measured lift attributable to the 360° tours alone.',
+    },
 
     challenge:
       'Four out-of-date property sites with no FAQ content, no meta descriptions, and no keyword targeting. Renters found listing sites before they found the property.',

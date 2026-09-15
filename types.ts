@@ -29,6 +29,14 @@ export interface Project {
   nextSteps?: string;
   // Artifact images
   artifacts?: Artifact[];
+  virtualTour?: {
+    title: string;
+    embedUrl: string;
+    sourceUrl: string;
+    description: string;
+    role: string;
+    outcome: string;
+  };
 
   /**
    * Overrides the fixed Problem/Approach/Execution/Reporting/Results spine.

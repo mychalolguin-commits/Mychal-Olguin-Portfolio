@@ -267,6 +267,51 @@ const AEOProjectFrame: React.FC<{ facts: Fact[]; tags: string[] }> = ({ facts, t
   </section>
 );
 
+const VirtualTourSection: React.FC<{ tour: NonNullable<Project['virtualTour']> }> = ({ tour }) => (
+  <section className="border-y border-[var(--rule)] py-20 md:py-28" aria-labelledby="virtual-tour-heading">
+    <div className={CONTAINER}>
+      <Reveal>
+        <p className="label">360° tours · Los Cedros</p>
+        <h2 id="virtual-tour-heading" className="statement mt-5 max-w-[24ch] text-3xl md:text-5xl text-[var(--ink)]">
+          {tour.title}
+        </h2>
+        <p className="mt-7 max-w-[64ch] text-lg leading-relaxed text-[var(--graphite)]">{tour.description}</p>
+        <dl className="mt-8 grid gap-8 md:grid-cols-2">
+          <div>
+            <dt className="label">My role</dt>
+            <dd className="mt-3 text-[16px] leading-relaxed text-[var(--graphite)]">{tour.role}</dd>
+          </div>
+          <div>
+            <dt className="label">Observed outcome</dt>
+            <dd className="mt-3 text-[16px] leading-relaxed text-[var(--graphite)]">{tour.outcome}</dd>
+          </div>
+        </dl>
+        <figure className="mt-10">
+          <iframe
+            src={tour.embedUrl}
+            title="Interactive 360° tour of the Cedros floor plan at Los Cedros Apartments"
+            loading="lazy"
+            allowFullScreen
+            className="block h-[420px] w-full border border-[var(--rule)] md:h-[560px]"
+          />
+          <figcaption className="mt-4 flex flex-col gap-3 text-[14px] leading-relaxed text-[var(--graphite)] sm:flex-row sm:justify-between">
+            <span>Drag to look around. Select the room markers to move through the apartment.</span>
+            <a href={tour.embedUrl} target="_blank" rel="noopener noreferrer" className={`shrink-0 ${LINK_UNDERLINE}`}>
+              Open tour in a new tab ↗
+            </a>
+          </figcaption>
+        </figure>
+        <p className="mt-6 text-[15px] text-[var(--graphite)]">
+          <a href={tour.sourceUrl} target="_blank" rel="noopener noreferrer" className={LINK_UNDERLINE}>
+            View all tours on the Los Cedros website ↗
+          </a>
+          <span className="mt-2 block">Choose “360 view” under Cedros, Cenizo, or Mesquite.</span>
+        </p>
+      </Reveal>
+    </div>
+  </section>
+);
+
 const CaseSnapshot: React.FC<{ project: Project }> = ({ project }) => {
   const items: SnapshotItem[] = [
     { label: 'Challenge', value: project.challenge },
@@ -574,6 +619,8 @@ const WorkDetail: React.FC = () => {
             </Reveal>
           </div>
         )}
+
+        {project.virtualTour && <VirtualTourSection tour={project.virtualTour} />}
 
         {/* ── The write-up ────────────────────────────────────────────── */}
         <section className="py-28 md:py-40">
