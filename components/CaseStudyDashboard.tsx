@@ -32,7 +32,7 @@ const Panel: React.FC<{ title: string; meta?: string; children: React.ReactNode 
   meta,
   children,
 }) => (
-  <section className="border border-[var(--rule)] p-5 sm:p-6">
+  <section className="case-dashboard-panel">
     <div className="flex items-baseline justify-between gap-4">
       <h4 className="label">{title}</h4>
       {meta && <span className="label">{meta}</span>}
@@ -125,9 +125,9 @@ const CaseStudyDashboard: React.FC<CaseStudyDashboardProps> = ({
   const deliveryMax = Math.max(...delivery.map((f) => f.value));
 
   return (
-    <section className="py-20 md:py-28 border-t border-[var(--rule)]">
+    <section className="case-dashboard">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <h3 className="display text-2xl md:text-3xl text-[var(--ink)]">Campaign dashboard</h3>
+        <div><p className="editorial-eyebrow">Detailed evidence</p><h3>Campaign dashboard</h3></div>
         <div className="flex items-baseline gap-4">
           {objective && <span className="label">{objective}</span>}
           {timeframe && <span className="label">{timeframe}</span>}

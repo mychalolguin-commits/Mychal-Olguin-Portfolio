@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Reveal } from '../components/Reveal';
 import Capture from '../components/Capture';
-import MediaTile from '../components/MediaTile';
 import ScrollProgress from '../components/ScrollProgress';
-import MeasurementNote from '../components/MeasurementNote';
 import CaseStudyDashboard from '../components/CaseStudyDashboard';
 import { PROJECTS } from '../constants';
 import { Artifact, Project } from '../types';
@@ -87,10 +85,10 @@ const ArtifactImage: React.FC<{ artifact: Artifact }> = ({ artifact }) => {
         src={artifact.src}
         alt={artifact.alt}
         onError={() => setHasError(true)}
-        className="w-full border border-[var(--rule)]"
+        className="case-artifact-image"
       />
       {artifact.caption && (
-        <figcaption className="label mt-3">{artifact.caption}</figcaption>
+        <figcaption className="editorial-note mt-4">{artifact.caption}</figcaption>
       )}
     </figure>
   );
@@ -111,10 +109,10 @@ const EvidenceFigure: React.FC<{
     <img
       src={src}
       alt={alt}
-      className={`w-full border border-[var(--rule)] block ${imageClassName || 'h-auto'}`}
+      className={`case-evidence-image ${imageClassName || 'h-auto'}`}
     />
     <figcaption className="mt-3">
-      <span className="label block">{label}</span>
+      <span className="editorial-eyebrow block">{label}</span>
       <span className="mt-1 block text-[14px] leading-relaxed text-[var(--graphite)]">
         {caption}
       </span>
@@ -129,15 +127,15 @@ const FactsTable: React.FC<{ facts: Fact[]; tags?: string[] }> = ({ facts, tags 
 
   return (
     <>
-      <dl className="mt-12 max-w-3xl">
+      <dl className="case-facts">
         {facts.map((fact) => (
           <div
             key={fact.label}
-            className="grid grid-cols-[8rem_1fr] items-baseline gap-4 border-t border-[var(--rule)] py-3 transition-colors duration-150 hover:bg-[var(--surfaceHover)]"
+            className="case-fact"
           >
-            <dt className="label">{fact.label}</dt>
+            <dt className="editorial-eyebrow">{fact.label}</dt>
             <dd
-              className={`text-[15px] text-[var(--color-text-secondary)] break-words ${
+              className={`break-words ${
                 fact.mono ? 'figure' : ''
               }`}
             >
@@ -145,30 +143,29 @@ const FactsTable: React.FC<{ facts: Fact[]; tags?: string[] }> = ({ facts, tags 
             </dd>
           </div>
         ))}
-        <div className="border-t border-[var(--rule)]" />
       </dl>
-      {tags && <p className="label mt-6">{tags.join(' · ')}</p>}
+      {tags && <p className="case-tags">{tags.join(' · ')}</p>}
     </>
   );
 };
 
 const AEOHero: React.FC<{ project: Project }> = ({ project }) => (
-  <section className="pt-24 md:pt-28 pb-16 md:pb-20">
+  <section className="case-hero case-hero--aeo">
     <div className={CONTAINER}>
       <Reveal>
-        <Link to="/work" className={`label inline-flex items-center gap-2 ${LINK_UNDERLINE}`}>
+        <Link to="/work" className="case-back">
           <ArrowLeft size={13} />
           All case studies
         </Link>
       </Reveal>
 
-      <div className="mt-8 grid lg:grid-cols-[0.95fr_1.05fr] gap-12 lg:gap-16 items-center">
+      <div className="case-hero-split">
         <Reveal delay={0.05}>
-          <p className="label">{project.eyebrow || project.subtitle}</p>
-          <h1 className="display text-[2.35rem] sm:text-5xl lg:text-6xl text-[var(--ink)] mt-4 max-w-[16ch]">
-            Pages I rebuilt showed up as ChatGPT sources.
+          <p className="editorial-eyebrow">{project.eyebrow || project.subtitle}</p>
+          <h1>
+            Pages built to be found.
           </h1>
-          <p className="mt-7 max-w-[48ch] text-lg leading-relaxed text-[var(--color-text-tertiary)]">
+          <p className="case-hero-intro">
             Four apartment websites were rebuilt around the questions renters actually ask.
             Later, ChatGPT cited Borders and Los Cedros from their own pages instead of only
             pulling from listing sites, and Verano Oaks surfaced in a separate Hurst search.
@@ -186,14 +183,14 @@ const AEOHero: React.FC<{ project: Project }> = ({ project }) => (
       </div>
 
       <Reveal delay={0.18}>
-        <dl className="mt-10 grid md:grid-cols-4 border-y border-[var(--rule)] divide-y md:divide-y-0 md:divide-x divide-[var(--rule)]">
+        <dl className="case-proof-strip">
           {AEO_PROOF_POINTS.map((point) => (
-            <div key={point.label} className="py-6 md:px-6">
-              <dt className="label">{point.label}</dt>
-              <dd className="figure text-4xl md:text-5xl text-[var(--ink)] mt-3">
+            <div key={point.label}>
+              <dt className="editorial-eyebrow">{point.label}</dt>
+              <dd className="case-proof-value">
                 {point.value}
               </dd>
-              <p className="mt-3 text-[14px] leading-relaxed text-[var(--graphite)]">
+              <p>
                 {point.detail}
               </p>
             </div>
@@ -205,20 +202,20 @@ const AEOHero: React.FC<{ project: Project }> = ({ project }) => (
 );
 
 const AEOEvidenceChain: React.FC = () => (
-  <section className="py-24 md:py-32 bg-[var(--surface-sunken)]">
+  <section className="case-evidence-chapter">
     <div className={CONTAINER}>
       <Reveal>
-        <p className="label">Evidence chain</p>
-        <h2 className="statement text-3xl md:text-5xl text-[var(--ink)] mt-5 max-w-[22ch]">
+        <p className="editorial-eyebrow">Evidence chain</p>
+        <h2 className="case-section-title">
           The AI answer traces back to page-level work.
         </h2>
-        <p className="mt-7 max-w-[58ch] text-lg leading-relaxed text-[var(--color-text-tertiary)]">
+        <p className="editorial-body case-section-intro">
           The point is not that a screenshot proves rankings. It proves retrieval: the assistant
           found property-owned pages because the pages answered the question directly.
         </p>
       </Reveal>
 
-      <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12 items-start">
+      <div className="case-evidence-grid">
         <Reveal y={26}>
           <EvidenceFigure
             src={PET_WIDGET_CAPTURE}
@@ -254,11 +251,11 @@ const AEOEvidenceChain: React.FC = () => (
 );
 
 const AEOProjectFrame: React.FC<{ facts: Fact[]; tags: string[] }> = ({ facts, tags }) => (
-  <section className="py-20 md:py-28">
+  <section className="case-project-frame">
     <div className={CONTAINER}>
       <Reveal>
-        <p className="label">Project frame</p>
-        <h2 className="display text-2xl md:text-3xl text-[var(--ink)] mt-4">
+        <p className="editorial-eyebrow">Project frame</p>
+        <h2 className="case-subheading">
           What was actually in scope.
         </h2>
         <FactsTable facts={facts} tags={tags} />
@@ -268,21 +265,21 @@ const AEOProjectFrame: React.FC<{ facts: Fact[]; tags: string[] }> = ({ facts, t
 );
 
 const VirtualTourSection: React.FC<{ tour: NonNullable<Project['virtualTour']> }> = ({ tour }) => (
-  <section className="border-y border-[var(--rule)] py-20 md:py-28" aria-labelledby="virtual-tour-heading">
+  <section className="case-virtual-tour" aria-labelledby="virtual-tour-heading">
     <div className={CONTAINER}>
       <Reveal>
-        <p className="label">360° tours · Los Cedros</p>
-        <h2 id="virtual-tour-heading" className="statement mt-5 max-w-[24ch] text-3xl md:text-5xl text-[var(--ink)]">
+        <p className="editorial-eyebrow">360° tours · Los Cedros</p>
+        <h2 id="virtual-tour-heading" className="case-section-title">
           {tour.title}
         </h2>
-        <p className="mt-7 max-w-[64ch] text-lg leading-relaxed text-[var(--graphite)]">{tour.description}</p>
-        <dl className="mt-8 grid gap-8 md:grid-cols-2">
+        <p className="editorial-body case-section-intro">{tour.description}</p>
+        <dl className="case-tour-facts">
           <div>
-            <dt className="label">My role</dt>
+            <dt className="editorial-eyebrow">My role</dt>
             <dd className="mt-3 text-[16px] leading-relaxed text-[var(--graphite)]">{tour.role}</dd>
           </div>
           <div>
-            <dt className="label">Observed outcome</dt>
+            <dt className="editorial-eyebrow">Observed outcome</dt>
             <dd className="mt-3 text-[16px] leading-relaxed text-[var(--graphite)]">{tour.outcome}</dd>
           </div>
         </dl>
@@ -292,7 +289,7 @@ const VirtualTourSection: React.FC<{ tour: NonNullable<Project['virtualTour']> }
             title="Interactive 360° tour of the Cedros floor plan at Los Cedros Apartments"
             loading="lazy"
             allowFullScreen
-            className="block h-[420px] w-full border border-[var(--rule)] md:h-[560px]"
+            className="case-tour-frame"
           />
           <figcaption className="mt-4 flex flex-col gap-3 text-[14px] leading-relaxed text-[var(--graphite)] sm:flex-row sm:justify-between">
             <span>Drag to look around. Select the room markers to move through the apartment.</span>
@@ -320,25 +317,23 @@ const CaseSnapshot: React.FC<{ project: Project }> = ({ project }) => {
   ];
 
   return (
-    <section className="py-16 md:py-20 border-y border-[var(--rule)] bg-[var(--color-bg-elevated)]">
+    <section className="case-snapshot editorial-dark">
       <div className={CONTAINER}>
         <Reveal>
-          <div className="grid lg:grid-cols-[14rem_1fr] gap-8 lg:gap-12">
+          <div className="case-snapshot-layout">
             <div>
-              <p className="label">Case snapshot</p>
-              <p className="mt-4 max-w-[28ch] text-[15px] leading-relaxed text-[var(--graphite)]">
-                What changed, what I did, and what came back.
-              </p>
+              <p className="editorial-eyebrow">Case snapshot</p>
+              <h2>What changed.<br />What came back.</h2>
             </div>
 
-            <dl className="grid md:grid-cols-3 border-y md:border-y-0 md:border-l border-[var(--rule)]">
+            <dl className="case-snapshot-items">
               {items.map((item) => (
                 <div
                   key={item.label}
-                  className="border-b last:border-b-0 md:border-b-0 md:border-r border-[var(--rule)] py-6 md:px-6"
+                  className="case-snapshot-item"
                 >
-                  <dt className="label">{item.label}</dt>
-                  <dd className="mt-4 text-[16px] leading-relaxed text-[var(--color-text-secondary)]">
+                  <dt className="editorial-eyebrow">{item.label}</dt>
+                  <dd>
                     {item.value}
                   </dd>
                 </div>
@@ -352,43 +347,43 @@ const CaseSnapshot: React.FC<{ project: Project }> = ({ project }) => {
 };
 
 const ProofMethodology: React.FC = () => (
-  <section className="border-b border-[var(--rule)] py-8 md:py-10">
+  <section className="case-proof-note">
     <div className={CONTAINER}>
       <Reveal>
-        <div className="grid md:grid-cols-[14rem_1fr] gap-4 md:gap-12">
-          <p className="label">Proof methodology</p>
-          <p className="max-w-[72ch] text-[15px] md:text-[16px] leading-relaxed text-[var(--color-text-tertiary)]">
+        <details>
+          <summary>About the evidence</summary>
+          <p>
             Some campaign and reporting visuals are redrawn from real platform exports to protect
             employer and client account details. Account names, IDs, billing, and audience data are
             removed; the visible metrics stay tied to the case study. Public website and AI-search
             captures are shown directly when they do not expose private account data.
           </p>
-        </div>
+        </details>
       </Reveal>
     </div>
   </section>
 );
 
 const TowneMeasurementMethodology: React.FC = () => (
-  <section className="border-b border-[var(--rule)] py-14 md:py-16 bg-[var(--surface-sunken)]">
+  <section className="case-methodology">
     <div className={CONTAINER}>
       <Reveal>
-        <div className="grid lg:grid-cols-[14rem_1fr] gap-8 lg:gap-12">
+        <div className="case-methodology-layout">
           <div>
-            <p className="label">How I measured it</p>
-            <h2 className="display mt-4 text-2xl md:text-3xl text-[var(--ink)]">
+            <p className="editorial-eyebrow">How I measured it</p>
+            <h2 className="case-subheading">
               The setup mattered as much as the spend.
             </h2>
           </div>
 
-          <dl className="border-y border-[var(--rule)]">
+          <dl className="case-method-steps">
             {TOWNE_MEASUREMENT_STEPS.map((step) => (
               <div
                 key={step.label}
-                className="grid gap-3 border-b border-[var(--rule)] py-5 last:border-b-0 md:grid-cols-[9rem_1fr] md:gap-8"
+                className="case-method-step"
               >
-                <dt className="label">{step.label}</dt>
-                <dd className="text-[16px] leading-relaxed text-[var(--color-text-secondary)]">
+                <dt className="editorial-eyebrow">{step.label}</dt>
+                <dd>
                   {step.value}
                 </dd>
               </div>
@@ -407,14 +402,14 @@ const TowneMeasurementMethodology: React.FC = () => (
  */
 const ProseSection: React.FC<{ index: number; section: Section }> = ({ index, section }) => (
   <Reveal>
-    <section className="border-t border-[var(--rule)] pt-7 grid md:grid-cols-[13rem_1fr] gap-4 md:gap-10">
+    <section className="case-prose-section">
       <div>
-        <span className="figure label">{String(index).padStart(2, '0')}</span>
-        <h2 className="display text-xl text-[var(--ink)] mt-2">{section.title}</h2>
+        <span className="editorial-eyebrow">{String(index).padStart(2, '0')}</span>
+        <h2>{section.title}</h2>
       </div>
       <div>
         {section.body && (
-          <p className="text-[17px] md:text-lg leading-relaxed text-[var(--color-text-secondary)] whitespace-pre-line max-w-[64ch]">
+          <p className="case-prose-body">
             {section.body}
           </p>
         )}
@@ -460,9 +455,18 @@ const WorkDetail: React.FC = () => {
   // timeframe. No current project has one.
   const timeframe = project.timeframe?.replace(/\s*\(placeholder\)/i, '');
   const hasDirectional = project.metrics.some((m) => m.placeholder);
+  const headlineMetrics = [...project.metrics].sort((a, b) => {
+    const priority = (label: string) => (label.toLowerCase().includes('lp views') ? 0 : 1);
+    return priority(a.label) - priority(b.label);
+  });
 
   const isAeoCaseStudy = project.slug === AEO_CASE_STUDY_SLUG;
   const isTowneOaksCaseStudy = project.slug === TOWNE_OAKS_CASE_STUDY_SLUG;
+  const displayTitle = isTowneOaksCaseStudy
+    ? 'Traffic with a purpose.'
+    : project.slug === 'ire-junk-removal-website'
+      ? 'A first place to get found.'
+      : project.title;
 
   /** Facts that belong in a framing block, not in the prose. */
   const FACTS: Fact[] = [
@@ -499,17 +503,17 @@ const WorkDetail: React.FC = () => {
       />
       <ScrollProgress />
 
-      <article itemScope itemType="https://schema.org/Article">
+      <article className="editorial-page case-study" itemScope itemType="https://schema.org/Article">
         {isAeoCaseStudy ? (
           <AEOHero project={project} />
         ) : (
           /* ── Masthead ──────────────────────────────────────────────── */
-          <section className="pt-36 md:pt-52 pb-16 md:pb-24">
+          <section className="case-hero">
             <div className={CONTAINER}>
               <Reveal>
                 <Link
                   to="/work"
-                  className={`label inline-flex items-center gap-2 ${LINK_UNDERLINE}`}
+                  className="case-back"
                 >
                   <ArrowLeft size={13} />
                   All case studies
@@ -517,11 +521,11 @@ const WorkDetail: React.FC = () => {
               </Reveal>
 
               <Reveal delay={0.05}>
-                <p className="label mt-9">{project.eyebrow || project.subtitle}</p>
-                <h1 className="display text-[2.25rem] sm:text-5xl lg:text-6xl text-[var(--ink)] mt-4 max-w-[20ch]">
-                  {project.title}
+                <p className="editorial-eyebrow case-hero-label">{project.title.split(' — ')[0]} · {project.subtitle}</p>
+                <h1>
+                  {displayTitle}
                 </h1>
-                <p className="mt-6 max-w-[58ch] text-lg leading-relaxed text-[var(--color-text-tertiary)]">
+                <p className="case-hero-intro">
                   {project.description}
                 </p>
               </Reveal>
@@ -535,9 +539,9 @@ const WorkDetail: React.FC = () => {
 
         <CaseSnapshot project={project} />
         {project.websiteUrl && (
-          <div className={`${CONTAINER} py-8`}>
-            <a href={project.websiteUrl} target="_blank" rel="noopener noreferrer" className={LINK_UNDERLINE}>
-              Visit the live website ↗
+          <div className={`${CONTAINER} case-live-link`}>
+            <a href={project.websiteUrl} target="_blank" rel="noopener noreferrer" className="editorial-link">
+              Visit the live website <ArrowUpRight size={18} aria-hidden="true" />
             </a>
           </div>
         )}
@@ -552,23 +556,29 @@ const WorkDetail: React.FC = () => {
           </>
         ) : (
           <Reveal y={30}>
+            <div className={`${CONTAINER} case-primary-capture`}>
             <Capture
-              bleed
+              bare
               src={project.heroImage}
               alt={project.media?.variant === 'website' ? project.media.alt : `Platform view for ${project.title}`}
               source={project.heroSource || project.channels || 'Platform'}
               fallback={
-                project.media ? (
-                  <div className="w-full h-[320px] md:h-[520px] overflow-hidden border border-[var(--rule)] bg-[var(--color-bg-elevated)]">
-                    <MediaTile
-                      type={project.mediaType}
-                      media={project.media}
-                      className="w-full h-full"
-                    />
+                project.dashboardData ? (
+                  <div className="case-campaign-proof">
+                    <p className="editorial-eyebrow">Towne Oaks · Paid media</p>
+                    <div className="case-campaign-proof-main">
+                      <p>{project.dashboardData.totals.lpv.toLocaleString('en-US')}</p>
+                      <span>landing page views</span>
+                    </div>
+                    <div className="case-campaign-proof-footer">
+                      <p>${(project.dashboardData.totals.spend / project.dashboardData.totals.lpv).toFixed(2)} per view</p>
+                      <span>Meta Ads Manager · {timeframe}</span>
+                    </div>
                   </div>
                 ) : null
               }
             />
+            </div>
           </Reveal>
         )}
 
@@ -577,27 +587,24 @@ const WorkDetail: React.FC = () => {
             metrics rail reads as missing data; no rail reads as a case
             study that argues from something other than a figure. */}
         {project.metrics.length > 0 && (
-        <section className="py-28 md:py-40">
+        <section className="case-results">
           <div className={CONTAINER}>
             <Reveal>
-              <div className="flex items-baseline justify-between gap-4">
-                <h2 className="label">Headline metrics</h2>
-                {timeframe && <span className="label">{timeframe}</span>}
+              <div className="case-results-heading">
+                <div><p className="editorial-eyebrow">Results</p><h2>The campaign<br />in numbers.</h2></div>
+                {timeframe && <span className="editorial-note">{timeframe}</span>}
               </div>
 
-              <dl className="mt-4 max-w-3xl">
-                {project.metrics.map((metric) => (
+              <dl className="case-metrics">
+                {headlineMetrics.map((metric) => (
                   <div
                     key={metric.label}
-                    className="grid grid-cols-[1fr_auto] items-baseline gap-5 border-t border-[var(--rule)] py-3.5 transition-colors duration-150 hover:bg-[var(--surfaceHover)]"
+                    className="case-metric"
                   >
-                    <dt className="text-[15px] text-[var(--color-text-secondary)]">
-                      {metric.label}
-                    </dt>
-                    <dd className="figure text-lg sm:text-xl text-[var(--ink)]">{metric.value}</dd>
+                    <dd>{metric.value}</dd>
+                    <dt>{metric.label}</dt>
                   </div>
                 ))}
-                <div className="border-t border-[var(--rule)]" />
               </dl>
 
               {hasDirectional && (
@@ -607,7 +614,6 @@ const WorkDetail: React.FC = () => {
                 </p>
               )}
 
-              <MeasurementNote />
             </Reveal>
           </div>
         </section>
@@ -615,7 +621,7 @@ const WorkDetail: React.FC = () => {
 
         {/* ── Dashboard ───────────────────────────────────────────────── */}
         {project.dashboardData && (
-          <div className={CONTAINER}>
+          <div className={`${CONTAINER} case-dashboard-wrap`}>
             <Reveal>
               <CaseStudyDashboard
                 data={project.dashboardData}
@@ -630,9 +636,9 @@ const WorkDetail: React.FC = () => {
         {project.virtualTour && <VirtualTourSection tour={project.virtualTour} />}
 
         {/* ── The write-up ────────────────────────────────────────────── */}
-        <section className="py-28 md:py-40">
+        <section className="case-writeup">
           <div className={CONTAINER}>
-            <div className="space-y-16 md:space-y-20">
+            <div className="case-writeup-sections">
               {sections.map((section, i) => (
                 <ProseSection key={section.title} index={i + 1} section={section} />
               ))}
@@ -641,15 +647,15 @@ const WorkDetail: React.FC = () => {
         </section>
 
         {/* ── Next ────────────────────────────────────────────────────── */}
-        <section className="py-28 md:py-40">
+        <section className="case-next editorial-dark">
           <div className={CONTAINER}>
             <Reveal>
-              <p className="label">Next case study</p>
-              <Link to={`/work/${nextProject.slug}`} className="group block mt-4">
-                <h2 className="display text-3xl md:text-4xl text-[var(--ink)] transition-opacity group-hover:opacity-70 max-w-[20ch]">
+              <p className="editorial-eyebrow">Next case study</p>
+              <Link to={`/work/${nextProject.slug}`} className="group block">
+                <h2>
                   {nextProject.title}
                 </h2>
-                <span className="mt-5 inline-flex items-center gap-1.5 text-[15px] font-medium text-[var(--ink)] underline underline-offset-4 decoration-[var(--rule)] transition-colors group-hover:decoration-[var(--ink)]">
+                <span className="editorial-link">
                   Read it
                   <ArrowRight size={16} />
                 </span>
