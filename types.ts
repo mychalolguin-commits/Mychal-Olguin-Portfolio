@@ -8,6 +8,7 @@ export interface Project {
   /** Cited beside the hero capture. Falls back to `channels`, which is wrong
    *  when the capture is a website rather than a platform report. */
   heroSource?: string;
+  websiteUrl?: string;
   mediaType: 'meta' | 'seo' | 'reporting';
   challenge: string;
   solution: string;
@@ -121,7 +122,7 @@ export interface Experience {
 }
 
 // Media variant types
-export type MediaVariant = 'ga4' | 'seo' | 'paidSocial';
+export type MediaVariant = 'ga4' | 'seo' | 'paidSocial' | 'website';
 
 export interface ChannelMix {
   name: string;
@@ -173,4 +174,10 @@ export interface PaidSocialMediaData {
   sparkline: SparklinePoint[];
 }
 
-export type MediaData = GA4MediaData | SEOMediaData | PaidSocialMediaData;
+export interface WebsiteMediaData {
+  variant: 'website';
+  src: string;
+  alt: string;
+}
+
+export type MediaData = GA4MediaData | SEOMediaData | PaidSocialMediaData | WebsiteMediaData;

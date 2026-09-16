@@ -534,7 +534,14 @@ const WorkDetail: React.FC = () => {
         )}
 
         <CaseSnapshot project={project} />
-        <ProofMethodology />
+        {project.websiteUrl && (
+          <div className={`${CONTAINER} py-8`}>
+            <a href={project.websiteUrl} target="_blank" rel="noopener noreferrer" className={LINK_UNDERLINE}>
+              Visit the live website ↗
+            </a>
+          </div>
+        )}
+        {project.media?.variant !== 'website' && <ProofMethodology />}
         {isTowneOaksCaseStudy && <TowneMeasurementMethodology />}
 
         {/* ── The capture: a real platform view, or the rendered tile ──── */}
@@ -548,7 +555,7 @@ const WorkDetail: React.FC = () => {
             <Capture
               bleed
               src={project.heroImage}
-              alt={`Platform view for ${project.title}`}
+              alt={project.media?.variant === 'website' ? project.media.alt : `Platform view for ${project.title}`}
               source={project.heroSource || project.channels || 'Platform'}
               fallback={
                 project.media ? (

@@ -183,7 +183,59 @@ The larger gap is measurement. This project ran without a Search Console baselin
       // No sparkline: there is no measured trend behind this engagement, and
       // an invented curve is exactly what this site refuses to ship.
     }
-  }
+  },
+  {
+  slug: 'ire-junk-removal-website',
+  title: 'IRE Junk Removal — A First Website Built for Local Inquiries',
+  subtitle: 'Web Design · Copywriting · Local SEO',
+  eyebrow: 'WEB DESIGN · COPYWRITING · LOCAL SEO',
+  timeframe: 'March–August 2026',
+  objective: 'First website + quote inquiries',
+  channels: 'Website · Local Search',
+  tools: 'Squarespace, page titles, meta descriptions, service-area copy',
+  description: 'A first website for a Rio Grande Valley junk removal business, with clear service information, local copy, and a path to request a quote.',
+  tags: ['Squarespace', 'Copywriting', 'Local SEO', 'Home Services'],
+  mediaType: 'seo',
+  heroImage: '/captures/ire-homepage.png',
+  heroSource: 'irejnkremoval.com · September 2026',
+  websiteUrl: 'https://www.irejnkremoval.com/',
+  challenge: 'IRE needed its first website to explain its services, show where it works, and give potential customers a way to get in touch.',
+  solution: 'I built the site in Squarespace, wrote the copy, and added page titles, meta descriptions, and service-area content.',
+  result: 'The business received inquiries after launch, and the owner was pleased with the site.',
+  metrics: [],
+  media: {
+    variant: 'website',
+    src: '/captures/ire-homepage.png',
+    alt: 'IRE Junk Removal homepage with service information and call and booking actions',
+  },
+  narrative: [
+    {
+      title: 'A first website for the business',
+      body: 'I worked with IRE Junk Removal from March through August 2026 to build its first website. My scope covered the Squarespace build, website copy, and local SEO. The site needed to explain what IRE hauls, where it operates, and how to request a quote.',
+    },
+    {
+      title: 'Why Squarespace',
+      body: 'I chose Squarespace so the owner could make future content updates without editing code. The platform choice accounted for how the business could maintain the site after the build.',
+    },
+    {
+      title: 'Turn interest into a quote request',
+      body: 'I organized the copy around practical questions: what can be hauled, which locations are covered, and what information is needed for a quote. The site gives visitors options to call or submit an inquiry.\n\nThe quote form asks for contact details, pickup city, the type and approximate amount of junk, and preferred timing. These details give the business a starting point for following up on the job.',
+      artifact: {
+        src: '/captures/ire-quote-form.png',
+        alt: 'IRE quote request page with fields for contact details, pickup city, items, amount, and timing',
+        caption: 'Published quote form · irejnkremoval.com/contact · September 2026',
+      },
+    },
+    {
+      title: 'Make the local scope clear',
+      body: 'I wrote page titles and meta descriptions and added service-area copy for the Rio Grande Valley, including communities such as Mission and McAllen. The goal was to make the services and locations clear to people looking for local junk removal. Search rankings and organic traffic changes were not measured in this case study.',
+    },
+    {
+      title: 'What happened after launch',
+      body: 'The business received inquiries after the site launched, and the owner was pleased with the result. These outcomes are based on my account of the project; I do not have a verified inquiry count, booked-job total, or conversion rate to report. The live site reflects the work I delivered.',
+    },
+  ],
+  },
 ];
 
 export const SOCIAL_CREATIVE = [

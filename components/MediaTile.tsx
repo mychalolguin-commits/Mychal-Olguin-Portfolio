@@ -398,6 +398,8 @@ const MediaTile: React.FC<MediaTileProps> = ({ type, media, className = '' }) =>
   const renderVariant = () => {
     if (media) {
       switch (media.variant) {
+        case 'website':
+          return <img src={media.src} alt={media.alt} loading="lazy" className="h-full w-full object-contain" />;
         case 'ga4':
           return <GA4Variant data={media} />;
         case 'seo':
