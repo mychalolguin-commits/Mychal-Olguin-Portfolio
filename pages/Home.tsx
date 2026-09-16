@@ -15,7 +15,6 @@ const Home: React.FC = () => {
     <div className="editorial-home">
       <section className="home-intro" aria-labelledby="home-heading">
         <div className={CONTAINER}>
-          <p className="editorial-eyebrow">Independent thinking. Hands-on marketing.</p>
           <div className="home-intro-grid">
             <h1 id="home-heading">Good marketing.<br />Built with purpose.</h1>
             <div className="home-intro-copy">

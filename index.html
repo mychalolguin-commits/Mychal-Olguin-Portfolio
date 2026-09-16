@@ -40,8 +40,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#15120E" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#F7F1E6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#101310" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F3F3F0" media="(prefers-color-scheme: light)" />
 
     <!-- Structured Data - Person -->
     <script type="application/ld+json">
@@ -110,64 +110,54 @@
          the whole thing turn technical. -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
     <style>
-      /* ═══════════════════════════════════════════════════════════
-         INSTRUMENT PANEL
-
-         Six tokens are the source of truth. Everything else on this
-         page derives from them.
-
-         The rule that holds the design together: COLOUR ENCODES DATA,
-         NEVER DECORATION. --signal-up / --signal-down appear only on a
-         real change in a real number, and --data-* only inside charts.
-         Nothing else is coloured — links, hovers, active states and
-         focus rings are all ink. Adding a decorative accent colour
-         anywhere breaks the design.
-
-         LIGHT IS THE DEFAULT (:root). Dark is a designed second theme.
-         The pre-paint script above always writes data-theme, so :root
-         serves light and [data-theme="dark"] overrides it.
-         ═══════════════════════════════════════════════════════════ */
+      /* The fixed palette is the single source of truth. Semantic tokens
+         below map it to light and dark themes without adding decorative hues. */
       :root {
-        --paper:       #F7F1E6;
-        --ink:         #171411;
-        --graphite:    #6F665B;
-        --rule:        #D8CFC1;
-        --signal-up:   #24724A;
+        --palette-canvas: #F3F3F0;
+        --palette-surface: #E8E9E4;
+        --palette-ink: #111210;
+        --palette-muted: #686A64;
+        --palette-border: #D9DAD5;
+        --palette-brand: #0F5D45;
+        --palette-brand-hover: #0B4B38;
+        --palette-dark: #101310;
+        --palette-dark-text: #F4F4F1;
+        --palette-dark-muted: #B8BBB5;
+        --palette-dark-border: #343934;
+        --palette-dark-surface: #191D19;
+        --palette-dark-elevated: #202520;
+        --palette-surface-muted: #646660;
+        --palette-dark-control: #2D322D;
+
+        --paper: var(--palette-canvas);
+        --ink: var(--palette-ink);
+        --graphite: var(--palette-muted);
+        --rule: var(--palette-border);
+        --signal-up: var(--palette-brand);
         --signal-down: #A8442F;
 
-        /* ── Legacy token names, re-pointed at the palette above ──
-           ~430 usages across pages/ and components/ still reference
-           these. Keeping them mapped means every page that hasn't been
-           rebuilt yet adopts the new palette without being touched. */
-
-        /* Core surfaces */
         --color-bg-base: var(--paper);
-        --color-bg-elevated: #FFFBF2;
-        --color-bg-muted: #EFE7D9;
-        --color-surface2: #E5D9C8;
+        --color-bg-elevated: var(--palette-surface);
+        --color-bg-muted: var(--palette-surface);
+        --color-surface2: var(--palette-surface);
 
-        /* Text hierarchy */
         --color-text-primary: var(--ink);
-        --color-text-secondary: #3D3831;
-        --color-text-tertiary: #5D554B;
+        --color-text-secondary: var(--ink);
+        --color-text-tertiary: var(--graphite);
         --color-text-muted: var(--graphite);
 
-        /* Borders */
-        --color-border-subtle: rgba(23, 20, 17, 0.08);
+        --color-border-subtle: var(--rule);
         --color-border-default: var(--rule);
         --color-border-hover: var(--ink);
 
-        /* Navigation */
-        --color-nav-bg: rgba(247, 241, 230, 0.9);
+        --color-nav-bg: rgba(243, 243, 240, 0.92);
 
-        /* "Accent" is ink now — colour is reserved for data. */
-        --color-accent: var(--ink);
-        --color-accent-dark: var(--graphite);
-        --color-accent-subtle: rgba(23, 20, 17, 0.05);
+        --color-accent: var(--palette-brand);
+        --color-accent-dark: var(--palette-brand-hover);
+        --color-accent-subtle: rgba(15, 93, 69, 0.07);
 
-        /* Scrollbar */
         --color-scrollbar-track: var(--paper);
-        --color-scrollbar-thumb: #CFC4B4;
+        --color-scrollbar-thumb: var(--palette-border);
         --color-scrollbar-hover: var(--graphite);
 
         /* Atmosphere effects are switched off, not deleted, so any
@@ -178,7 +168,6 @@
         --glow: transparent;
         --glowStrong: transparent;
 
-        /* Elevation: this design uses rules, not shadows. */
         --shadow-sm: none;
         --shadow-md: none;
         --shadow-lg: none;
@@ -187,12 +176,11 @@
         --shadowElev: none;
         --cardLift: none;
 
-        /* Card styling */
         --card-border: var(--rule);
         --card-border-hover: var(--ink);
         --card-highlight: none;
         --borderGlow: var(--ink);
-        --surfaceHover: rgba(23, 20, 17, 0.035);
+        --surfaceHover: rgba(17, 18, 16, 0.035);
         --textHover: var(--ink);
 
 
@@ -203,87 +191,64 @@
            and use color only for measure — volume vs cost. Both hues are
            validated for lightness, chroma, CVD separation, and 3:1 contrast
            against this surface. Re-validate before changing either. */
-        --data-1: #24724A;  /* volume — sessions, views, reach */
+        --data-1: var(--palette-brand);  /* volume — sessions, views, reach */
         --data-2: #255F96;  /* cost — spend, CPM, cost per action */
 
         /* Status, reserved. Never reused as a series color. */
         --status-warn: #835200;
 
-        /* ── The one hue ────────────────────────────────────────────
-           Deep pine. It has exactly one meaning — forward — and appears
-           on primary actions, the active nav marker, focus rings, and the
-           single full-bleed closing field. It is the same family as
-           --data-1 (volume) and --signal-up (growth), so every green on
-           the site points the same direction.
+        --brand: var(--palette-brand);
+        --brand-strong: var(--palette-brand-hover);
+        --on-brand: var(--palette-dark-text);
 
-           What it must never become: a link colour, a hover tint, a
-           gradient, a border on everything, or a background for cards.
-           That spray-on treatment is what made the old mint accent read
-           as AI-generated. One hue, one meaning, a handful of places.
-           8.98:1 against --on-brand. */
-        --brand:        #174F38;
-        --brand-strong: #123F2D;  /* hover / pressed */
-        --on-brand:     #FFF8EA;
+        /* Closing fields use the dark neutral. Green remains an interaction cue. */
+        --brand-field: var(--palette-dark);
+        --on-brand-field: var(--palette-dark-text);
+        --on-brand-muted: var(--palette-dark-muted);
 
-        /* The closing field is its own pair. A colour sized for a button is
-           not a colour you can flood a viewport with — see the dark block,
-           where the interactive green is bright and the field green is not.
-           11.20:1. */
-        --brand-field:    #123F2D;
-        --on-brand-field: #FFF8EA;
-        /* A real rgba, not an opacity modifier: Tailwind cannot apply an
-           alpha channel to an arbitrary var() colour. */
-        --on-brand-muted: rgba(255, 248, 234, 0.45);
-
-        /* A barely-there tint — 1.06:1 against paper. Enough to separate
-           one band from the next without drawing a line. */
-        --surface-sunken: #ECE8DA;
+        --surface-sunken: var(--palette-surface);
       }
 
       [data-theme="dark"] {
-        --paper:       #15120E;
-        --ink:         #F5EFE4;
-        --graphite:    #9B9184;
-        --rule:        #30291F;
-        --signal-up:   #58B883;
+        --paper: var(--palette-dark-surface);
+        --ink: var(--palette-dark-text);
+        --graphite: var(--palette-dark-muted);
+        --rule: var(--palette-dark-border);
+        --signal-up: #26785D;
         --signal-down: #D97860;
 
-        --color-bg-elevated: #1C1812;
-        --color-bg-muted: #19150F;
-        --color-surface2: #241F17;
+        --color-bg-elevated: var(--palette-dark-elevated);
+        --color-bg-muted: var(--palette-dark);
+        --color-surface2: var(--palette-dark-elevated);
 
-        --color-text-secondary: #E0D7C8;
-        --color-text-tertiary: #B9AE9E;
+        --color-text-secondary: var(--ink);
+        --color-text-tertiary: var(--graphite);
 
-        --color-border-subtle: rgba(245, 239, 228, 0.08);
-        --color-nav-bg: rgba(21, 18, 14, 0.9);
-        --color-accent-subtle: rgba(245, 239, 228, 0.06);
+        --color-border-subtle: var(--rule);
+        --color-nav-bg: rgba(25, 29, 25, 0.92);
+        --color-accent-subtle: rgba(117, 190, 160, 0.1);
 
-        --color-scrollbar-thumb: #40382D;
+        --color-scrollbar-thumb: #454B45;
 
-        --surfaceHover: rgba(245, 239, 228, 0.04);
+        --surfaceHover: rgba(244, 244, 241, 0.045);
 
         /* Stepped for the dark surface, not flipped from light — both
            re-validated against #12110F. */
-        --data-1: #46B57A;
+        --data-1: #75BEA0;
         --data-2: #6CA2DA;
 
         --status-warn: #D4A845;
 
-        /* Dark inverts the relationship: a bright fill carrying dark type,
-           rather than a dark fill carrying light type. 7.25:1. */
-        --brand:        #46B57A;
-        --brand-strong: #58C68B;
-        --on-brand:     #15120E;
+        /* A slightly lifted forest green clears control contrast on dark. */
+        --brand: #26785D;
+        --brand-strong: #34795F;
+        --on-brand: var(--palette-dark-text);
 
-        /* Deliberately NOT the bright interactive green. A full viewport of
-           the interactive green is the loud, sprayed-on look this palette exists
-           to avoid; at field scale the green has to recede. 8.89:1. */
-        --brand-field:    #164A35;
-        --on-brand-field: #F5EFE4;
-        --on-brand-muted: rgba(245, 239, 228, 0.4);
+        --brand-field: var(--palette-dark);
+        --on-brand-field: var(--palette-dark-text);
+        --on-brand-muted: var(--palette-dark-muted);
 
-        --surface-sunken: #1A1812;
+        --surface-sunken: var(--palette-dark-elevated);
       }
 
       body {
