@@ -6,7 +6,7 @@
  */
 
 /** Page gutters. Navbar and Footer use this too — change it here or the rules stop lining up. */
-export const CONTAINER = 'max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16';
+export const CONTAINER = 'max-w-[1440px] mx-auto px-6 md:px-10 lg:px-16';
 
 /**
  * The forward action. One per view, on the thing you most want done — it is

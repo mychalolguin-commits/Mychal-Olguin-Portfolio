@@ -44,7 +44,7 @@ const App: React.FC = () => {
       <Router>
         <div className="min-h-screen flex flex-col font-sans bg-[var(--color-bg-base)] text-[var(--color-text-secondary)] selection:bg-[var(--ink)] selection:text-[var(--paper)]">
           <Navbar />
-          <main className="flex-grow">
+          <main id="main-content" tabIndex={-1} className="flex-grow">
             <AnimatedRoutes />
           </main>
           <Footer />

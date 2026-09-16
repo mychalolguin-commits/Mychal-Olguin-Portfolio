@@ -1,11 +1,13 @@
 import React, { useLayoutEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 
 interface PageTransitionProps {
   children: React.ReactNode;
 }
 
 const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
+  const reducedMotion = useReducedMotion();
   /**
    * Reset the scroll here rather than on route change. AnimatePresence runs in
    * "wait" mode, so the outgoing page stays mounted through its exit animation
@@ -22,10 +24,10 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={reducedMotion ? false : { opacity: 0 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
-        duration: 0.4,
+        duration: reducedMotion ? 0 : 0.18,
         ease: [0.25, 0.4, 0.25, 1],
       }}
     >

@@ -1,137 +1,45 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
+import { CONTAINER } from './layout';
+
+const navItems = [{ name: 'Work', path: '/work' }, { name: 'About', path: '/about' }, { name: 'Contact', path: '/contact' }];
 
 const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  const toggleMenu = () => setIsOpen(!isOpen);
-
-  const navItems = [
-    { name: 'Work', path: '/work' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
-  ];
+  const [isOpen, setIsOpen] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const nav = useRef<HTMLElement>(null);
+  const { pathname } = useLocation();
+  useEffect(() => { setIsOpen(false); }, [pathname]);
+  useEffect(() => {
+    if (!isOpen) return;
+    const dismiss = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setIsOpen(false); menuButton.current?.focus(); }
+    };
+    const outside = (event: PointerEvent) => { if (!nav.current?.contains(event.target as Node)) setIsOpen(false); };
+    const desktop = window.matchMedia('(min-width: 768px)');
+    const resize = () => { if (desktop.matches) setIsOpen(false); };
+    document.addEventListener('keydown', dismiss);
+    document.addEventListener('pointerdown', outside);
+    desktop.addEventListener('change', resize);
+    return () => { document.removeEventListener('keydown', dismiss); document.removeEventListener('pointerdown', outside); desktop.removeEventListener('change', resize); };
+  }, [isOpen]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-nav-bg)] backdrop-blur-md border-b border-[var(--rule)]">
-      <div className="max-w-4xl lg:max-w-6xl mx-auto px-6 lg:px-10 xl:px-16 h-16 flex items-center justify-between">
-        <NavLink to="/" className="flex items-baseline gap-3 transition-opacity hover:opacity-70">
-          <span className="display text-[var(--ink)] text-lg">Mychal Olguin</span>
-          {/* The masthead's utility line — the standing context a report header
-              carries. Hidden below sm so the bar doesn't crowd. */}
-          <span className="label hidden sm:block">Digital marketing · Texas</span>
-        </NavLink>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className="relative text-sm font-medium transition-colors duration-200 group"
-            >
-              {({ isActive }) => (
-                <>
-                  <span className={isActive ? 'text-[var(--ink)]' : 'text-[var(--color-text-tertiary)] group-hover:text-[var(--ink)]'}>
-                    {item.name}
-                  </span>
-                  {isActive && (
-                    <motion.div
-                      layoutId="nav-underline"
-                      className="absolute -bottom-1.5 left-0 right-0 h-[2px] bg-[var(--brand)]"
-                      transition={{ type: 'spring', stiffness: 500, damping: 35 }}
-                    />
-                  )}
-                </>
-              )}
-            </NavLink>
-          ))}
+    <nav className="site-navigation" aria-label="Main navigation" ref={nav} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setIsOpen(false); }}>
+      <a href="#main-content" className="skip-link">Skip to content</a>
+      <div className={`${CONTAINER} site-navigation-inner`}>
+        <NavLink to="/" className="site-wordmark">Mychal Olguin<span>Digital marketing</span></NavLink>
+        <div className="flex items-center gap-2 md:gap-6">
+          <div className="hidden md:flex items-center gap-8">
+            {navItems.map((item) => <NavLink key={item.path} to={item.path} className="site-nav-link">{item.name}</NavLink>)}
+          </div>
           <ThemeToggle />
-        </div>
-
-        {/* Mobile Toggle */}
-        <div className="flex items-center gap-2 md:hidden">
-          <ThemeToggle />
-          <motion.button
-            onClick={toggleMenu}
-            aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={isOpen}
-            aria-controls="mobile-navigation"
-            className="text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)] p-1"
-            whileTap={{ scale: 0.95 }}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              {isOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <X size={24} />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                >
-                  <Menu size={24} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.button>
+          <button ref={menuButton} type="button" onClick={() => setIsOpen((value) => !value)} aria-expanded={isOpen} aria-controls="mobile-navigation" className="site-menu-button md:hidden">{isOpen ? 'Close' : 'Menu'}</button>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            id="mobile-navigation"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.25, 0.4, 0.25, 1] }}
-            className="md:hidden fixed top-16 left-0 right-0 h-[calc(100vh-4rem)] bg-[var(--color-bg-elevated)] border-b border-[var(--rule)] overflow-hidden"
-          >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ delay: 0.1 }}
-              className="p-6 flex flex-col gap-6"
-            >
-              {navItems.map((item, index) => (
-                <motion.div
-                  key={item.path}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 * index }}
-                >
-                  <NavLink
-                    to={item.path}
-                    onClick={() => setIsOpen(false)}
-                    className={({ isActive }) =>
-                      `text-lg ${isActive ? 'text-[var(--ink)]' : 'text-[var(--color-text-tertiary)]'}`
-                    }
-                  >
-                    {item.name}
-                  </NavLink>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {isOpen && <div id="mobile-navigation" className={`${CONTAINER} site-mobile-navigation md:hidden`}>{navItems.map((item) => <NavLink key={item.path} to={item.path} className="site-nav-link" onClick={() => setIsOpen(false)}>{item.name}</NavLink>)}</div>}
     </nav>
   );
 };
-
 export default Navbar;
