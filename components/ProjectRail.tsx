@@ -8,6 +8,7 @@ import { useReducedMotion } from '../hooks/useReducedMotion';
 const campaign = PROJECTS.find((project) => project.slug === 'towne-oaks-paid-social');
 const totals = campaign?.dashboardData?.totals;
 const stories = [
+  { slug: 'borders-organic-social', category: 'Borders Apartments · Organic social', title: 'A reason to watch.', body: 'Original reels for a new fitness center and the community around it.', image: '/images/borders-logo.png', alt: 'Borders Apartments logo', width: 578, height: 346, kind: 'social' },
   { slug: 'cornerstone-apartment-websites', category: 'Cornerstone Capital · Web design', title: 'Built around renter questions.', body: 'Four property websites, with the answers renters need to take the next step.', image: '/images/home-borders-1200.jpg', srcSet: '/images/home-borders-600.jpg 600w, /images/home-borders-1200.jpg 1200w', alt: 'A detail of the Borders Apartments website, showing its property photography and floorplan introduction', width: 2000, height: 1183, kind: 'lead' },
   { slug: 'towne-oaks-paid-social', category: 'Towne Oaks · Paid media', title: 'Traffic with a purpose.', body: 'A direct path from Meta ads to available floorplans.', kind: 'evidence' },
   { slug: 'ire-junk-removal-website', category: 'IRE Junk Removal', title: 'A first place to get found.', body: 'A first website, with a clear path to request a quote.', image: '/captures/ire-quote-form.png', alt: 'Detail of the IRE quote-page photograph, showing its branded trailer on a removal job', width: 1440, height: 1297, kind: 'story' },
@@ -70,7 +71,7 @@ const ProjectRail: React.FC = () => {
                 <div className="project-detail-image"><img src={story.image} alt={story.alt} width={story.width} height={story.height} loading="lazy" /></div>
               </div>
             ) : (
-              <div className="project-media project-website"><img src={story.image} srcSet={story.srcSet} sizes="(min-width: 1400px) 1200px, (min-width: 768px) 90vw, 140vw" alt={story.alt} width={story.width} height={story.height} loading="lazy" /></div>
+              <div className={`project-media project-website ${story.kind === 'social' ? 'project-social' : ''}`}><img src={story.image} srcSet={story.srcSet} sizes="(min-width: 1400px) 1200px, (min-width: 768px) 90vw, 140vw" alt={story.alt} width={story.width} height={story.height} loading="lazy" /></div>
             )}
             <div className="project-caption">
               {story.kind !== 'story' && <>

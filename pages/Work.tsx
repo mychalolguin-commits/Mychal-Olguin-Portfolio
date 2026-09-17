@@ -8,16 +8,18 @@ import { EditorialHeader, EditorialClose } from '../components/EditorialPage';
 
 // Keep artwork and short index titles separate from the complete case-study record.
 const presentations = [
+  { slug: 'borders-organic-social', title: 'A new amenity. A reason to watch.', client: 'Borders Apartments', body: 'Original reels for a fitness-center launch, with seasonal content that gives the property a personality.', image: '/images/borders-logo.png', alt: 'Borders Apartments logo', kind: 'logo' },
   { slug: 'cornerstone-apartment-websites', title: 'Built around renter questions.', client: 'Cornerstone Capital', body: 'Four property websites, rebuilt around the questions renters ask.', image: '/images/home-borders-1200.jpg', alt: 'Borders Apartments website and pool photography', kind: 'website' },
   { slug: 'towne-oaks-paid-social', title: 'Traffic with a purpose.', client: 'Towne Oaks', body: 'A Meta campaign connecting interested renters with available floorplans.', kind: 'metric' },
   { slug: 'ire-junk-removal-website', title: 'A first place to get found.', client: 'IRE Junk Removal', body: 'A first website, with local service information and a clear path to request a quote.', image: '/captures/ire-quote-form.png', alt: 'IRE’s branded trailer on a removal job', kind: 'story' },
+  { slug: '392chulo-organic-video', title: 'A personal take on car content.', client: '392chulo', body: 'A self-directed automotive reel, from filming and editing to organic publishing.', image: '/captures/392chulo-reel.png', alt: '392chulo personal automotive reel on Instagram', kind: 'social' },
 ];
 
 const Work: React.FC = () => {
-  useSEO({ title: 'Work', description: 'Websites, paid media, and search. Explore the work and evidence behind Mychal Olguin’s marketing projects.' });
+  useSEO({ title: 'Work', description: 'Websites, organic social, paid media, and search. Explore the work and evidence behind Mychal Olguin’s marketing projects.' });
   return <div className="editorial-page">
     <EditorialHeader label="Selected work" title="The work. The thinking behind it.">
-      <p>Websites, campaigns, and search. A closer look at what I built and what happened next.</p>
+      <p>Websites, social content, campaigns, and search. A closer look at what I built and what happened next.</p>
     </EditorialHeader>
     <section className="work-collection" aria-label="Case studies"><div className={CONTAINER}>
       {presentations.map((item) => {

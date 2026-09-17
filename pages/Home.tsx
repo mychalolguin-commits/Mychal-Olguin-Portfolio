@@ -18,7 +18,7 @@ const Home: React.FC = () => {
           <div className="home-intro-grid">
             <h1 id="home-heading">Good marketing.<br />Built with purpose.</h1>
             <div className="home-intro-copy">
-              <p>I’m Mychal. I build websites, run paid media, and help businesses get found.</p>
+              <p>I’m Mychal. I build websites, create social content, run paid media, and help businesses get found.</p>
               <a href="#selected-work" className={`${BTN_PRIMARY} editorial-button`}>Explore my work <ArrowUpRight size={18} aria-hidden="true" /></a>
               <span className="editorial-note">Austin, Texas · Open to growth roles</span>
             </div>

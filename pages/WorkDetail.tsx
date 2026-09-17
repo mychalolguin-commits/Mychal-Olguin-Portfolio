@@ -3,6 +3,7 @@ import { useParams, Navigate, Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Reveal } from '../components/Reveal';
 import Capture from '../components/Capture';
+import SocialReels from '../components/SocialReels';
 import ScrollProgress from '../components/ScrollProgress';
 import CaseStudyDashboard from '../components/CaseStudyDashboard';
 import { PROJECTS } from '../constants';
@@ -545,7 +546,7 @@ const WorkDetail: React.FC = () => {
             </a>
           </div>
         )}
-        {project.media?.variant !== 'website' && <ProofMethodology />}
+        {!project.socialReels && project.media?.variant !== 'website' && <ProofMethodology />}
         {isTowneOaksCaseStudy && <TowneMeasurementMethodology />}
 
         {/* ── The capture: a real platform view, or the rendered tile ──── */}
@@ -591,7 +592,7 @@ const WorkDetail: React.FC = () => {
           <div className={CONTAINER}>
             <Reveal>
               <div className="case-results-heading">
-                <div><p className="editorial-eyebrow">Results</p><h2>The campaign<br />in numbers.</h2></div>
+                <div><p className="editorial-eyebrow">Results</p><h2>{project.socialReels ? 'The content' : 'The campaign'}<br />in numbers.</h2></div>
                 {timeframe && <span className="editorial-note">{timeframe}</span>}
               </div>
 
@@ -606,6 +607,8 @@ const WorkDetail: React.FC = () => {
                   </div>
                 ))}
               </dl>
+
+              {project.metricsSource && <p className="mt-6 max-w-[75ch] text-sm leading-relaxed text-[var(--graphite)]">{project.metricsSource}</p>}
 
               {hasDirectional && (
                 <p className="mt-4 max-w-[58ch] text-[13px] leading-relaxed text-[var(--graphite)]">
@@ -634,6 +637,8 @@ const WorkDetail: React.FC = () => {
         )}
 
         {project.virtualTour && <VirtualTourSection tour={project.virtualTour} />}
+
+        {project.socialReels && <SocialReels reels={project.socialReels} />}
 
         {/* ── The write-up ────────────────────────────────────────────── */}
         <section className="case-writeup">

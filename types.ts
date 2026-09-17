@@ -14,6 +14,8 @@ export interface Project {
   solution: string;
   result: string;
   metrics: Metric[];
+  metricsSource?: string;
+  socialReels?: { id: string; title: string; description: string }[];
   // Extended fields for detailed case studies
   eyebrow?: string;
   timeframe?: string;
