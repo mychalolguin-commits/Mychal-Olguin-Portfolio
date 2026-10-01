@@ -12,7 +12,7 @@ const presentations = [
   { slug: 'cornerstone-apartment-websites', title: 'Built around renter questions.', client: 'Cornerstone Capital', body: 'Four property websites, rebuilt around the questions renters ask.', image: '/images/home-borders-1200.jpg', alt: 'Borders Apartments website and pool photography', kind: 'website' },
   { slug: 'towne-oaks-paid-social', title: 'Traffic with a purpose.', client: 'Towne Oaks', body: 'A Meta campaign connecting interested renters with available floorplans.', kind: 'metric' },
   { slug: 'ire-junk-removal-website', title: 'A first place to get found.', client: 'IRE Junk Removal', body: 'A first website, with local service information and a clear path to request a quote.', image: '/captures/ire-quote-form.png', alt: 'IRE’s branded trailer on a removal job', kind: 'story' },
-  { slug: '392chulo-organic-video', title: 'A personal take on car content.', client: '392chulo', body: 'A self-directed automotive reel, from filming and editing to organic publishing.', image: '/captures/392chulo-reel.png', alt: '392chulo personal automotive reel on Instagram', kind: 'social' },
+  { slug: '392chulo-organic-video', title: 'A personal take on car content.', client: '392chulo', body: 'A self-directed car-culture account with 1.23M estimated accounts reached across the measured period.', image: '/captures/392chulo-reel.png', alt: 'Featured 392chulo automotive reel on Instagram', kind: 'social' },
 ];
 
 const Work: React.FC = () => {
