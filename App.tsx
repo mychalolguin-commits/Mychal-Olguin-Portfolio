@@ -7,6 +7,8 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Work from './pages/Work';
 import WorkDetail from './pages/WorkDetail';
+import EscapadesCaseStudy from './pages/EscapadesCaseStudy';
+import NewCaseStudyNudge from './components/NewCaseStudyNudge';
 import About from './pages/About';
 import Contact from './pages/Contact';
 
@@ -29,6 +31,7 @@ const AnimatedRoutes = () => {
       <Routes location={location}>
         <Route path="/" element={<Home />} />
         <Route path="/work" element={<Work />} />
+        <Route path="/work/escapades-coaching" element={<EscapadesCaseStudy />} />
         <Route path="/work/:slug" element={<WorkDetail />} />
         <Route path="/about" element={<About />} />
         <Route path="/resume" element={<Navigate to="/about" replace />} />
@@ -48,6 +51,7 @@ const App: React.FC = () => {
             <AnimatedRoutes />
           </main>
           <Footer />
+          <NewCaseStudyNudge />
         </div>
       </Router>
     </MotionProvider>

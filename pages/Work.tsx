@@ -8,6 +8,7 @@ import { EditorialHeader, EditorialClose } from '../components/EditorialPage';
 
 // Keep artwork and short index titles separate from the complete case-study record.
 const presentations = [
+  { slug: 'escapades-coaching', title: 'One conversation. A whole content system.', client: 'Escapades Coaching', body: 'Bilingual short-form creative, a cross-channel publishing plan, and a website built around the next step.', image: '/captures/escapades/site-detail.png', alt: 'Escapades Coaching website design on the private review site', kind: 'website' },
   { slug: 'borders-organic-social', title: 'A new amenity. A reason to watch.', client: 'Borders Apartments', body: 'Original reels for a fitness-center launch, with seasonal content that gives the property a personality.', image: '/images/borders-logo.png', alt: 'Borders Apartments logo', kind: 'logo' },
   { slug: 'cornerstone-apartment-websites', title: 'Built around renter questions.', client: 'Cornerstone Capital', body: 'Four property websites, rebuilt around the questions renters ask.', image: '/images/home-borders-1200.jpg', alt: 'Borders Apartments website and pool photography', kind: 'website' },
   { slug: 'towne-oaks-paid-social', title: 'Traffic with a purpose.', client: 'Towne Oaks', body: 'A Meta campaign connecting interested renters with available floorplans.', kind: 'metric' },

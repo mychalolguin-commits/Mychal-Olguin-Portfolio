@@ -3,6 +3,19 @@ import { BarChart3, Ruler, Sparkles } from 'lucide-react';
 
 export const PROJECTS: Project[] = [
   {
+    slug: 'escapades-coaching',
+    title: 'Escapades Coaching — A Bilingual Content System',
+    subtitle: 'Content Strategy · Video · Web Design',
+    description: 'One coaching talk became bilingual short-form creative, a publishing plan, and a website path from viewing to booking.',
+    tags: ['Content Strategy', 'Short-Form Video', 'Bilingual Content', 'Web Design'],
+    heroImage: '/captures/escapades/site-detail.png',
+    mediaType: 'reporting',
+    challenge: 'Turn one self-care talk into content that reaches a specific audience and gives interested viewers a clear next step.',
+    solution: 'Edited ten distinct shorts in English and Spanish, wrote a channel-specific rollout plan, and built a website path through a free worksheet to a coaching call.',
+    result: 'The YouTube talk is published. The website is complete on a private site awaiting approval, and the short-form videos are finished but unpublished.',
+    metrics: [],
+  },
+  {
     slug: 'towne-oaks-paid-social',
     title: 'Towne Oaks — Traffic → Floorplan Discovery',
     subtitle: 'Paid Social · Measurement',
