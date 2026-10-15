@@ -317,6 +317,72 @@ The larger gap is measurement. This project ran without a Search Console baselin
   },
 ];
 
+// Shared card content for the Work index and homepage preview.
+export const WORK_PRESENTATIONS = [
+  {
+    slug: 'escapades-coaching',
+    category: 'Content · video · website',
+    title: 'Bilingual coaching videos and website',
+    client: 'Escapades Coaching',
+    contribution: 'Edited ten short concepts in both English and Spanish, planned the rollout, and built a path from the videos to a coaching call.',
+    evidence: 'YouTube talk live · Website awaiting approval · Shorts finished, unpublished',
+    image: '/captures/escapades/self-care-thumbnail.webp',
+    alt: 'Escapades Coaching self-care video thumbnail reading Time to Reset?',
+    kind: 'video',
+  },
+  {
+    slug: 'borders-organic-social',
+    category: 'Organic social · video',
+    title: 'Reels for an apartment fitness-center launch',
+    client: 'Borders Apartments',
+    contribution: 'Filmed and edited an installation timelapse, a teaser, and seasonal content for the property’s social channels.',
+    evidence: 'Installation reel: 1,783 views · Instagram screenshot',
+    image: '/captures/borders-fitness-reel-views.png',
+    alt: 'Screenshots of the published Borders Apartments fitness-center reels and their view counts',
+    kind: 'reels',
+  },
+  {
+    slug: 'cornerstone-apartment-websites',
+    category: 'Web design · search',
+    title: 'Four apartment websites rebuilt',
+    client: 'Cornerstone Capital',
+    contribution: 'Rebuilt property sites around renter questions, floorplan details, and clearer paths to schedule a tour.',
+    evidence: 'Four sites rebuilt · Two property-owned pages later cited by ChatGPT',
+    image: '/captures/borders-site.png',
+    alt: 'Borders Apartments website, one of four rebuilt property websites',
+    kind: 'website',
+  },
+  {
+    slug: 'towne-oaks-paid-social',
+    category: 'Paid social · measurement',
+    title: 'Meta ads for floorplan traffic',
+    client: 'Towne Oaks',
+    contribution: 'Ran a traffic campaign to available floorplans and connected ad links to GA4 reporting.',
+    evidence: '2,475 landing page views · $0.52 per view · Meta Ads Manager',
+    kind: 'metric',
+  },
+  {
+    slug: 'ire-junk-removal-website',
+    category: 'Website · local services',
+    title: 'A first website for a junk-removal business',
+    client: 'IRE Junk Removal',
+    contribution: 'Built service pages and a simple quote path so local customers could understand the offer and get in touch.',
+    evidence: 'Live website · Quote request flow',
+    image: '/captures/ire-homepage.png',
+    alt: 'IRE Junk Removal homepage with service headline and quote call to action',
+    kind: 'website',
+  },
+  {
+    slug: '392chulo-organic-video',
+    category: 'Organic social · video',
+    title: 'Car-culture videos for Instagram',
+    client: '392chulo',
+    contribution: 'Created and published a self-directed stream of car-culture videos, then tracked account and post performance.',
+    evidence: 'Self-directed account · Instagram insights, Jan 2023–Oct 1, 2026',
+    kind: 'social',
+  },
+] as const;
+
 export const SOCIAL_CREATIVE = [
   {
     property: 'Christy Estates · Corpus Christi',

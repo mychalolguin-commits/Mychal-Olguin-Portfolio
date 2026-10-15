@@ -60,42 +60,12 @@ html { scroll-padding-top: 104px; }
 .home-work { padding-block: 112px 80px; scroll-margin-top: 0; }
 .editorial-section-heading { display: flex; justify-content: space-between; align-items: end; gap: 32px; margin-bottom: 56px; }
 .editorial-section-heading h2 { margin-top: 20px; }
-.project-rail { position: relative; display: flex; gap: 24px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; padding: 4px max(var(--page-gutter), calc((100vw - 1440px) / 2 + 64px)) 16px; scroll-padding-inline: max(var(--page-gutter), calc((100vw - 1440px) / 2 + 64px)); scrollbar-width: none; }
-.project-rail::-webkit-scrollbar { display: none; }
-/* Width communicates priority; secondary stories remain deliberately narrower. */
-.project-story { flex: 0 0 460px; min-width: 0; scroll-snap-align: start; }
-.project-story--lead { flex-basis: clamp(600px, 72vw, 1000px); }
-.project-story--evidence { flex-basis: 360px; }
-.project-media { min-height: 520px; border-radius: 28px; overflow: hidden; }
-.project-website { position: relative; height: 520px; background: var(--editorial-dark); }
-/* Crop the page chrome from the showcase; the complete capture lives in the case study. */
-.project-website img { position: absolute; bottom: 0; width: 100%; height: 140%; object-fit: cover; object-position: 50% 100%; display: block; }
-.project-evidence { display: flex; flex-direction: column; justify-content: space-between; padding: 36px 32px; gap: 48px; background: var(--editorial-evidence); color: var(--editorial-evidence-ink); container-type: inline-size; }
-.project-evidence .editorial-eyebrow { color: var(--editorial-evidence-muted); }
-.project-evidence-value { font-family: 'Manrope', sans-serif; font-size: min(7.5rem, 36cqi); font-weight: 500; letter-spacing: -.065em; line-height: 1; font-variant-numeric: tabular-nums; }
-.project-evidence-label { margin-top: 12px; font-size: 1.125rem; }
-.project-evidence-source > p { font-size: 1.125rem; margin-bottom: 8px; }
-.project-evidence-source span { color: var(--editorial-evidence-muted); font-size: .875rem; line-height: 1.5; }
-.project-composed { display: flex; flex-direction: column; background: var(--editorial-evidence); color: var(--editorial-evidence-ink); }
-.project-embedded-copy { padding: 32px; }
-.project-embedded-copy .editorial-eyebrow { color: var(--editorial-evidence-muted); }
-.project-embedded-copy h3 { margin-top: 12px; max-width: 16ch; }
-.project-composed :focus-visible { outline-color: var(--editorial-evidence-ink); }
-.project-detail-image { position: relative; min-height: 308px; flex: 1; overflow: hidden; }
-/* The photograph occupies x=781..1382 in the original 1440px quote-page capture. */
-.project-detail-image img { position: absolute; width: 240%; max-width: none; height: auto; transform: translate(-54.24%, -12.8%); }
-.project-caption { padding: 20px 4px 0; }
-.project-caption .editorial-eyebrow { font-size: .875rem; }
-.project-caption h3 { margin-top: 8px; max-width: 26ch; letter-spacing: -.025em; font-size: clamp(1.5rem, 2.2vw, 2rem); }
-.project-caption h3 a, .project-embedded-copy h3 a { display: inline; text-underline-offset: 6px; }
-.project-caption h3 a:hover, .project-embedded-copy h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
-.project-caption h3 svg, .project-embedded-copy h3 svg { display: inline; margin-left: 10px; vertical-align: baseline; }
-.project-caption > p:last-child { color: var(--editorial-inverse-muted); font-size: 1.0625rem; line-height: 1.5; margin-top: 10px; max-width: 42ch; }
-.project-story--story .project-caption > p:last-child { margin-top: 0; max-width: 32ch; }
-.rail-controls { margin-top: 28px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
-.rail-controls button { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; color: var(--editorial-inverse); background: var(--editorial-control); transition: opacity 150ms; }
-.rail-controls button:hover:not([aria-disabled="true"]) { opacity: .8; }
-.rail-controls button[aria-disabled="true"] { opacity: .35; cursor: default; }
+.home-work-grid .work-card-copy .editorial-eyebrow,
+.home-work-grid .work-card-contribution,
+.home-work-grid .work-card-evidence { color: var(--editorial-inverse-muted); }
+.home-work-grid .work-card-evidence { border-color: var(--editorial-control); }
+.home-work-grid .work-card-media--metric { background: var(--editorial-evidence); }
+.home-work-grid .work-card-copy .editorial-link { color: var(--editorial-inverse); }
 .home-approach { padding-block: 144px; }
 .home-approach-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); align-items: center; gap: 112px; }
 .home-portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 45%; border-radius: 28px; }
@@ -136,22 +106,6 @@ html { scroll-padding-top: 104px; }
   .home-lead-caption p { font-size: 1.25rem; }
   .home-work { padding-block: 72px 56px; }
   .editorial-section-heading { flex-direction: column; align-items: start; gap: 20px; margin-bottom: 32px; }
-  .project-rail { gap: 16px; }
-  .project-story { flex-basis: 82%; }
-  .project-story--lead { flex-basis: 90%; }
-  .project-story--evidence { flex-basis: 80%; }
-  .project-media { min-height: 360px; border-radius: 24px; }
-  .project-website { height: auto; min-height: 0; aspect-ratio: 1.36; }
-  .project-website img { height: 140%; object-position: 50% 100%; }
-  .project-evidence { padding: 28px 24px; gap: 40px; }
-  .project-embedded-copy { padding: 24px; }
-  .project-embedded-copy h3 { font-size: 1.625rem; }
-  .project-detail-image { min-height: 230px; }
-  .project-caption > p:last-child { font-size: 1rem; }
-  .project-caption { padding-top: 16px; }
-  .project-evidence-value { font-size: min(6rem, 36cqi); }
-  .rail-controls { margin-top: 20px; }
-  .rail-controls > .editorial-note { max-width: 20ch; font-size: 0.8125rem; }
   .home-approach { padding-block: 80px; }
   .home-approach-grid { grid-template-columns: 1fr; gap: 48px; }
   .home-portrait { max-width: 440px; }
@@ -163,7 +117,6 @@ html { scroll-padding-top: 104px; }
 }
 @media (max-width: 359px) {
   .editorial-home h1 { font-size: 2.5rem; }
-  .project-evidence { padding: 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
@@ -375,8 +328,8 @@ html { scroll-padding-top: 104px; }
 .work-card-metric > div span { margin-top: 4px; font-size: 1.125rem; }
 .work-card-copy { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding-top: 24px; }
 .work-card-copy .editorial-eyebrow { color: var(--graphite); }
-.work-card-copy h2 { margin-top: 10px; font-size: clamp(1.5rem, 2.3vw, 2rem); line-height: 1.2; }
-.work-card-copy h2 a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+.work-card-copy h2, .work-card-copy h3 { margin-top: 10px; font-size: clamp(1.5rem, 2.3vw, 2rem); line-height: 1.2; }
+.work-card-copy h2 a:hover, .work-card-copy h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
 .work-card-contribution { margin-top: 16px; max-width: 48ch; font-size: 1rem; line-height: 1.6; color: var(--graphite); }
 .work-card-evidence { width: 100%; margin-top: 24px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: .875rem; line-height: 1.5; }
 .work-card-copy .editorial-link { margin-top: 20px; }
@@ -466,10 +419,6 @@ html { scroll-padding-top: 104px; }
 }
 
 /* Published social evidence stays uncropped on the case-study pages. */
-.project-social img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
 .social-reels-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 40px; align-items: start; }
 .social-reel { min-width: 0; max-width: 540px; }
 .social-reel-frame { width: 100%; height: 640px; border: 1px solid var(--rule); border-radius: 12px; background: var(--paper); }
-
-.project-social { background: white; }
-.project-social img { padding: 0; }

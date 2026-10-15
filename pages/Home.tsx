@@ -1,14 +1,19 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import ProjectRail from '../components/ProjectRail';
+import WorkCard from '../components/WorkCard';
+import { WORK_PRESENTATIONS } from '../constants';
 import { CONTAINER, BTN_PRIMARY, BTN_ON_BRAND } from '../components/layout';
 import { useSEO } from '../hooks/useSEO';
+
+const homeProjects = WORK_PRESENTATIONS.filter((item) =>
+  ['escapades-coaching', 'borders-organic-social', 'towne-oaks-paid-social', 'ire-junk-removal-website'].includes(item.slug)
+);
 
 const Home: React.FC = () => {
   useSEO({
     title: 'Digital marketing & selected work',
-    description: 'Websites, paid media, and search. Explore Mychal Olguin’s marketing work, the decisions behind it, and the evidence that followed.',
+    description: 'Video, websites, paid media, and search. Explore Mychal Olguin’s projects, contributions, and results.',
   });
 
   return (
@@ -28,8 +33,8 @@ const Home: React.FC = () => {
               <img src="/images/home-feature-1440.jpg" srcSet="/images/home-feature-768.jpg 768w, /images/home-feature-1440.jpg 1440w" sizes="(min-width: 1440px) 1312px, (min-width: 1024px) calc(100vw - 128px), (min-width: 768px) calc(100vw - 80px), calc(100vw - 48px)" alt="The Compass Bay website I rebuilt, featuring its waterfront apartments and marina" width={2000} height={1156} fetchPriority="high" />
             </Link>
             <figcaption className="home-lead-caption">
-              <div><span className="editorial-eyebrow">Featured project · Cornerstone Capital</span><p>A clearer path from search to home.</p></div>
-              <Link to="/work/cornerstone-apartment-websites" className="editorial-link">Explore the rebuild <ArrowUpRight size={19} aria-hidden="true" /></Link>
+              <div><span className="editorial-eyebrow">Featured project · Cornerstone Capital · Web design & search</span><p>Four apartment websites rebuilt.</p></div>
+              <Link to="/work/cornerstone-apartment-websites" className="editorial-link">View case study <ArrowUpRight size={19} aria-hidden="true" /></Link>
             </figcaption>
           </figure>
         </div>
@@ -38,11 +43,13 @@ const Home: React.FC = () => {
       <section id="selected-work" className="home-work editorial-dark" aria-labelledby="work-heading">
         <div className={CONTAINER}>
           <div className="editorial-section-heading">
-            <div><p className="editorial-eyebrow">Selected work</p><h2 id="work-heading">Real projects.<br />A closer look.</h2></div>
-            <Link to="/work" className="editorial-link">View all work <ArrowUpRight size={19} aria-hidden="true" /></Link>
+            <div><p className="editorial-eyebrow">Selected work</p><h2 id="work-heading">Video, web, and paid media.</h2></div>
+            <Link to="/work" className="editorial-link">View all six projects <ArrowUpRight size={19} aria-hidden="true" /></Link>
+          </div>
+          <div className="work-grid home-work-grid">
+            {homeProjects.map((item) => <WorkCard item={item} headingLevel="h3" key={item.slug} />)}
           </div>
         </div>
-        <ProjectRail />
       </section>
 
       <section className="home-approach" aria-labelledby="approach-heading">
