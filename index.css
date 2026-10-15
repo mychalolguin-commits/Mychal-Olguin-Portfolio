@@ -14,15 +14,16 @@
   --page-gutter: 24px;
 }
 html { scroll-padding-top: 104px; }
-.site-navigation { position: fixed; top: 0; inset-inline: 0; z-index: 50; background: var(--paper); color: var(--ink); }
-.site-navigation-inner { min-height: 80px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.site-navigation { position: fixed; top: 16px; left: 50%; z-index: 50; width: min(1088px, calc(100% - 32px)); transform: translateX(-50%); color: var(--ink); background: var(--nav-glass); border: 1px solid var(--nav-glass-edge); border-radius: 999px; box-shadow: 0 14px 36px var(--nav-glass-shadow), inset 0 1px 0 var(--nav-glass-edge); -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%); }
+.site-navigation-inner { min-height: 64px; padding-inline: 28px 16px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .site-wordmark { padding-block: 12px; font-size: 1.125rem; font-weight: 600; letter-spacing: -.025em; }
 .site-nav-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.9375rem; color: var(--graphite); text-underline-offset: 6px; }
 .site-nav-link:hover { color: var(--ink); text-decoration: underline; }
 .site-nav-link.active { color: var(--ink); text-decoration: underline; text-decoration-color: var(--brand); text-decoration-thickness: 2px; }
 .site-menu-button { min-height: 44px; min-width: 52px; font-size: 0.9375rem; }
-.site-mobile-navigation { padding-block: 16px 24px; border-bottom: 1px solid var(--rule); }
+.site-mobile-navigation { padding: 4px 20px 16px; border-top: 1px solid var(--nav-glass-edge); }
 .site-mobile-navigation a { display: flex; padding-block: 12px; font-size: 1.375rem; }
+.site-navigation--open { border-radius: 28px; }
 .skip-link { position: absolute; left: 24px; top: -100px; padding: 12px 20px; background: var(--paper); color: var(--ink); }
 .skip-link:focus { top: 16px; z-index: 60; }
 .site-footer { background: var(--paper); padding-block: 32px; font-size: 0.875rem; color: var(--graphite); }
@@ -90,7 +91,8 @@ html { scroll-padding-top: 104px; }
 }
 @media (max-width: 767px) {
   html { scroll-padding-top: 80px; }
-  .site-navigation-inner { min-height: 64px; gap: 8px 12px; flex-wrap: wrap; }
+  .site-navigation { top: 12px; width: calc(100% - 24px); }
+  .site-navigation-inner { min-height: 60px; padding-inline: 20px 12px; gap: 8px 12px; }
   .site-wordmark { font-size: 1.0625rem; }
   .home-intro { padding-block: 128px 72px; }
   .home-intro-grid { grid-template-columns: 1fr; gap: 28px; }

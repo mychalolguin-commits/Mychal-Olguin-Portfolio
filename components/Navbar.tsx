@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
-import { CONTAINER } from './layout';
 
 const navItems = [{ name: 'Work', path: '/work' }, { name: 'About', path: '/about' }, { name: 'Contact', path: '/contact' }];
 
@@ -26,9 +25,9 @@ const Navbar: React.FC = () => {
   }, [isOpen]);
 
   return (
-    <nav className="site-navigation" aria-label="Main navigation" ref={nav} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setIsOpen(false); }}>
+    <nav className={`site-navigation${isOpen ? ' site-navigation--open' : ''}`} aria-label="Main navigation" ref={nav} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setIsOpen(false); }}>
       <a href="#main-content" className="skip-link">Skip to content</a>
-      <div className={`${CONTAINER} site-navigation-inner`}>
+      <div className="site-navigation-inner">
         <NavLink to="/" className="site-wordmark">Mychal Olguin</NavLink>
         <div className="flex items-center gap-2 md:gap-6">
           <div className="hidden md:flex items-center gap-8">
@@ -38,7 +37,7 @@ const Navbar: React.FC = () => {
           <button ref={menuButton} type="button" onClick={() => setIsOpen((value) => !value)} aria-expanded={isOpen} aria-controls="mobile-navigation" className="site-menu-button md:hidden">{isOpen ? 'Close' : 'Menu'}</button>
         </div>
       </div>
-      {isOpen && <div id="mobile-navigation" className={`${CONTAINER} site-mobile-navigation md:hidden`}>{navItems.map((item) => <NavLink key={item.path} to={item.path} className="site-nav-link" onClick={() => setIsOpen(false)}>{item.name}</NavLink>)}</div>}
+      {isOpen && <div id="mobile-navigation" className="site-mobile-navigation md:hidden">{navItems.map((item) => <NavLink key={item.path} to={item.path} className="site-nav-link" onClick={() => setIsOpen(false)}>{item.name}</NavLink>)}</div>}
     </nav>
   );
 };
