@@ -25,7 +25,6 @@ const Home: React.FC = () => {
             <div className="home-intro-copy">
               <p>I’m Mychal. I build websites, create social content, run paid media, and help businesses get found.</p>
               <a href="#selected-work" className={`${BTN_PRIMARY} editorial-button`}>Explore my work <ArrowUpRight size={18} aria-hidden="true" /></a>
-              <span className="editorial-note">Austin, Texas · Open to growth roles</span>
             </div>
           </div>
           <figure className="home-lead-story">

@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
     <nav className="site-navigation" aria-label="Main navigation" ref={nav} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setIsOpen(false); }}>
       <a href="#main-content" className="skip-link">Skip to content</a>
       <div className={`${CONTAINER} site-navigation-inner`}>
-        <NavLink to="/" className="site-wordmark">Mychal Olguin<span>Digital marketing</span></NavLink>
+        <NavLink to="/" className="site-wordmark">Mychal Olguin</NavLink>
         <div className="flex items-center gap-2 md:gap-6">
           <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => <NavLink key={item.path} to={item.path} className="site-nav-link">{item.name}</NavLink>)}

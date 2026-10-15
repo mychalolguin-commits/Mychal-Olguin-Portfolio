@@ -63,7 +63,7 @@ const About: React.FC = () => {
         <p className="editorial-body">I’m a digital marketer in Austin, Texas. I build websites, run paid media, and connect the work to its results.</p>
         <div className="editorial-actions"><a href={`mailto:${EMAIL_ADDRESS}`} className={`${BTN_PRIMARY} editorial-button`}>Email me <ArrowUpRight size={18} aria-hidden="true" /></a><a className="editorial-link" href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">LinkedIn <ArrowUpRight size={18} aria-hidden="true" /></a></div>
       </div>
-      <figure className="about-portrait"><img src="/images/mychal-suit-headshot.jpg" width={1536} height={1024} alt="Mychal Olguin wearing a suit and tie" /><figcaption>Austin, Texas · Open to growth roles</figcaption></figure>
+      <figure className="about-portrait"><img src="/images/mychal-suit-headshot.jpg" width={1536} height={1024} alt="Mychal Olguin wearing a suit and tie" /></figure>
     </div></header>
     <section className="editorial-chapter editorial-dark"><div className={CONTAINER}>
       <p className="editorial-eyebrow">How I work</p><h2 className="chapter-title">From the page<br />to the bigger picture.</h2>
