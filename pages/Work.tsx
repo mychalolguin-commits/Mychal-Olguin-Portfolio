@@ -6,86 +6,130 @@ import { useSEO } from '../hooks/useSEO';
 import { CONTAINER, LINK_UNDERLINE } from '../components/layout';
 import { EditorialHeader, EditorialClose } from '../components/EditorialPage';
 
-// Keep artwork and short index titles separate from the complete case-study record.
+// The index names the work plainly; the case studies carry the full story and sources.
 const presentations = [
-  { slug: 'escapades-coaching', title: 'One conversation. A whole content system.', client: 'Escapades Coaching', body: 'Bilingual short-form creative, a cross-channel publishing plan, and a website built around the next step.', image: '/captures/escapades/site-detail.png', alt: 'Escapades Coaching website design on the private review site', kind: 'website' },
-  { slug: 'borders-organic-social', title: 'A new amenity. A reason to watch.', client: 'Borders Apartments', body: 'Original reels for a fitness-center launch, with seasonal content that gives the property a personality.', image: '/images/borders-logo.png', alt: 'Borders Apartments logo', kind: 'logo' },
-  { slug: 'cornerstone-apartment-websites', title: 'Built around renter questions.', client: 'Cornerstone Capital', body: 'Four property websites, rebuilt around the questions renters ask.', image: '/images/home-borders-1200.jpg', alt: 'Borders Apartments website and pool photography', kind: 'website' },
-  { slug: 'towne-oaks-paid-social', title: 'Traffic with a purpose.', client: 'Towne Oaks', body: 'A Meta campaign connecting interested renters with available floorplans.', kind: 'metric' },
-  { slug: 'ire-junk-removal-website', title: 'A first place to get found.', client: 'IRE Junk Removal', body: 'A first website, with local service information and a clear path to request a quote.', image: '/captures/ire-quote-form.png', alt: 'IRE’s branded trailer on a removal job', kind: 'story' },
-  { slug: '392chulo-organic-video', title: 'A personal take on car content.', client: '392chulo', body: 'A self-directed car-culture account with 1.23M estimated accounts reached across the measured period.', image: '/captures/392chulo-reel.png', alt: 'Featured 392chulo automotive reel on Instagram', kind: 'social' },
-];
+  {
+    slug: 'escapades-coaching',
+    category: 'Content · video · website',
+    title: 'Bilingual coaching videos and website',
+    client: 'Escapades Coaching',
+    contribution: 'Edited ten short concepts in both English and Spanish, planned the rollout, and built a path from the videos to a coaching call.',
+    evidence: 'YouTube talk live · Website awaiting approval · Shorts finished, unpublished',
+    image: '/captures/escapades/reel-career.webp',
+    alt: 'Vertical video created for Escapades Coaching',
+    kind: 'video',
+  },
+  {
+    slug: 'borders-organic-social',
+    category: 'Organic social · video',
+    title: 'Reels for an apartment fitness-center launch',
+    client: 'Borders Apartments',
+    contribution: 'Filmed and edited an installation timelapse, a teaser, and seasonal content for the property’s social channels.',
+    evidence: 'Installation reel: 1,783 views · Instagram screenshot',
+    image: '/captures/borders-fitness-reel-views.png',
+    alt: 'Screenshots of the published Borders Apartments fitness-center reels and their view counts',
+    kind: 'reels',
+  },
+  {
+    slug: 'cornerstone-apartment-websites',
+    category: 'Web design · search',
+    title: 'Four apartment websites rebuilt',
+    client: 'Cornerstone Capital',
+    contribution: 'Rebuilt property sites around renter questions, floorplan details, and clearer paths to schedule a tour.',
+    evidence: 'Four sites rebuilt · Two property-owned pages later cited by ChatGPT',
+    image: '/captures/borders-site.png',
+    alt: 'Borders Apartments website, one of four rebuilt property websites',
+    kind: 'website',
+  },
+  {
+    slug: 'towne-oaks-paid-social',
+    category: 'Paid social · measurement',
+    title: 'Meta ads for floorplan traffic',
+    client: 'Towne Oaks',
+    contribution: 'Ran a traffic campaign to available floorplans and connected ad links to GA4 reporting.',
+    evidence: '2,475 landing page views · $0.52 per view · Meta Ads Manager',
+    kind: 'metric',
+  },
+  {
+    slug: 'ire-junk-removal-website',
+    category: 'Website · local services',
+    title: 'A first website for a junk-removal business',
+    client: 'IRE Junk Removal',
+    contribution: 'Built service pages and a simple quote path so local customers could understand the offer and get in touch.',
+    evidence: 'Live website · Quote request flow',
+    image: '/captures/ire-homepage.png',
+    alt: 'IRE Junk Removal homepage with service headline and quote call to action',
+    kind: 'website',
+  },
+  {
+    slug: '392chulo-organic-video',
+    category: 'Organic social · video',
+    title: 'Car-culture videos for Instagram',
+    client: '392chulo',
+    contribution: 'Created and published a self-directed stream of car-culture videos, then tracked account and post performance.',
+    evidence: 'Self-directed account · Instagram insights, Jan 2023–Oct 1, 2026',
+    kind: 'social',
+  },
+] as const;
 
 const Work: React.FC = () => {
-  useSEO({ title: 'Work', description: 'Websites, organic social, paid media, and search. Explore the work and evidence behind Mychal Olguin’s marketing projects.' });
+  useSEO({ title: 'Work', description: 'Video, websites, organic social, and paid media. See what Mychal Olguin made and the evidence behind each project.' });
   return <div className="editorial-page">
-    <EditorialHeader label="Selected work" title="The work. The thinking behind it.">
-      <p>Websites, social content, campaigns, and search. A closer look at what I built and what happened next.</p>
+    <EditorialHeader label="Selected work" title="Marketing projects.">
+      <p>Video, websites, and campaigns. Each project shows what I made, my role, and the evidence available.</p>
     </EditorialHeader>
     <section className="work-collection" aria-label="Case studies"><div className={CONTAINER}>
-      {presentations.map((item) => {
-        const project = PROJECTS.find(project => project.slug === item.slug)!;
-        const totals = project.dashboardData?.totals;
-        return <article className={`work-feature work-feature--${item.kind}`} key={item.slug}>
-          <Link to={`/work/${item.slug}`} className={`work-art work-art--${item.kind}`} aria-label={`Explore ${item.client}`}>
-            {totals ? <div className="work-metric"><p className="editorial-eyebrow">{item.client}</p><div><p className="work-metric-value">{totals.lpv.toLocaleString('en-US')}</p><p>landing page views</p></div><p className="work-metric-source">${(totals.spend / totals.lpv).toFixed(2)} per view<br /><span>Meta Ads Manager · {project.timeframe}</span></p></div>
-              : <img src={item.image} alt={item.alt} loading="lazy" />}
-          </Link>
-          <div className="work-feature-copy"><p className="editorial-eyebrow">{item.client} · {project.subtitle}</p>
-            <h2><Link to={`/work/${item.slug}`}>{item.title}</Link></h2>
-            <p className="editorial-body">{item.body}</p>
-            <Link className="editorial-link" to={`/work/${item.slug}`}>Explore the project <ArrowUpRight size={18} aria-hidden="true" /></Link>
-          </div>
-        </article>;
-      })}
+      <div className="work-grid">
+        {presentations.map((item) => {
+          const project = PROJECTS.find(project => project.slug === item.slug);
+          const totals = project?.dashboardData?.totals;
+          return <article className="work-card" key={item.slug}>
+            <Link to={`/work/${item.slug}`} className={`work-card-media work-card-media--${item.kind}`} aria-label={`View ${item.client} case study`}>
+              {item.kind === 'metric' && totals ? <div className="work-card-metric">
+                <span>Meta Ads Manager · {project?.timeframe}</span>
+                <div><strong>{totals.lpv.toLocaleString('en-US')}</strong><span>landing page views</span></div>
+                <span>${(totals.spend / totals.lpv).toFixed(2)} per view</span>
+              </div> : item.kind === 'social' ? <div className="work-card-metric">
+                <span>392chulo · Instagram Reels</span>
+                <div><strong>1.23M</strong><span>estimated accounts reached</span></div>
+                <span>Instagram insights · Jan 2023–Oct 1, 2026</span>
+              </div> : 'image' in item ? <img src={item.image} alt={item.alt} loading="lazy" /> : null}
+            </Link>
+            <div className="work-card-copy">
+              <p className="editorial-eyebrow">{item.client} <span aria-hidden="true">·</span> {item.category}</p>
+              <h2><Link to={`/work/${item.slug}`}>{item.title}</Link></h2>
+              <p className="work-card-contribution">{item.contribution}</p>
+              <p className="work-card-evidence">{item.evidence}</p>
+              <Link className="editorial-link" to={`/work/${item.slug}`}>View case study <ArrowUpRight size={18} aria-hidden="true" /></Link>
+            </div>
+          </article>;
+        })}
+      </div>
     </div></section>
-      <section id="paid-social-creative" aria-labelledby="social-creative-heading" className="editorial-chapter work-creative editorial-dark">
-        <div className={CONTAINER}>
-          <>
-            <p className="editorial-eyebrow">Selected paid-social creative</p>
-            <h2 id="social-creative-heading" className="statement mt-5 max-w-[22ch] text-3xl md:text-5xl ">
-              Give renters a reason to look closer.
-            </h2>
-            <p className="mt-6 max-w-[60ch] text-lg leading-relaxed text-[var(--editorial-inverse-muted)]">
-              Paid-social carousels for Christy Estates and Borders Apartments. I shot all the
-              photography, created the graphics, and wrote the captions.
-            </p>
-          </>
 
-          <div className="mt-14 space-y-16 md:space-y-24">
-            {SOCIAL_CREATIVE.map((creative) => (
-              <React.Fragment key={creative.property}>
-                <article className="grid items-start gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
-                  <div>
-                    <p className="editorial-eyebrow">{creative.property}</p>
-                    <h3 className="display mt-4 text-2xl md:text-3xl ">{creative.title}</h3>
-                    <p className="mt-5 text-[16px] leading-relaxed text-[var(--editorial-inverse-muted)]">{creative.strategy}</p>
-                    <p className="mt-4 text-[16px] leading-relaxed text-[var(--editorial-inverse-muted)]">{creative.execution}</p>
-                  </div>
-                  <div className={`grid items-start gap-4 ${creative.images.length > 1 ? 'grid-cols-1 sm:grid-cols-2' : 'mx-auto w-full max-w-sm'}`}>
-                    {creative.images.map((asset) => (
-                      <figure key={asset.src} className="min-w-0">
-                        <a href={asset.src} target="_blank" rel="noopener noreferrer" aria-label={`Open full screenshot: ${asset.alt}`} className="block">
-                          <img src={asset.src} alt={asset.alt} loading="lazy" className="block h-auto w-full rounded-[24px]" />
-                        </a>
-                        <figcaption className="mt-3 text-[13px] leading-relaxed text-[var(--editorial-inverse-muted)]">
-                          {asset.caption}
-                          <a href={asset.src} target="_blank" rel="noopener noreferrer" className={`mt-2 block ${LINK_UNDERLINE}`}>View full screenshot ↗</a>
-                        </figcaption>
-                      </figure>
-                    ))}
-                  </div>
-                </article>
-              </React.Fragment>
-            ))}
-          </div>
-          <p className="mt-12 max-w-[68ch] text-[14px] leading-relaxed text-[var(--editorial-inverse-muted)]">
-            Source: screenshots of the published Facebook creative. The $2,400 figure describes
-            the advertised savings over a 12-month lease. These examples document the creative;
-            campaign performance is not reported here.
-          </p>
+    <section id="paid-social-creative" aria-labelledby="social-creative-heading" className="editorial-chapter work-creative editorial-dark">
+      <div className={CONTAINER}>
+        <p className="editorial-eyebrow">More creative samples</p>
+        <h2 id="social-creative-heading" className="statement mt-5 text-3xl md:text-5xl">Paid social for apartment communities</h2>
+        <p className="work-creative-intro">I shot the photography, designed these carousel graphics, and wrote the captions. These published examples show the creative; campaign results are not available.</p>
+        <div className="work-creative-grid">
+          {SOCIAL_CREATIVE.map((creative) => (
+            <article className="work-creative-card" key={creative.property}>
+              <a href={creative.images[0].src} target="_blank" rel="noopener noreferrer" aria-label={`Open full screenshot: ${creative.images[0].alt}`}>
+                <img src={creative.images[0].src} alt={creative.images[0].alt} loading="lazy" />
+              </a>
+              <div>
+                <p className="editorial-eyebrow">{creative.property}</p>
+                <h3>{creative.title}</h3>
+                <p>{creative.strategy}</p>
+                <a href={creative.images[0].src} target="_blank" rel="noopener noreferrer" className={LINK_UNDERLINE}>View published creative ↗</a>
+              </div>
+            </article>
+          ))}
         </div>
-      </section>
+        <p className="work-creative-note">Source: published Facebook carousel screenshots. Christy Estates’ $2,400 figure describes advertised savings over a 12-month lease.</p>
+      </div>
+    </section>
 
     <EditorialClose />
   </div>;
