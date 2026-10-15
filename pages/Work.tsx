@@ -15,8 +15,8 @@ const presentations = [
     client: 'Escapades Coaching',
     contribution: 'Edited ten short concepts in both English and Spanish, planned the rollout, and built a path from the videos to a coaching call.',
     evidence: 'YouTube talk live · Website awaiting approval · Shorts finished, unpublished',
-    image: '/captures/escapades/reel-career.webp',
-    alt: 'Vertical video created for Escapades Coaching',
+    image: '/captures/escapades/self-care-thumbnail.webp',
+    alt: 'Escapades Coaching self-care video thumbnail reading Time to Reset?',
     kind: 'video',
   },
   {

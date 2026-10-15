@@ -362,7 +362,8 @@ html { scroll-padding-top: 104px; }
 .work-card { min-width: 0; display: flex; flex-direction: column; }
 .work-card-media { display: block; position: relative; overflow: hidden; aspect-ratio: 1.55; border-radius: 20px; background: var(--editorial-evidence); }
 .work-card-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.work-card-media--video img { object-position: 50% 25%; }
+.work-card-media--video { background: var(--editorial-dark); }
+.work-card-media--video img { object-fit: contain; }
 .work-card-media--reels img { object-fit: contain; }
 .work-card-media--website img { object-position: 50% 25%; }
 .work-card-media--social img { object-position: 50% 50%; }
