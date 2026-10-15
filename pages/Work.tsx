@@ -25,15 +25,15 @@ const Work: React.FC = () => {
         <div className="work-creative-grid">
           {SOCIAL_CREATIVE.map((creative) => (
             <article className="work-creative-card" key={creative.property}>
+              <figure className="work-creative-media">
+                <img src={creative.images[0].src} alt={creative.images[0].alt} loading="lazy" />
+                <figcaption>{creative.images[0].caption}</figcaption>
+              </figure>
               <div className="work-creative-copy">
                 <p className="editorial-eyebrow">{creative.property}</p>
                 <h3>{creative.title}</h3>
                 <p>{creative.strategy}</p>
               </div>
-              <figure className="work-creative-media">
-                <img src={creative.images[0].src} alt={creative.images[0].alt} loading="lazy" />
-                <figcaption>{creative.images[0].caption}</figcaption>
-              </figure>
             </article>
           ))}
         </div>
