@@ -336,15 +336,14 @@ html { scroll-padding-top: 104px; }
 .work-creative h2 { max-width: 20ch; }
 .work-creative a:focus-visible { outline-color: var(--editorial-inverse); }
 .work-creative-intro { max-width: 64ch; margin-top: 24px; font-size: 1.0625rem; line-height: 1.6; color: var(--editorial-inverse-muted); }
-.work-creative-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; margin-top: 56px; }
+.work-creative-grid { display: grid; gap: 80px; margin-top: 56px; }
 .work-creative-card { min-width: 0; }
-.work-creative-card > a { display: block; overflow: hidden; border-radius: 20px; background: var(--paper); }
-.work-creative-card img { display: block; width: 100%; aspect-ratio: 1.35; object-fit: cover; object-position: center; }
-.work-creative-card:first-child img { object-position: center 62%; }
-.work-creative-card > div { padding-top: 24px; }
+.work-creative-copy { max-width: 64ch; }
 .work-creative-card h3 { margin-top: 8px; }
-.work-creative-card > div > p:not(.editorial-eyebrow) { max-width: 52ch; margin-top: 12px; line-height: 1.6; color: var(--editorial-inverse-muted); }
-.work-creative-card > div > a { display: inline-block; margin-top: 18px; }
+.work-creative-copy > p:not(.editorial-eyebrow) { max-width: 52ch; margin-top: 12px; line-height: 1.6; color: var(--editorial-inverse-muted); }
+.work-creative-media { width: fit-content; max-width: 100%; margin-top: 28px; }
+.work-creative-media img { display: block; max-width: 100%; height: auto; border-radius: 20px; }
+.work-creative-media figcaption { margin-top: 12px; font-size: .875rem; line-height: 1.5; color: var(--editorial-inverse-muted); }
 .work-creative-note { max-width: 68ch; margin-top: 40px; font-size: .875rem; line-height: 1.6; color: var(--editorial-inverse-muted); }
 .about-intro-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, .8fr); gap: 80px; align-items: center; }
 .about-intro h1 { max-width: 17ch; }
@@ -405,10 +404,10 @@ html { scroll-padding-top: 104px; }
   .editorial-page-intro, .about-intro .editorial-body { font-size: 1.125rem; margin-top: 24px; }
   .editorial-chapter { padding-block: 72px; }
   .work-collection, .contact-content { padding-bottom: 80px; }
-  .work-grid, .work-creative-grid { grid-template-columns: 1fr; gap: 56px; }
+  .work-grid { grid-template-columns: 1fr; gap: 56px; }
   .work-card-media { aspect-ratio: 1.45; }
   .work-card-metric strong { font-size: clamp(4rem, 16vw, 6rem); }
-  .work-creative-grid { margin-top: 40px; }
+  .work-creative-grid { gap: 64px; margin-top: 40px; }
   .about-portrait img, .contact-composer { border-radius: 24px; }
   .about-learning-grid, .credential-list > div { grid-template-columns: 1fr; }
   .about-method, .about-learning-grid { margin-top: 40px; }

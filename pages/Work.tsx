@@ -1,7 +1,7 @@
 import React from 'react';
 import { SOCIAL_CREATIVE, WORK_PRESENTATIONS } from '../constants';
 import { useSEO } from '../hooks/useSEO';
-import { CONTAINER, LINK_UNDERLINE } from '../components/layout';
+import { CONTAINER } from '../components/layout';
 import { EditorialHeader, EditorialClose } from '../components/EditorialPage';
 import WorkCard from '../components/WorkCard';
 
@@ -25,15 +25,15 @@ const Work: React.FC = () => {
         <div className="work-creative-grid">
           {SOCIAL_CREATIVE.map((creative) => (
             <article className="work-creative-card" key={creative.property}>
-              <a href={creative.images[0].src} target="_blank" rel="noopener noreferrer" aria-label={`Open full screenshot: ${creative.images[0].alt}`}>
-                <img src={creative.images[0].src} alt={creative.images[0].alt} loading="lazy" />
-              </a>
-              <div>
+              <div className="work-creative-copy">
                 <p className="editorial-eyebrow">{creative.property}</p>
                 <h3>{creative.title}</h3>
                 <p>{creative.strategy}</p>
-                <a href={creative.images[0].src} target="_blank" rel="noopener noreferrer" className={LINK_UNDERLINE}>View published creative ↗</a>
               </div>
+              <figure className="work-creative-media">
+                <img src={creative.images[0].src} alt={creative.images[0].alt} loading="lazy" />
+                <figcaption>{creative.images[0].caption}</figcaption>
+              </figure>
             </article>
           ))}
         </div>
