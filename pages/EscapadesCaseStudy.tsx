@@ -38,8 +38,8 @@ const EscapadesCaseStudy: React.FC = () => {
           <p>Loreinna Hernandez coaches people navigating change in work and life, in English and Spanish. The challenge was to turn a single long-form video into content that speaks to specific moments her audience recognizes, then give interested viewers a useful next step.</p>
         </div>
         <div className="escapades-source">
-          <img src={`${base}/longform-frame.jpg`} alt="Loreinna Hernandez speaking in the source self-care video" width="640" height="360" />
-          <p>Source: one self-care talk filmed for YouTube.</p>
+          <img src={`${base}/self-care-thumbnail.webp`} alt="Escapades Coaching self-care video thumbnail reading Time to Reset?" width="1280" height="720" />
+          <p>Thumbnail created for the self-care talk.</p>
         </div>
       </div>
     </section>
