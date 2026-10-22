@@ -33,7 +33,6 @@ const EscapadesCaseStudy: React.FC = () => {
     <section className="escapades-overview" aria-labelledby="escapades-overview-title">
       <div className={`${CONTAINER} escapades-overview-grid`}>
         <div>
-          <p className="editorial-eyebrow">The assignment</p>
           <h2 id="escapades-overview-title">Make one talk work harder.</h2>
           <p>Loreinna Hernandez coaches people navigating change in work and life, in English and Spanish. The challenge was to turn a single long-form video into content that speaks to specific moments her audience recognizes, then give interested viewers a useful next step.</p>
         </div>
@@ -46,8 +45,7 @@ const EscapadesCaseStudy: React.FC = () => {
 
     <section className="escapades-output" aria-labelledby="escapades-output-title">
       <div className={CONTAINER}>
-        <p className="editorial-eyebrow">What I made</p>
-        <h2 id="escapades-output-title">A connected set of assets.</h2>
+        <h2 id="escapades-output-title">What I made.</h2>
         <div className="escapades-output-grid">
           <div><strong>01</strong><h3>One published talk</h3><p>The long-form video gives the campaign a home and a deeper story to point back to.</p></div>
           <div><strong>10 × 2</strong><h3>Bilingual short cuts</h3><p>Ten distinct moments were edited into English and Spanish versions: 20 finished vertical files, ready for publishing.</p></div>
@@ -60,8 +58,7 @@ const EscapadesCaseStudy: React.FC = () => {
     <section className="escapades-chapter" aria-labelledby="escapades-creative-title">
       <div className={`${CONTAINER} escapades-chapter-grid`}>
         <div className="escapades-chapter-copy">
-          <p className="editorial-eyebrow">01 / Creative</p>
-          <h2 id="escapades-creative-title">Choose the moment, then shape the message.</h2>
+          <h2 id="escapades-creative-title">Bilingual video edits.</h2>
           <p>I selected clips for the woman balancing career and personal change, including the moment Loreinna speaks directly to people who moved away from family for work. Each cut has one idea, a clear opening, and captions designed to stay readable inside a Reel.</p>
           <p>The footage was recut from the final graded 4K export so the vertical edits match the published talk. Each selected moment has an English and a Spanish version of the same edit.</p>
         </div>
@@ -75,8 +72,7 @@ const EscapadesCaseStudy: React.FC = () => {
     <section className="escapades-chapter escapades-chapter--plan" aria-labelledby="escapades-plan-title">
       <div className={`${CONTAINER} escapades-chapter-grid`}>
         <div className="escapades-chapter-copy">
-          <p className="editorial-eyebrow">02 / Distribution</p>
-          <h2 id="escapades-plan-title">Give each channel a job.</h2>
+          <h2 id="escapades-plan-title">Publishing plan.</h2>
           <p>The publishing plan starts with the full YouTube conversation. Short clips then bring viewers in through the themes most relevant to each platform: career and relocation on LinkedIn, a broader self-care conversation on Instagram and YouTube Shorts, and Spanish-first posts on Facebook.</p>
           <p>I wrote the post copy, calls to action, and schedule together. That way, each short points toward the full talk, a free resource, or a coaching conversation instead of ending at the view.</p>
         </div>
@@ -91,7 +87,7 @@ const EscapadesCaseStudy: React.FC = () => {
     <section className="escapades-chapter" aria-labelledby="escapades-web-title">
       <div className={CONTAINER}>
         <div className="escapades-web-heading">
-          <div><p className="editorial-eyebrow">03 / Website</p><h2 id="escapades-web-title">Build the next step into the site.</h2></div>
+          <div><h2 id="escapades-web-title">Website redesign.</h2></div>
           <p>The redesigned Squarespace site brings Loreinna’s coaching, testimonials, and booking path into a clearer sequence. A dedicated Reset page pairs the talk with a free worksheet and a call to action. The build is complete on the private site and is awaiting client approval to launch.</p>
         </div>
         <div className="escapades-web-artifacts">
@@ -103,7 +99,7 @@ const EscapadesCaseStudy: React.FC = () => {
 
     <section className="escapades-status" aria-labelledby="escapades-status-title">
       <div className={`${CONTAINER} escapades-status-grid`}>
-        <div><p className="editorial-eyebrow">Where it stands</p><h2 id="escapades-status-title">Built, with results to come.</h2></div>
+        <div><h2 id="escapades-status-title">Project status.</h2></div>
         <div>
           <p>The long-form video is published on YouTube. The website is built and awaiting client approval. The Shorts and Reels are finished but have not been posted. This case study documents the strategy and creative work; reach, sign-ups, and calls will be added after the rollout is live and measured.</p>
           <Link to="/work" className="editorial-link">Explore more work <ArrowUpRight size={18} aria-hidden="true" /></Link>

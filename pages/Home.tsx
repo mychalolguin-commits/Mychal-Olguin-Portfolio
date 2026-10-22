@@ -42,7 +42,7 @@ const Home: React.FC = () => {
       <section id="selected-work" className="home-work editorial-dark" aria-labelledby="work-heading">
         <div className={CONTAINER}>
           <div className="editorial-section-heading">
-            <div><p className="editorial-eyebrow">Selected work</p><h2 id="work-heading">Video, web, and paid media.</h2></div>
+            <div><h2 id="work-heading">Video, web, and paid media.</h2></div>
             <Link to="/work" className="editorial-link">View all six projects <ArrowUpRight size={19} aria-hidden="true" /></Link>
           </div>
           <div className="work-grid home-work-grid">
@@ -58,8 +58,7 @@ const Home: React.FC = () => {
             <figcaption>Mychal Olguin <span>Digital marketer · Austin, TX</span></figcaption>
           </figure>
           <div className="home-approach-copy">
-            <p className="editorial-eyebrow">The person behind the work</p>
-            <h2 id="approach-heading">From first question<br />to next step.</h2>
+            <h2 id="approach-heading">How I work.</h2>
             <p className="editorial-body">I connect the page, the campaign, and the measurement. Each part starts with what someone needs to know.</p>
             <dl className="home-method">
               <div><dt>Make it useful.</dt><dd>Build pages that answer real questions.</dd></div>
@@ -73,7 +72,7 @@ const Home: React.FC = () => {
 
       <section className="home-contact" aria-labelledby="contact-heading">
         <div className={`${CONTAINER} home-contact-grid`}>
-          <div><p className="editorial-eyebrow">Let’s work together</p><h2 id="contact-heading">Good work starts<br />with a conversation.</h2></div>
+          <div><h2 id="contact-heading">Get in touch.</h2></div>
           <div className="home-contact-copy"><p>I’m looking for my next digital marketing or growth role. Let’s talk about what you’re building.</p><a href="mailto:mychalolguin@gmail.com" className={`${BTN_ON_BRAND} editorial-button`}>Get in touch <ArrowUpRight size={18} aria-hidden="true" /></a></div>
         </div>
       </section>

@@ -127,7 +127,7 @@ const CaseStudyDashboard: React.FC<CaseStudyDashboardProps> = ({
   return (
     <section className="case-dashboard">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <div><p className="editorial-eyebrow">Detailed evidence</p><h3>Campaign dashboard</h3></div>
+        <div><h3>Campaign dashboard</h3></div>
         <div className="flex items-baseline gap-4">
           {objective && <span className="label">{objective}</span>}
           {timeframe && <span className="label">{timeframe}</span>}

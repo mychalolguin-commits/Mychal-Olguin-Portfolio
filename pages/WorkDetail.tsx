@@ -206,7 +206,6 @@ const AEOEvidenceChain: React.FC = () => (
   <section className="case-evidence-chapter">
     <div className={CONTAINER}>
       <Reveal>
-        <p className="editorial-eyebrow">Evidence chain</p>
         <h2 className="case-section-title">
           The AI answer traces back to page-level work.
         </h2>
@@ -255,9 +254,8 @@ const AEOProjectFrame: React.FC<{ facts: Fact[]; tags: string[] }> = ({ facts, t
   <section className="case-project-frame">
     <div className={CONTAINER}>
       <Reveal>
-        <p className="editorial-eyebrow">Project frame</p>
         <h2 className="case-subheading">
-          What was actually in scope.
+          Project scope.
         </h2>
         <FactsTable facts={facts} tags={tags} />
       </Reveal>
@@ -323,8 +321,7 @@ const CaseSnapshot: React.FC<{ project: Project }> = ({ project }) => {
         <Reveal>
           <div className="case-snapshot-layout">
             <div>
-              <p className="editorial-eyebrow">Case snapshot</p>
-              <h2>What changed.<br />What came back.</h2>
+              <h2>Project overview.</h2>
             </div>
 
             <dl className="case-snapshot-items">
@@ -371,9 +368,8 @@ const TowneMeasurementMethodology: React.FC = () => (
       <Reveal>
         <div className="case-methodology-layout">
           <div>
-            <p className="editorial-eyebrow">How I measured it</p>
             <h2 className="case-subheading">
-              The setup mattered as much as the spend.
+              Measurement setup.
             </h2>
           </div>
 
@@ -592,7 +588,7 @@ const WorkDetail: React.FC = () => {
           <div className={CONTAINER}>
             <Reveal>
               <div className="case-results-heading">
-                <div><p className="editorial-eyebrow">Results</p><h2>{project.socialReels ? 'The content' : 'The campaign'}<br />in numbers.</h2></div>
+                <div><h2>{project.socialReels ? 'The content' : 'The campaign'}<br />in numbers.</h2></div>
                 {timeframe && <span className="editorial-note">{timeframe}</span>}
               </div>
 

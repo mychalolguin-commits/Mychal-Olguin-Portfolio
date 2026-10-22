@@ -27,16 +27,16 @@ const Contact: React.FC = () => {
     window.location.href = `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(`Portfolio inquiry — ${name}`)}&body=${encodeURIComponent(`${message}\n\n—\n${name}\n${email}`)}`;
   };
   return <div className="editorial-page">
-    <EditorialHeader label="Contact" title="Start with a conversation.">
+    <EditorialHeader title="Contact.">
       <p>I’m looking for my next digital marketing or growth role. Tell me about the work you have in mind.</p>
     </EditorialHeader>
     <section className="contact-content"><div className={`${CONTAINER} contact-layout`}>
-      <div className="contact-direct"><p className="editorial-eyebrow">Say hello</p><h2><a href={`mailto:${EMAIL_ADDRESS}`}>{EMAIL_ADDRESS}</a></h2>
+      <div className="contact-direct"><h2><a href={`mailto:${EMAIL_ADDRESS}`}>{EMAIL_ADDRESS}</a></h2>
         <button className="editorial-link" type="button" onClick={copyEmail}>Copy email address</button><p className="editorial-note copy-status" role="status">{copyStatus}</p>
         <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="editorial-link">Connect on LinkedIn <ArrowUpRight size={18} aria-hidden="true" /></a>
         <div className="contact-context"><p>Austin, Texas · Remote friendly</p><p>Open to paid social and growth roles.</p><p>Usually replies on weekdays.</p></div>
       </div>
-      <form onSubmit={handleSubmit} className="contact-composer"><p className="editorial-eyebrow">Prefer a starting point?</p><h2>Draft a message.</h2>
+      <form onSubmit={handleSubmit} className="contact-composer"><h2>Draft a message.</h2>
         <div className="contact-fields"><div><label htmlFor="contact-name">Name</label><input id="contact-name" name="name" autoComplete="name" required /></div><div><label htmlFor="contact-email">Your email</label><input id="contact-email" name="email" type="email" autoComplete="email" required /></div><div><label htmlFor="contact-message">What would you like to discuss?</label><textarea id="contact-message" name="message" rows={5} required /></div></div>
         <button type="submit" className={`${BTN_PRIMARY} editorial-button`}>Open in your mail app <ArrowUpRight size={18} aria-hidden="true" /></button>
         <p className="editorial-note">Opens a draft in your email app. You review and send it there.</p>
