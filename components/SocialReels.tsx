@@ -18,7 +18,7 @@ const Reel: React.FC<{ reel: NonNullable<Project['socialReels']>[number] }> = ({
 
 export default function SocialReels({ reels }: { reels: NonNullable<Project['socialReels']> }) {
   return <section className="editorial-chapter" aria-labelledby="social-reels-heading"><div className={CONTAINER}>
-    <h2 id="social-reels-heading" className="statement mt-5 text-3xl md:text-5xl">Watch the reels.</h2>
+    <h2 id="social-reels-heading" className="statement text-3xl md:text-5xl">Watch the reels.</h2>
     <p className="mt-5 text-[var(--graphite)]">Players load from Instagram on request. If a player is unavailable, open the original post.</p>
     <div className="social-reels-grid mt-12">{reels.map(reel => <Reel key={reel.id} reel={reel} />)}</div>
   </div></section>;

@@ -33,7 +33,7 @@ const Panel: React.FC<{ title: string; meta?: string; children: React.ReactNode 
   children,
 }) => (
   <section className="case-dashboard-panel">
-    <div className="flex items-baseline justify-between gap-4">
+    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
       <h4 className="label">{title}</h4>
       {meta && <span className="label">{meta}</span>}
     </div>
@@ -272,6 +272,7 @@ const CaseStudyDashboard: React.FC<CaseStudyDashboardProps> = ({
               one hue. Six categorical colors would be unreadable to a
               red-green colorblind visitor and would add nothing here. */}
           <Panel title="Sessions by channel" meta={`${ga4.channels.length} channels`}>
+            <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="GA4 sessions by channel">
             <table className="w-full figure text-[13px]">
               <caption className="sr-only">
                 GA4 sessions by acquisition channel, with share and engagement rate
@@ -336,6 +337,7 @@ const CaseStudyDashboard: React.FC<CaseStudyDashboardProps> = ({
                 ))}
               </tbody>
             </table>
+            </div>
             <p className="mt-4 text-[13px] leading-relaxed text-[var(--graphite)]">
               Meta landing page views and GA4 sessions won't match one-to-one — the two platforms
               attribute and sessionize differently. Each total is correct on its own terms.
