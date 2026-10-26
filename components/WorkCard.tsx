@@ -23,7 +23,6 @@ const WorkCard: React.FC<{ item: WorkPresentation; headingLevel?: 'h2' | 'h3' }>
       </div> : 'image' in item ? <img src={item.image} alt={item.alt} loading="lazy" /> : null}
     </Link>
     <div className="work-card-copy">
-      <p className="editorial-eyebrow">{item.client} <span aria-hidden="true">·</span> {item.category}</p>
       <Heading><Link to={`/work/${item.slug}`}>{item.title}</Link></Heading>
       <p className="work-card-contribution">{item.contribution}</p>
       <p className="work-card-evidence">{item.evidence}</p>

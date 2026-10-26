@@ -29,7 +29,6 @@ const Work: React.FC = () => {
                 <figcaption>{creative.images[0].caption}</figcaption>
               </figure>
               <div className="work-creative-copy">
-                <p className="editorial-eyebrow">{creative.property}</p>
                 <h3>{creative.title}</h3>
                 <p>{creative.strategy}</p>
               </div>

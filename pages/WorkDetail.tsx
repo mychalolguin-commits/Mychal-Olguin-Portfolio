@@ -162,7 +162,6 @@ const AEOHero: React.FC<{ project: Project }> = ({ project }) => (
 
       <div className="case-hero-split">
         <Reveal delay={0.05}>
-          <p className="editorial-eyebrow">{project.eyebrow || project.subtitle}</p>
           <h1>
             Pages built to be found.
           </h1>
@@ -267,7 +266,6 @@ const VirtualTourSection: React.FC<{ tour: NonNullable<Project['virtualTour']> }
   <section className="case-virtual-tour" aria-labelledby="virtual-tour-heading">
     <div className={CONTAINER}>
       <Reveal>
-        <p className="editorial-eyebrow">360° tours · Los Cedros</p>
         <h2 id="virtual-tour-heading" className="case-section-title">
           {tour.title}
         </h2>
@@ -518,7 +516,6 @@ const WorkDetail: React.FC = () => {
               </Reveal>
 
               <Reveal delay={0.05}>
-                <p className="editorial-eyebrow case-hero-label">{project.title.split(' — ')[0]} · {project.subtitle}</p>
                 <h1>
                   {displayTitle}
                 </h1>
@@ -562,7 +559,6 @@ const WorkDetail: React.FC = () => {
               fallback={
                 project.dashboardData ? (
                   <div className="case-campaign-proof">
-                    <p className="editorial-eyebrow">Towne Oaks · Paid media</p>
                     <div className="case-campaign-proof-main">
                       <p>{project.dashboardData.totals.lpv.toLocaleString('en-US')}</p>
                       <span>landing page views</span>

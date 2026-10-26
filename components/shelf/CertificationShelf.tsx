@@ -249,9 +249,6 @@ const CertificationShelf: React.FC = () => {
               <span>Return to shelf</span>
             </button>
 
-            <p className="cert-shelf__details-eyebrow">
-              {shelfConfig.editionEyebrow}
-            </p>
             <h3>{selectedCert.title}</h3>
             <p className="cert-shelf__details-issuer">{selectedCert.author}</p>
             <p className="cert-shelf__details-description">

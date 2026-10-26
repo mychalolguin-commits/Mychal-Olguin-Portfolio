@@ -32,7 +32,7 @@ const Home: React.FC = () => {
               <img src="/images/home-feature-1440.jpg" srcSet="/images/home-feature-768.jpg 768w, /images/home-feature-1440.jpg 1440w" sizes="(min-width: 1440px) 1312px, (min-width: 1024px) calc(100vw - 128px), (min-width: 768px) calc(100vw - 80px), calc(100vw - 48px)" alt="The Compass Bay website I rebuilt, featuring its waterfront apartments and marina" width={2000} height={1156} fetchPriority="high" />
             </Link>
             <figcaption className="home-lead-caption">
-              <div><span className="editorial-eyebrow">Featured project · Cornerstone Capital · Web design & search</span><p>Four apartment websites rebuilt.</p></div>
+              <div><p>Four apartment websites rebuilt.</p></div>
               <Link to="/work/cornerstone-apartment-websites" className="editorial-link">View case study <ArrowUpRight size={19} aria-hidden="true" /></Link>
             </figcaption>
           </figure>

@@ -6,6 +6,7 @@ import ScrollProgress from '../components/ScrollProgress';
 import { useSEO } from '../hooks/useSEO';
 
 const base = '/captures/escapades';
+const siteUrl = 'https://www.escapadescoaching.com/';
 const videoUrl = 'https://www.youtube.com/watch?v=0JOdN52lTMg';
 
 const EscapadesCaseStudy: React.FC = () => {
@@ -19,13 +20,12 @@ const EscapadesCaseStudy: React.FC = () => {
     <header className="escapades-hero">
       <div className={CONTAINER}>
         <Link to="/work" className="case-back"><ArrowLeft size={14} aria-hidden="true" /> All work</Link>
-        <p className="editorial-eyebrow escapades-kicker">Escapades Coaching · Content strategy, video & web</p>
         <h1>One conversation.<br />A whole content system.</h1>
         <p className="escapades-intro">A self-care talk became bilingual short-form creative, a platform-specific publishing plan, and a clearer path from watching to booking a coaching call.</p>
         <a className={`${BTN_PRIMARY} editorial-button escapades-video-link`} href={videoUrl} target="_blank" rel="noopener noreferrer">Watch the published talk <ArrowUpRight size={18} aria-hidden="true" /></a>
         <div className="escapades-meta" aria-label="Project details">
           <span>My role: strategy, editing, website design</span>
-          <span>2026 · Work in rollout</span>
+          <span>2026 · Website live · Content rollout in progress</span>
         </div>
       </div>
     </header>
@@ -87,11 +87,12 @@ const EscapadesCaseStudy: React.FC = () => {
     <section className="escapades-chapter" aria-labelledby="escapades-web-title">
       <div className={CONTAINER}>
         <div className="escapades-web-heading">
-          <div><h2 id="escapades-web-title">Website redesign.</h2></div>
-          <p>The redesigned Squarespace site brings Loreinna’s coaching, testimonials, and booking path into a clearer sequence. A dedicated Reset page pairs the talk with a free worksheet and a call to action. The build is complete on the private site and is awaiting client approval to launch.</p>
+          <div><h2 id="escapades-web-title">Website redesign. Now live.</h2><a className="editorial-link escapades-site-link" href={siteUrl} target="_blank" rel="noopener noreferrer">Visit the live website <ArrowUpRight size={18} aria-hidden="true" /></a></div>
+          <p>The redesigned Squarespace site brings Loreinna’s coaching, testimonials, and booking path into a clearer sequence. A dedicated Reset page pairs the talk with a free worksheet and a call to action. The redesigned website is now live, connecting the content system to a public next step.</p>
         </div>
+        <figure className="escapades-site-shot escapades-site-home"><a href={siteUrl} target="_blank" rel="noopener noreferrer"><img src={`${base}/site-home-live.png`} alt="Live Escapades Coaching homepage with Loreinna’s portrait, bilingual coaching introduction, and free-call booking button" width="1236" height="901" loading="lazy" /></a><figcaption>Live homepage · escapadescoaching.com · Captured October 26, 2026</figcaption></figure>
         <div className="escapades-web-artifacts">
-          <figure className="escapades-site-shot"><img src={`${base}/site-detail.png`} alt="Escapades Coaching site design showing audience situations and the coaching process" width="1568" height="1110" loading="lazy" /><figcaption>Redesigned page sections on the private Squarespace site</figcaption></figure>
+          <figure className="escapades-site-shot"><img src={`${base}/site-audience-live.png`} alt="Live Escapades Coaching homepage section describing relocation, career plateaus, life changes, and starting a business" width="1236" height="901" loading="lazy" /><figcaption>Audience-specific entry points on the live homepage · Captured October 26, 2026</figcaption></figure>
           <figure className="escapades-worksheet"><img src={`${base}/reset-worksheet.jpg`} alt="Preview of the 15-Minute Reset worksheet" loading="lazy" /><figcaption>The free resource connected to the video</figcaption></figure>
         </div>
       </div>
@@ -101,7 +102,7 @@ const EscapadesCaseStudy: React.FC = () => {
       <div className={`${CONTAINER} escapades-status-grid`}>
         <div><h2 id="escapades-status-title">Project status.</h2></div>
         <div>
-          <p>The long-form video is published on YouTube. The website is built and awaiting client approval. The Shorts and Reels are finished but have not been posted. This case study documents the strategy and creative work; reach, sign-ups, and calls will be added after the rollout is live and measured.</p>
+          <p>The long-form video is published on YouTube. The redesigned website is live at escapadescoaching.com. The Shorts and Reels are finished but have not been posted. This case study documents the strategy and creative work; reach, sign-ups, and calls will be added after the rollout is live and measured.</p>
           <Link to="/work" className="editorial-link">Explore more work <ArrowUpRight size={18} aria-hidden="true" /></Link>
         </div>
       </div>

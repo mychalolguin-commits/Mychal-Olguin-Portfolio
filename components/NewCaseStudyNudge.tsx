@@ -52,7 +52,6 @@ const NewCaseStudyNudge: React.FC = () => {
 
   return <aside ref={nudge} className={`new-case-nudge${overDarkSection ? ' new-case-nudge--over-dark' : ''}`} aria-label="New case study">
     <button type="button" className="new-case-nudge-close" aria-label="Dismiss new case study notice" onClick={() => setOpen(false)}><X size={17} aria-hidden="true" /></button>
-    <p className="editorial-eyebrow">Just added · Escapades Coaching</p>
     <p className="new-case-nudge-title">Bilingual videos and a coaching website.</p>
     <Link to="/work/escapades-coaching" className="editorial-link" onClick={() => setOpen(false)}>See the case study <ArrowUpRight size={17} aria-hidden="true" /></Link>
   </aside>;
