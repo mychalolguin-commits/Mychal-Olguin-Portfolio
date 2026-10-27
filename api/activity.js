@@ -56,6 +56,6 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error(error.message); // Status only; never log keys, tokens or Garmin response bodies.
     res.setHeader('Cache-Control', 'no-store');
-    return res.status(502).json({ error: 'Activity unavailable' });
+    return res.status(502).json({ error: 'Activity unavailable', code: /^Garmin (authentication|activities): \d{3}$/.test(error.message) ? error.message : error.message === 'Garmin token missing' ? 'Token response format' : 'Upstream unavailable' });
   }
 }
