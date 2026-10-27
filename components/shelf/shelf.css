@@ -58,13 +58,7 @@
 
 /* ── Browse caption ───────────────────────────────────────────────────── */
 
-/* The caption floats over the rendered scene, and the shelf plank behind it is
-   dark walnut in both themes, so the text needs its own backdrop.
-   A wide gradient scrim was tried first and rejected: keyed to
-   --color-bg-elevated it is invisible against the dark scene but paints a white
-   wash across the canvas in light mode, washing out the front book. A panel
-   sized to the text can never reach the books, and reads the same in both
-   themes. */
+/* Floating shelf controls use the same glass surface as the site navigation. */
 .cert-shelf__caption {
   position: absolute;
   z-index: 10;
@@ -74,8 +68,9 @@
   padding: 0.9rem 1.1rem 1rem;
   border: 1px solid var(--color-border-subtle);
   border-radius: 0.9rem;
-  background-color: color-mix(in srgb, var(--color-bg-elevated) 78%, transparent);
-  backdrop-filter: blur(12px);
+  background-color: var(--glass-surface);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
   pointer-events: none;
   transition: opacity 400ms ease, transform 400ms ease;
 }
@@ -159,8 +154,9 @@
   transform: translateY(-50%);
   border: 1px solid var(--card-border);
   border-radius: 999px;
-  background-color: var(--color-nav-bg);
-  backdrop-filter: blur(8px);
+  background-color: var(--glass-surface);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
   color: var(--color-text-primary);
   cursor: pointer;
   transition: opacity 300ms ease, border-color 250ms ease,
@@ -272,10 +268,10 @@
   padding: 1.75rem;
   overflow-y: auto;
   border-left: 1px solid var(--card-border);
-  /* Nearly opaque: at lower alpha the blurred book cover behind the panel
-     smears colored light across the text and hurts legibility. */
-  background-color: color-mix(in srgb, var(--color-bg-elevated) 97%, transparent);
-  backdrop-filter: blur(20px);
+  /* Match the shared glass finish used by floating panels. */
+  background-color: var(--glass-surface);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
   opacity: 0;
   transform: translateX(1.5rem);
   pointer-events: none;
@@ -547,4 +543,12 @@
   .cert-shelf__loading-mark span {
     animation: none;
   }
+}
+
+:is(.cert-shelf__caption, .cert-shelf__arrow, .cert-shelf__details) { border-color: var(--glass-edge); box-shadow: inset 0 1px 0 var(--glass-edge); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :is(.cert-shelf__caption, .cert-shelf__arrow, .cert-shelf__details) { background: var(--paper); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  :is(.cert-shelf__caption, .cert-shelf__arrow, .cert-shelf__details) { background: var(--paper); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
