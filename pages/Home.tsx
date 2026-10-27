@@ -1,4 +1,5 @@
 import React from 'react';
+import ActivityCard from '../components/ActivityCard';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import WorkCard from '../components/WorkCard';
@@ -20,13 +21,7 @@ const Home: React.FC = () => {
     <div className="editorial-home">
       <section className="home-intro" aria-labelledby="home-heading">
         <div className={CONTAINER}>
-              <details className="home-activity">
-                <summary><span className="home-activity-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="16.5" cy="4" r="1.5" /><path d="m10 21 2-5-3-3 2-5 3 2 3 1m-6-3-3 1-2 3m8-2-1 4 3 2 1 4" /></svg></span><span>Activity <svg className="home-activity-pulse" aria-hidden="true" viewBox="0 0 24 16" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M1 10h4l3-7 4 10 3-6 2 3h6" /></svg><small>My week on Strava</small></span><span className="home-activity-toggle" aria-hidden="true">+</span></summary>
-                <div className="home-activity-panel">
-                  <iframe title="Mychal’s weekly Strava activity" src="https://www.strava.com/athletes/153746411/activity-summary/6b6ab3efdb951724b871d3dcf6d3a08eb39ea9e8" width="300" height="160" scrolling="no" loading="lazy" />
-                  <a href="https://strava.app.link/YIw5h4HuA7b" target="_blank" rel="noopener noreferrer">Find me on Strava <ArrowUpRight size={15} aria-hidden="true" /></a>
-                </div>
-              </details>
+          <ActivityCard />
           <div className="home-intro-grid">
             <h1 id="home-heading">Good marketing.<br />Built with purpose.</h1>
             <div className="home-intro-copy">
