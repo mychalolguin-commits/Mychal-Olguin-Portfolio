@@ -27,8 +27,8 @@ export default function ActivityCard() {
         {status === 'loading' && <p className="activity-message">Checking in with Garmin…</p>}
         {status === 'error' && <div className="activity-message"><p>Taking a breather.</p><p>Workout updates are unavailable right now.</p><button onClick={() => void load()}>Try again</button></div>}
         {status === 'ready' && <>
-          <div className="activity-card-heading"><span>{latest ? `Latest ${latest.type.toLowerCase()}` : 'No workouts yet'}</span>{latest?.date && <time dateTime={latest.date}>{new Date(`${latest.date}T12:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</time>}</div>
-          {latest && <><p className="activity-distance">{latest.miles > 0 ? latest.miles.toFixed(1) : latest.seconds !== null ? Math.round(latest.seconds / 60) : '—'} <span>{latest.miles > 0 ? 'mi' : 'min'}</span></p><dl className="activity-stats"><div><dt>Time</dt><dd>{latest.seconds !== null ? clock(latest.seconds) : '—'}</dd></div>{latest.pace !== null && <div><dt>Pace / mi</dt><dd>{clock(latest.pace)}</dd></div>}</dl></>}
+          <div className="activity-card-heading"><span>{latest ? `Latest ${latest.type.toLowerCase()}` : 'No runs yet'}</span>{latest?.date && <time dateTime={latest.date}>{new Date(`${latest.date}T12:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</time>}</div>
+          {latest && <><p className="activity-distance">{latest.miles !== null ? latest.miles.toFixed(1) : '—'} <span>mi</span></p><dl className="activity-stats"><div><dt>Time</dt><dd>{latest.seconds !== null ? clock(latest.seconds) : '—'}</dd></div>{latest.pace !== null && <div><dt>Pace / mi</dt><dd>{clock(latest.pace)}</dd></div>}</dl></>}
           <div className="activity-week"><span>This week · running</span><strong>{data.week.miles.toFixed(1)} mi <span>· {data.week.runs} {data.week.runs === 1 ? 'run' : 'runs'}</span></strong></div>
           <p className="activity-source">Garmin · Updated {new Date(data.updatedAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</p>
         </>}

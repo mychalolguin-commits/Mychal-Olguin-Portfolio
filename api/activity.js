@@ -44,7 +44,7 @@ async function load() {
   const monday = new Date(`${today}T12:00:00Z`);
   monday.setUTCDate(monday.getUTCDate() - (monday.getUTCDay() + 6) % 7);
   const weekStart = monday.toISOString().slice(0, 10);
-  const latest = await garmin('/activitylist-service/activities/search/activities?limit=1&sortOrder=desc');
+  const latest = await garmin('/activitylist-service/activities/search/activities?limit=1&sortOrder=desc&activityType=running');
   const week = await garmin(`/activitylist-service/activities/search/activities?limit=200&startDate=${weekStart}&endDate=${today}&activityType=running`);
   return { latest: latest[0] ? summarize(latest[0]) : null, week: { miles: week.reduce((sum, a) => sum + (number(a.distance) || 0), 0) / 1609.344, runs: week.length, start: weekStart }, updatedAt: new Date().toISOString(), source: 'Garmin' };
 }
