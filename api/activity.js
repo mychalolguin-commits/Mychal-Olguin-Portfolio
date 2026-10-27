@@ -1,10 +1,12 @@
 const BASE = 'https://personal.connectapi.garmin.com';
+let stage = 'idle';
 let token, tokenUntil = 0, cached, cacheUntil = 0, pending;
 
 async function garmin(path) {
   if (!token || Date.now() >= tokenUntil) {
+    stage = 'authentication';
     const response = await fetch(`${BASE}/personalapitoken-service/personal-api/personal-api-key/token`, {
-      method: 'POST', headers: { Authorization: `ApiKey ${process.env.GARMIN_PERSONAL_API_KEY}` }, signal: AbortSignal.timeout(10000),
+      method: 'POST', headers: { Authorization: `ApiKey ${process.env.GARMIN_PERSONAL_API_KEY.trim()}` }, signal: AbortSignal.timeout(10000),
     });
     if (!response.ok) throw new Error(`Garmin authentication: ${response.status}`);
     const data = await response.json();
@@ -12,6 +14,7 @@ async function garmin(path) {
     if (typeof token !== 'string') throw new Error('Garmin token missing');
     tokenUntil = Date.now() + 23 * 3600000;
   }
+  stage = 'activities';
   const response = await fetch(`${BASE}${path}`, { headers: { Authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(10000) });
   if (!response.ok) {
     if (response.status === 401) tokenUntil = 0;
@@ -54,8 +57,8 @@ export default async function handler(req, res) {
     res.setHeader('Cache-Control', 'public, s-maxage=900, stale-while-revalidate=3600');
     return res.status(200).json(cached);
   } catch (error) {
-    console.error(error.message); // Status only; never log keys, tokens or Garmin response bodies.
+    console.error('Garmin connection failed', stage, error.name); // Status only; never log keys, tokens or Garmin response bodies.
     res.setHeader('Cache-Control', 'no-store');
-    return res.status(502).json({ error: 'Activity unavailable', code: /^Garmin (authentication|activities): \d{3}$/.test(error.message) ? error.message : error.message === 'Garmin token missing' ? 'Token response format' : 'Upstream unavailable' });
+    return res.status(502).json({ error: 'Activity unavailable', code: /^Garmin (authentication|activities): \d{3}$/.test(error.message) ? error.message : error.message === 'Garmin token missing' ? 'Token response format' : `Upstream ${stage}: ${error.name}` });
   }
 }
