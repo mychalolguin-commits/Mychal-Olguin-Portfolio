@@ -47,6 +47,21 @@ html { scroll-padding-top: 104px; }
 .home-intro-copy { padding-bottom: 6px; }
 .home-intro-copy > p { font-size: 1.1875rem; line-height: 1.55; color: var(--graphite); max-width: 30ch; }
 .home-intro-copy .editorial-button { margin-top: 28px; }
+.home-intro > div { position: relative; }
+.home-activity { position: absolute; top: -55px; right: 40px; z-index: 15; }
+.home-activity summary { display: flex; align-items: center; gap: 9px; min-height: 44px; cursor: pointer; list-style: none; font-size: .8125rem; font-weight: 600; }
+.home-activity summary::-webkit-details-marker { display: none; }
+.home-activity-icon { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--rule); border-radius: 50%; }
+.home-activity-icon svg { width: 21px; height: 21px; }
+.home-activity-pulse { display: inline-block; width: 23px; height: 15px; margin-left: 5px; vertical-align: -3px; color: var(--graphite); }
+.home-activity summary small { display: block; margin-top: 1px; color: var(--graphite); font-size: .7rem; font-weight: 400; }
+.home-activity-toggle { color: var(--graphite); font-size: 1.125rem; font-weight: 400; }
+.home-activity[open] .home-activity-toggle { transform: rotate(45deg); }
+.home-activity-panel { position: absolute; z-index: 10; top: calc(100% + 8px); right: 0; width: min(324px, calc(100vw - 48px)); padding: 12px; border: 1px solid var(--rule); border-radius: 14px; background: var(--paper); box-shadow: 0 12px 36px var(--nav-glass-shadow); }
+.home-activity-panel iframe { display: block; max-width: 100%; border: 0; border-radius: 6px; background: #fff; }
+.home-activity-panel a { display: inline-flex; align-items: center; gap: 5px; margin-top: 10px; font-size: .8125rem; text-underline-offset: 4px; }
+.home-activity-panel a:hover { text-decoration: underline; }
+@media (max-width: 600px) { .home-activity { right: 24px; top: -48px; } }
 .home-lead-story { margin-top: 64px; }
 .home-lead-image { position: relative; aspect-ratio: 1.95; display: block; overflow: hidden; border-radius: 28px; background: var(--color-bg-muted); }
 .home-lead-image img { position: absolute; bottom: 0; display: block; width: 100%; height: 126%; object-fit: cover; object-position: 50% 100%; }
