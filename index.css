@@ -59,6 +59,7 @@ html { scroll-padding-top: 104px; }
 .home-activity[open] .home-activity-toggle { transform: rotate(45deg); }
 .home-activity-panel { position: absolute; z-index: 10; top: calc(100% + 8px); right: 0; width: min(324px, calc(100vw - 48px)); padding: 12px; border: 1px solid var(--rule); border-radius: 14px; background: var(--paper); box-shadow: 0 12px 36px var(--nav-glass-shadow); }
 .home-activity-panel iframe { display: block; max-width: 100%; border: 0; border-radius: 6px; background: #fff; }
+[data-theme="dark"] .home-activity-panel iframe { filter: grayscale(1) invert(.88); }
 .home-activity-panel a { display: inline-flex; align-items: center; gap: 5px; margin-top: 10px; font-size: .8125rem; text-underline-offset: 4px; }
 .home-activity-panel a:hover { text-decoration: underline; }
 @media (max-width: 600px) { .home-activity { right: 24px; top: -48px; } }
