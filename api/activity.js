@@ -9,8 +9,10 @@ async function garmin(path) {
       method: 'POST', headers: { Authorization: `ApiKey ${process.env.GARMIN_PERSONAL_API_KEY.trim()}` }, signal: AbortSignal.timeout(10000),
     });
     if (!response.ok) throw new Error(`Garmin authentication: ${response.status}`);
-    const data = await response.json();
-    token = data.access_token || data.accessToken;
+    const body = (await response.text()).trim();
+    let data;
+    try { data = JSON.parse(body); } catch { data = body; }
+    token = typeof data === 'string' ? data : data.access_token || data.accessToken;
     if (typeof token !== 'string') throw new Error('Garmin token missing');
     tokenUntil = Date.now() + 23 * 3600000;
   }
