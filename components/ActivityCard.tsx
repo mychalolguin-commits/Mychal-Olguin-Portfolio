@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 
 type Activity = { type: string; date: string | null; miles: number | null; seconds: number | null; pace: number | null };
@@ -6,8 +6,22 @@ type Summary = { latest: Activity | null; week: { miles: number; runs: number; s
 const clock = (seconds: number) => { const rounded = Math.round(seconds); return `${Math.floor(rounded / 60)}:${String(rounded % 60).padStart(2, '0')}`; };
 
 export default function ActivityCard() {
+  const detailsRef = useRef<HTMLDetailsElement>(null);
   const [data, setData] = useState<Summary | null>(null);
   const [status, setStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle');
+
+  useEffect(() => {
+    function closeOnOutsideClick(event: MouseEvent) {
+      const details = detailsRef.current;
+      if (details?.open && !event.composedPath().includes(details)) {
+        details.open = false;
+      }
+    }
+
+    document.addEventListener('click', closeOnOutsideClick, true);
+    return () => document.removeEventListener('click', closeOnOutsideClick, true);
+  }, []);
+
   async function load() {
     if (status === 'loading' || status === 'ready') return;
     setStatus('loading');
@@ -20,7 +34,7 @@ export default function ActivityCard() {
     } catch { setStatus('error'); }
   }
   const latest = data?.latest;
-  return <details className="home-activity" onToggle={event => { if (event.currentTarget.open) void load(); }}>
+  return <details ref={detailsRef} className="home-activity" onToggle={event => { if (event.currentTarget.open) void load(); }}>
     <summary><span className="home-activity-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="16.5" cy="4" r="1.5" /><path d="m10 21 2-5-3-3 2-5 3 2 3 1m-6-3-3 1-2 3m8-2-1 4 3 2 1 4" /></svg></span><span>Activity <svg className="home-activity-pulse" aria-hidden="true" viewBox="0 0 24 16" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M1 10h4l3-7 4 10 3-6 2 3h6" /></svg><small>Training for Austin Marathon</small></span><span className="home-activity-toggle" aria-hidden="true">+</span></summary>
     <div className="home-activity-panel activity-card">
       <div aria-live="polite">
