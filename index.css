@@ -359,9 +359,12 @@ html { scroll-padding-top: 104px; }
 .about-intro-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, .8fr); gap: 80px; align-items: center; }
 .about-intro h1 { max-width: 17ch; }
 .about-intro .editorial-body { max-width: 40ch; margin-top: 32px; }
+.about-availability { max-width: 40ch; margin-top: 16px; font-size: 1rem; font-weight: 500; color: var(--ink); }
+.about-selected-work { border-top: 1px solid var(--rule); }
+.about-proof-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; margin-top: 32px; }
+.about-proof-grid .work-card-copy { padding-top: 0; }
 .about-portrait img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center; border-radius: 28px; }
 .about-method { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 56px; margin-top: 64px; }
-.about-method h3 { margin-top: 32px; }
 .about-method article > p { color: var(--editorial-inverse-muted); margin-top: 20px; font-size: 1.125rem; line-height: 1.6; }
 .about-record { display: grid; grid-template-columns: 1fr 1.3fr; gap: 96px; }
 .experience-list { display: grid; gap: 64px; }
@@ -403,7 +406,6 @@ html { scroll-padding-top: 104px; }
   .about-portrait { max-width: 520px; }
   .about-portrait img { aspect-ratio: 1; }
   .about-method { grid-template-columns: 1fr; gap: 40px; }
-  .about-method h3 { margin-top: 12px; }
   .about-method article > p { max-width: 52ch; }
   .about-learning-grid { gap: 40px; }
   .contact-direct { padding-top: 0; }
@@ -418,7 +420,7 @@ html { scroll-padding-top: 104px; }
   .work-card-metric strong { font-size: clamp(4rem, 16vw, 6rem); }
   .work-creative-grid { margin-top: 40px; }
   .about-portrait img, .contact-composer { border-radius: 24px; }
-  .about-learning-grid, .credential-list > div { grid-template-columns: 1fr; }
+  .about-learning-grid, .about-proof-grid, .credential-list > div { grid-template-columns: 1fr; }
   .about-method, .about-learning-grid { margin-top: 40px; }
   .experience-list { gap: 48px; }
   .contact-layout { gap: 40px; }

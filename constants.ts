@@ -439,7 +439,7 @@ export const EXPERIENCE: Experience[] = [
     ]
   },
   {
-    role: 'Creative Director',
+    role: 'Founder',
     company: 'Is This Real Production',
     period: 'Feb 2022 — Feb 2024',
     description: [
