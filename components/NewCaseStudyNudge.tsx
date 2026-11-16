@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { GlassBackdrop } from './ui/glass-backdrop';
 
 const SESSION_KEY = 'escapades-case-study-nudge-seen';
 
@@ -51,6 +52,7 @@ const NewCaseStudyNudge: React.FC = () => {
   if (!open || pathname !== '/') return null;
 
   return <aside ref={nudge} className={`new-case-nudge${overDarkSection ? ' new-case-nudge--over-dark' : ''}`} aria-label="New case study">
+    <GlassBackdrop frost={2.4} />
     <button type="button" className="new-case-nudge-close" aria-label="Dismiss new case study notice" onClick={() => setOpen(false)}><X size={17} aria-hidden="true" /></button>
     <p className="new-case-nudge-title">Bilingual videos and a coaching website.</p>
     <Link to="/work/escapades-coaching" className="editorial-link" onClick={() => setOpen(false)}>See the case study <ArrowUpRight size={17} aria-hidden="true" /></Link>

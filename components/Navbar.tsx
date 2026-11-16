@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
+import { GlassBackdrop } from './ui/glass-backdrop';
 
 const navItems = [{ name: 'Work', path: '/work' }, { name: 'About', path: '/about' }, { name: 'Contact', path: '/contact' }];
 
@@ -25,7 +26,8 @@ const Navbar: React.FC = () => {
   }, [isOpen]);
 
   return (
-    <nav className={`site-navigation${isOpen ? ' site-navigation--open' : ''}`} aria-label="Main navigation" ref={nav} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setIsOpen(false); }}>
+    <nav className="site-navigation" aria-label="Main navigation" ref={nav} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setIsOpen(false); }}>
+      <GlassBackdrop radius={isOpen ? 28 : 999} />
       <a href="#main-content" className="skip-link">Skip to content</a>
       <div className="site-navigation-inner">
         <NavLink to="/" className="site-wordmark">Mychal Olguin</NavLink>

@@ -6,6 +6,7 @@ import WorkCard from '../components/WorkCard';
 import { WORK_PRESENTATIONS } from '../constants';
 import { CONTAINER, BTN_PRIMARY, BTN_ON_BRAND } from '../components/layout';
 import { useSEO } from '../hooks/useSEO';
+import { GlassBackdrop } from '../components/ui/glass-backdrop';
 
 const homeProjects = WORK_PRESENTATIONS.filter((item) =>
   ['escapades-coaching', 'borders-organic-social', 'towne-oaks-paid-social', 'ire-junk-removal-website'].includes(item.slug)
@@ -34,8 +35,9 @@ const Home: React.FC = () => {
               <img src="/images/home-feature-1440.jpg" srcSet="/images/home-feature-768.jpg 768w, /images/home-feature-1440.jpg 1440w" sizes="(min-width: 1440px) 1312px, (min-width: 1024px) calc(100vw - 128px), (min-width: 768px) calc(100vw - 80px), calc(100vw - 48px)" alt="The Compass Bay website I rebuilt, featuring its waterfront apartments and marina" width={2000} height={1156} fetchPriority="high" />
             </Link>
             <figcaption className="home-lead-caption">
-              <div><p>Four apartment websites rebuilt.</p></div>
-                <Link to="/work/cornerstone-apartment-websites" className="editorial-link">View case study <ArrowUpRight size={19} aria-hidden="true" /></Link>
+              <GlassBackdrop radius={20} compact />
+              <p>Four apartment websites rebuilt.</p>
+              <Link to="/work/cornerstone-apartment-websites" className="editorial-link">View case study <ArrowUpRight size={19} aria-hidden="true" /></Link>
             </figcaption>
           </figure>
         </div>

@@ -7,6 +7,7 @@ import {
 } from './ShelfEngine';
 import { shelfConfig } from './site-config';
 import { useTheme } from '../../hooks/useTheme';
+import { GlassBackdrop } from '../ui/glass-backdrop';
 import './shelf.css';
 
 /**
@@ -168,6 +169,7 @@ const CertificationShelf: React.FC = () => {
       />
 
       <div className="cert-shelf__caption">
+        <GlassBackdrop radius={14} />
         <p className="cert-shelf__eyebrow">
           <span>{String(activeIndex + 1).padStart(2, '0')}</span>
           <span className="cert-shelf__eyebrow-line" />
@@ -194,6 +196,7 @@ const CertificationShelf: React.FC = () => {
         disabled={isFocused || activeIndex === 0}
         onClick={() => engineRef.current?.browseBy(-1)}
       >
+        <GlassBackdrop radius={999} compact />
         <Arrow direction="left" />
       </button>
       <button
@@ -203,6 +206,7 @@ const CertificationShelf: React.FC = () => {
         disabled={isFocused || activeIndex === catalog.length - 1}
         onClick={() => engineRef.current?.browseBy(1)}
       >
+        <GlassBackdrop radius={999} compact />
         <Arrow direction="right" />
       </button>
 
@@ -238,8 +242,9 @@ const CertificationShelf: React.FC = () => {
             : 'Certification details'
         }
       >
+        {isFocused && <GlassBackdrop radius={16} frost={2.4} />}
         {selectedCert ? (
-          <div>
+          <div className="cert-shelf__details-content">
             <button
               type="button"
               className="cert-shelf__back"

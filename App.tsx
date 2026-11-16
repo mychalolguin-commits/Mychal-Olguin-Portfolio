@@ -12,6 +12,10 @@ import NewCaseStudyNudge from './components/NewCaseStudyNudge';
 import About from './pages/About';
 import Contact from './pages/Contact';
 
+const LiquidGlassDemo = import.meta.env.DEV
+  ? React.lazy(() => import('./components/liquid-glass-demo'))
+  : null;
+
 const AnimatedRoutes = () => {
   const location = useLocation();
 
@@ -36,6 +40,13 @@ const AnimatedRoutes = () => {
         <Route path="/about" element={<About />} />
         <Route path="/resume" element={<Navigate to="/about" replace />} />
         <Route path="/contact" element={<Contact />} />
+        {LiquidGlassDemo && (
+          <Route path="/liquid-glass-preview" element={
+            <React.Suspense>
+              <div className="pt-28"><LiquidGlassDemo /></div>
+            </React.Suspense>
+          } />
+        )}
       </Routes>
     </PageTransition>
   );
