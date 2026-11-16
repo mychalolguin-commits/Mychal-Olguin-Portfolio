@@ -15,6 +15,9 @@ import Contact from './pages/Contact';
 const LiquidGlassDemo = import.meta.env.DEV
   ? React.lazy(() => import('./components/liquid-glass-demo'))
   : null;
+const FlipWordsDemo = import.meta.env.DEV
+  ? React.lazy(() => import('./components/flip-words-demo'))
+  : null;
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -44,6 +47,13 @@ const AnimatedRoutes = () => {
           <Route path="/liquid-glass-preview" element={
             <React.Suspense>
               <div className="pt-28"><LiquidGlassDemo /></div>
+            </React.Suspense>
+          } />
+        )}
+        {FlipWordsDemo && (
+          <Route path="/flip-words-preview" element={
+            <React.Suspense>
+              <FlipWordsDemo />
             </React.Suspense>
           } />
         )}

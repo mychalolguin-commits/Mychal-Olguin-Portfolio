@@ -7,10 +7,12 @@ import { WORK_PRESENTATIONS } from '../constants';
 import { CONTAINER, BTN_PRIMARY, BTN_ON_BRAND } from '../components/layout';
 import { useSEO } from '../hooks/useSEO';
 import { GlassBackdrop } from '../components/ui/glass-backdrop';
+import { FlipWords } from '../components/ui/flip-words';
 
 const homeProjects = WORK_PRESENTATIONS.filter((item) =>
   ['escapades-coaching', 'borders-organic-social', 'towne-oaks-paid-social', 'ire-junk-removal-website'].includes(item.slug)
 );
+const heroWords = ['purpose.', 'clarity.', 'care.'];
 
 const Home: React.FC = () => {
   useSEO({
@@ -24,7 +26,10 @@ const Home: React.FC = () => {
         <div className={CONTAINER}>
           <ActivityCard />
           <div className="home-intro-grid">
-            <h1 id="home-heading">Good marketing.<br />Built with purpose.</h1>
+            <h1 id="home-heading">
+              Good marketing.<br />Built with{' '}
+              <FlipWords words={heroWords} className="px-0 text-ink dark:text-ink" />
+            </h1>
             <div className="home-intro-copy">
               <p>I’m Mychal. I build websites, create social content, run paid media, and help businesses get found.</p>
               <a href="#selected-work" className={`${BTN_PRIMARY} editorial-button`}>Explore my work <ArrowUpRight size={18} aria-hidden="true" /></a>
