@@ -2,12 +2,13 @@ import React from 'react';
 import ActivityCard from '../components/ActivityCard';
 import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import WorkCard from '../components/WorkCard';
+import { WorkCardMetric } from '../components/WorkCard';
 import { WORK_PRESENTATIONS } from '../constants';
 import { CONTAINER, BTN_PRIMARY, BTN_ON_BRAND } from '../components/layout';
 import { useSEO } from '../hooks/useSEO';
 import { GlassBackdrop } from '../components/ui/glass-backdrop';
 import { FlipWords } from '../components/ui/flip-words';
+import { BlurImage, Card, Carousel } from '../components/ui/apple-cards-carousel';
 
 const homeProjects = WORK_PRESENTATIONS.filter((item) =>
   ['escapades-coaching', 'borders-organic-social', 'towne-oaks-paid-social', 'ire-junk-removal-website'].includes(item.slug)
@@ -54,10 +55,21 @@ const Home: React.FC = () => {
             <div><h2 id="work-heading">Video, web, and paid media.</h2></div>
             <Link to="/work" className="editorial-link">View all six projects <ArrowUpRight size={19} aria-hidden="true" /></Link>
           </div>
-          <div className="work-grid home-work-grid">
-            {homeProjects.map((item) => <WorkCard item={item} headingLevel="h3" key={item.slug} />)}
-          </div>
         </div>
+        <Carousel items={homeProjects.map((item) => (
+          <Card
+            key={item.slug}
+            category={item.category}
+            title={item.title}
+            artwork={'image' in item
+              ? <BlurImage src={item.image} alt={item.alt} />
+              : <WorkCardMetric item={item} />}
+          >
+            <p className="editorial-body mt-5">{item.contribution}</p>
+            <p className="editorial-note mt-3">{item.evidence}</p>
+            <Link to={`/work/${item.slug}`} className="editorial-link mt-3">View case study <ArrowUpRight size={18} aria-hidden="true" /></Link>
+          </Card>
+        ))} />
       </section>
 
       <section className="home-approach" aria-labelledby="approach-heading">
